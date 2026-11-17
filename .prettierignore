@@ -6,3 +6,5 @@ dist
 .next
 packages/db/drizzle/meta
 .impeccable
+e2e/test-results
+e2e/playwright-report

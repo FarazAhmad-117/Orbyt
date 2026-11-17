@@ -1,10 +1,9 @@
 import { and, eq, sql } from "drizzle-orm";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   contacts,
   createDb,
+  migrateDb,
   organizations,
   withWorkspace,
   workspaces,
@@ -22,9 +21,7 @@ let wsB: string;
 let contactA: string;
 
 beforeAll(async () => {
-  await migrate(db, {
-    migrationsFolder: fileURLToPath(new URL("../drizzle", import.meta.url)),
-  });
+  await migrateDb(pool);
   const [org] = await db
     .insert(organizations)
     .values({ name: "test-org" })
@@ -121,11 +118,26 @@ describe("workspace isolation (RLS)", () => {
     ).rejects.toThrow("invalid workspace id");
   });
 
-  it("guard: every table with a workspace_id column has RLS enabled and forced", async () => {
+  it("guard: every public table has RLS unless explicitly classified, and data tables FORCE it", async () => {
+    // Fail-closed: a NEW table is not in either set, so it must enable + force RLS (or be
+    // classified here on purpose, in review).
+    const authOnly = new Set([
+      "users",
+      "sessions",
+      "accounts",
+      "verifications",
+    ]); // never granted to orbyt_app
+    const enableOnly = new Set([
+      "organizations",
+      "workspaces",
+      "organization_members",
+      "workspace_members",
+      "api_keys", // looked up by key hash before a workspace is known
+      "channel_accounts", // looked up by inbound-webhook token before a workspace is known
+    ]); // see 0003_membership_rls.sql for why these are not FORCEd
     const { rows } = await db.execute(sql`
       select c.relname, c.relrowsecurity, c.relforcerowsecurity
       from pg_class c
-      join pg_attribute a on a.attrelid = c.oid and a.attname = 'workspace_id' and not a.attisdropped
       where c.relkind = 'r' and c.relnamespace = 'public'::regnamespace`);
     const tables = rows as {
       relname: string;
@@ -133,10 +145,21 @@ describe("workspace isolation (RLS)", () => {
       relforcerowsecurity: boolean;
     }[];
     expect(tables.length).toBeGreaterThan(0);
-    for (const t of tables)
-      expect([t.relname, t.relrowsecurity && t.relforcerowsecurity]).toEqual([
-        t.relname,
-        true,
-      ]);
+    for (const t of tables) {
+      if (authOnly.has(t.relname)) continue;
+      const ok =
+        t.relrowsecurity &&
+        (enableOnly.has(t.relname) || t.relforcerowsecurity);
+      expect([t.relname, ok]).toEqual([t.relname, true]);
+    }
+  });
+
+  it("guard: orbyt_app has no privileges on the auth tables", async () => {
+    for (const table of ["users", "sessions", "accounts", "verifications"]) {
+      const { rows } = await db.execute(
+        sql`select has_table_privilege('orbyt_app', ${table}, 'SELECT') as ok`,
+      );
+      expect([table, (rows[0] as { ok: boolean }).ok]).toEqual([table, false]);
+    }
   });
 });

@@ -4,7 +4,8 @@
 FROM node:22-alpine
 RUN corepack enable
 WORKDIR /app
-COPY . .
+COPY --chown=node:node . .
+USER node
 RUN pnpm install --frozen-lockfile --filter "@orbyt/api..."
 RUN pnpm --filter "@orbyt/api..." build
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001

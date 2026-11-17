@@ -18,6 +18,32 @@
 
 ---
 
+## 0.1 Build status (2026-11-17)
+
+Built and tested locally (db 15 + api 177 + e2e 11 tests; see README "What is tested"):
+
+| Phase | Status | Notes |
+|---|---|---|
+| 0 Foundation | **Done** (code) | Monorepo, CI, compose, ORM + RLS, auth, design system. **Not done (needs you):** name/trademark/domain checks, GitHub org, CLA bot, Google OAuth/CASA prep |
+| 1 CRM & tenancy | **Done** | Orgs/workspaces/memberships, agency sub-accounts, admin/member roles, contacts/companies/tags/custom fields/CSV, pipelines/deals/tasks/notes/timeline, REST + OpenAPI + API keys + signed webhooks. **Gaps:** invitation emails (add existing users by email instead) |
+| 2 Email MVP | **Done** | SMTP/IMAP mailboxes, sequences, sending windows, limits + rotation, reply/bounce/auto-reply detection, unsubscribe (RFC 8058), suppression, opt-in tracking, unified inbox, deliverability checker. **Gaps:** Gmail/Microsoft OAuth (use app passwords), push-based inbox sync (polling only), real-provider verification |
+| 3 Workflows | **Done** | Durable executor + React Flow builder; nodes: wait, if/else, tag, update contact, task, note, HTTP, enroll, AI, SMS, voice. **Gaps:** loops/sub-workflows, code node, node SDK/community registry, schedule and form triggers |
+| 4 AI, SMS, voice | **Done** | BYOK gateway (Anthropic/OpenAI/Gemini/Ollama), classify/draft, usage ledger + cap; Twilio SMS/WhatsApp; Retell calls. **Gaps:** knowledge-base chat agent, 10DLC/TCPA compliance tooling, verified against real accounts |
+| 5 Cloud & monetization | **Not started** | Stripe, plans, white-label, SSO, audit logs and license keys are all `ee/`; `ee/LICENSE` says no code until counsel approves the license text |
+| 6 Mail infrastructure | **Not started** | Provisioning, DNS automation, warm-up, own MTA |
+| 7 Ecosystem | **Not started** | Registry, templates, GHL importer, forms/booking |
+
+Decisions made during the build (all recommended options, per the owner's instruction):
+- **Postgres-backed schedulers, no BullMQ/Redis for core logic.** The email sender, inbox sync and workflow executor claim work with `SELECT … FOR UPDATE SKIP LOCKED`, so they are durable, restart-safe, multi-replica-safe and need no extra service. Redis is still provisioned for future rate-limiting/cache.
+- **Inbox sync polls IMAP** (no Pub/Sub / public webhooks needed to self-host).
+- **Same-origin proxy:** the web app proxies `/api` to the API, so cookies are first-party and there is no CORS to configure; `BETTER_AUTH_URL` is the web origin.
+- **Row-level security everywhere**, with a guard test that fails any new unprotected table; tables looked up before a workspace is known (`api_keys`, `channel_accounts`) are RLS-enabled but not forced.
+- **Email is trusted less than it looks:** reply timestamps use the IMAP received time (clamped after the message they answer), never the sender's `Date`.
+- **Compliance by default:** a postal-address footer is required to activate a sequence; unsubscribe links and `List-Unsubscribe` headers are always added; STOP/START are honoured on SMS.
+- **ee/ is empty on purpose** until the commercial license is drafted.
+
+---
+
 ## 1. Decisions already made
 
 | Decision | Choice | Notes |
@@ -323,13 +349,13 @@ Time estimates assume a small team (founder + 1–2 contributors) working part-t
 - [x] Monorepo scaffold (pnpm + Turborepo), CI (format, typecheck, test, build; ESLint arrives with the first app)
 - [ ] Docker Compose: Postgres, Redis, api, worker, web (Postgres + Redis done; object storage deferred — MinIO images are gone, see §15 Q9; api/web Dockerfiles exist behind the opt-in `apps` profile but are **unverified** — the image build failed on the dev machine with a TLS error reaching the npm registry (likely HTTPS interception); verify in CI or on another network; worker comes with Phase 2)
 - [x] Choose ORM; write RLS helper + a cross-tenant test — **Drizzle**; `packages/db` (`withWorkspace()`, forced RLS on `contacts`, 7 isolation tests incl. a guard that fails if any `workspace_id` table lacks RLS)
-- [ ] Decide auth library — **still open**. Basic design system **done**: Tailwind v4 + shadcn/ui (`base-nova`) in `apps/web`; `apps/api` = NestJS + Fastify with `GET /health`
+- [x] Auth library: **better-auth** (email + password, DB-backed sessions through Drizzle, telemetry explicitly off). Core only — its organization plugin is skipped because our org → workspace → per-workspace-role model differs. Basic design system **done**: Tailwind v4 + shadcn/ui (`base-nova`) in `apps/web`; `apps/api` = NestJS + Fastify with `GET /health`
 - Note: TypeScript is pinned to 6.x because typescript-eslint does not support TS 7 yet (re-check when it does)
 - [ ] Study Warmbly, Twenty, Dittofeed, Mautic for UX and architecture ideas (copy code only if the license is compatible and quality is verified — see §4.7)
 - [ ] **Start Google OAuth app + restricted-scope (CASA) review prep** — longest lead time in the plan; needs domain, privacy policy, ToS
 
 ### Phase 1 — Core CRM & tenancy (≈ 4–6 weeks)
-- [ ] Orgs/workspaces/users/roles; agency → sub-account switcher
+- [ ] Orgs/workspaces/users/roles; agency → sub-account switcher — **started**: users/sessions, org + workspace memberships, membership-based RLS reads (org owner/admin reach every workspace), sign-up provisions a default org + workspace, `GET /me/workspaces`. Still to do: roles/permissions enforcement, invitations, switcher UI, web sign-in pages.
 - [ ] Contacts, companies, tags, custom fields, CSV import/export
 - [ ] Pipelines/deals/tasks/notes
 - [ ] REST API + OpenAPI + API keys + webhooks
@@ -344,6 +370,7 @@ Time estimates assume a small team (founder + 1–2 contributors) working part-t
 - [ ] Unsubscribe, suppression, tracking domain, optional open/click tracking
 - [ ] Unified inbox UI; campaign analytics
 - [ ] SPF/DKIM/DMARC checker + blacklist check
+- [ ] **Published Docker images on GHCR + a self-host compose that uses them — hard requirement, v0.1 does not ship without it (§16)**
 - [ ] Google OAuth verification: started in Phase 0; track review status here
 - **Exit:** Indepth Solution runs a real campaign from Orbyt. Announce: GitHub, Product Hunt, r/selfhosted, Hacker News "Show HN".
 
@@ -456,7 +483,7 @@ Checklist before locking: domain(s), GitHub org, npm scope, Docker Hub/GHCR name
 ## 15. Open questions (decide in Phase 0–1)
 
 1. ORM: **resolved — Drizzle** (transaction-scoped `SET LOCAL` + hand-written RLS SQL migrations fit cleanly).
-2. Auth library choice and session strategy.
+2. Auth library choice and session strategy: **resolved — better-auth + DB sessions (HttpOnly cookie)**. Open: how the web app talks to the API cross-origin (cookies/CORS vs same-origin proxy).
 3. Sequences vs workflows: ship both separately first, or build sequences on the workflow engine from the start?
 4. Where does open tracking default — off (better deliverability) or on (what users expect)?
 5. Reseller path for Google Workspace/M365 (own agreements vs bring-your-own-tenant only).
@@ -464,6 +491,27 @@ Checklist before locking: domain(s), GitHub org, npm scope, Docker Hub/GHCR name
 7. Pricing model: per workspace, per mailbox, per contact, or usage-based?
 8. How much of the workflow builder UX to borrow in spirit from n8n vs GHL's simpler style for non-technical agency users.
 9. Object storage for self-host: **resolved for now** — `minio/minio` can no longer be pulled from Docker Hub or Quay (checked 2026-11-17), so local disk is the default. Revisit an S3-compatible option (e.g. Garage, SeaweedFS) when attachments land in Phase 2.
+
+---
+
+## 16. Docker distribution (hard requirement)
+
+**Goal:** anyone can self-host Orbyt from images **we publish** — no building from source.
+
+- **Images (GHCR):** `ghcr.io/<owner>/orbyt-api` and `ghcr.io/<owner>/orbyt-web` (plus `orbyt-worker` from Phase 2). Multi-arch (amd64 + arm64). Tags: `X.Y.Z`, `X.Y`, and `latest` for stable releases only (pre-releases such as `-rc1` never get `latest`).
+- **Release trigger:** pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml`, which first runs the full-stack smoke test and only then publishes. Nothing is published before the first tag.
+- **Verified on every PR:** `.github/workflows/docker.yml` builds both images, boots the stack with compose, calls `/health`, signs a user up and loads the web app.
+- **Self-host promise:** one compose file + a `.env` with a secret; the API applies database migrations on boot, so there are no manual steps.
+
+**Checklist before the first public release**
+- [ ] Final name + GitHub org decided (image names derive from the org) — §14
+- [ ] `docker.yml` green on GitHub. The Dockerfiles have never been built successfully on the dev machine (TLS interception blocks the npm registry inside containers), so they are **unverified**
+- [ ] Dockerfiles → multi-stage, production dependencies only, small images (currently single stage, marked `shortcut`)
+- [ ] Self-host compose that **pulls** the published images (`image:` + `ORBYT_VERSION`) instead of building; web → API URL / cookie / CORS configuration (web sign-in UI not built yet)
+- [ ] Worker image (Phase 2)
+- [ ] Cut a pre-release tag (`v0.1.0-rc1`) to test publishing, set both packages to **Public** in GitHub, then test `docker pull` and the compose file on a clean machine
+- [ ] README "Self-host in 5 minutes" section
+- [ ] Optional hardening: image signing (cosign), SBOM, vulnerability scan in CI
 
 ---
 

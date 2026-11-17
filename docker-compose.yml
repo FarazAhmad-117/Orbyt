@@ -28,6 +28,18 @@ services:
   api:
     profiles: ["apps"] # opt-in until the images are verified end to end
     build: { context: ., dockerfile: docker/api.Dockerfile }
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-orbyt}:${POSTGRES_PASSWORD:-orbyt}@postgres:5432/${POSTGRES_DB:-orbyt}
+      # Required (the API refuses to start without it). Generate: openssl rand -base64 32
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-}
+      # The public URL people use to open Orbyt (the WEB origin: it proxies /api to this service).
+      # Behind a reverse proxy: your https URL. Unsubscribe and tracking links use it too.
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:${WEB_PORT:-3000}}
+      # 32 random bytes, base64 (openssl rand -base64 32): encrypts mailbox, AI and channel credentials.
+      # If unset a key is derived from BETTER_AUTH_SECRET, so rotating that secret would lock them.
+      ORBYT_ENCRYPTION_KEY: ${ORBYT_ENCRYPTION_KEY:-}
+      # Allow mailbox/webhook/AI endpoints on private networks (e.g. a local Ollama). Keep false on shared hosting.
+      ORBYT_ALLOW_PRIVATE_URLS: ${ORBYT_ALLOW_PRIVATE_URLS:-false}
     ports: ["127.0.0.1:${API_PORT:-3001}:3001"]
     depends_on:
       postgres: { condition: service_healthy }
@@ -43,15 +55,29 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+      start_period: 20s # first boot applies database migrations
 
   web:
     profiles: ["apps"]
     build: { context: ., dockerfile: docker/web.Dockerfile }
+    environment:
+      API_INTERNAL_URL: http://api:3001 # where the web app's /api proxy forwards to
     ports: ["127.0.0.1:${WEB_PORT:-3000}:3000"]
     depends_on:
       api: { condition: service_healthy }
 
-# worker: added in Phase 2 together with the email/queue workers.
+  # Throwaway mail server for the email-engine tests (SMTP :3025, IMAP :3143; any login works).
+  # Start with: docker compose --profile test up -d mail
+  mail:
+    profiles: ["test"]
+    image: greenmail/standalone:2.1.3
+    environment:
+      GREENMAIL_OPTS: "-Dgreenmail.setup.test.smtp -Dgreenmail.setup.test.imap -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled"
+    ports:
+      - "127.0.0.1:${MAIL_SMTP_PORT:-3025}:3025"
+      - "127.0.0.1:${MAIL_IMAP_PORT:-3143}:3143"
+
+# worker: not needed yet — the email scheduler and inbox sync run inside the API process.
 
 # Object storage: none yet. Official minio/minio images are no longer published on Docker Hub
 # or Quay (plan §15 Q9). Default to local disk; add an S3-compatible service when attachments land.

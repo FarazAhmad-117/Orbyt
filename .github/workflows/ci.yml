@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
 
+# GreenMail is a throwaway SMTP + IMAP server: the email engine tests send and receive real mail
+# through it. Both jobs need Postgres and GreenMail.
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -21,6 +23,11 @@ jobs:
         options: >-
           --health-cmd "pg_isready -U orbyt -d orbyt"
           --health-interval 5s --health-timeout 3s --health-retries 10
+      mail:
+        image: greenmail/standalone:2.1.3
+        env:
+          GREENMAIL_OPTS: "-Dgreenmail.setup.test.smtp -Dgreenmail.setup.test.imap -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled"
+        ports: ["3025:3025", "3143:3143"]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4 # version comes from package.json "packageManager"
@@ -34,3 +41,42 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+
+  # Real browser (Chromium) against the production builds of the API and web app.
+  e2e:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://orbyt:orbyt@localhost:5432/orbyt
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: orbyt
+          POSTGRES_PASSWORD: orbyt
+          POSTGRES_DB: orbyt
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U orbyt -d orbyt"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+      mail:
+        image: greenmail/standalone:2.1.3
+        env:
+          GREENMAIL_OPTS: "-Dgreenmail.setup.test.smtp -Dgreenmail.setup.test.imap -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled"
+        ports: ["3025:3025", "3143:3143"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @orbyt/db --filter @orbyt/api --filter @orbyt/web build
+      - run: pnpm --filter @orbyt/e2e exec playwright install --with-deps chromium
+      - run: pnpm --filter @orbyt/e2e e2e
+      - name: Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: e2e/test-results

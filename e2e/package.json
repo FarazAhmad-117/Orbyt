@@ -1,0 +1,23 @@
+{
+  "name": "@orbyt/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "e2e": "playwright test",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/mailparser": "^3.9.0",
+    "@types/node": "^26.6.6",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.23.1",
+    "imapflow": "^2.12.1",
+    "mailparser": "^3.14.5",
+    "nodemailer": "^10.6.0",
+    "pg": "^8.23.1"
+  }
+}

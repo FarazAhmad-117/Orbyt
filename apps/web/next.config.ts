@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Not using cacheComponents/partialPrefetching: the signed-in app is client-rendered per user, so
+  // static prerendering buys nothing and would force <Suspense> around every runtime hook.
   turbopack: {
     rules: {
       "*.css": {

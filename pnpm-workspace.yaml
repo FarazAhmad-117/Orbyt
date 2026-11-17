@@ -1,6 +1,7 @@
 packages:
   - apps/*
   - packages/*
+  - e2e
 
 # Skip native build scripts; these tools ship prebuilt binaries via optional deps.
 ignoredBuiltDependencies:

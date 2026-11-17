@@ -1,16 +1,16 @@
 import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
-import {
-  FastifyAdapter,
-  type NestFastifyApplication,
-} from "@nestjs/platform-fastify";
+import type { NestFastifyApplication } from "@nestjs/platform-fastify";
 import { AppModule } from "./app.module";
+import { configureApp, createAdapter } from "./http";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    createAdapter(),
   );
+  configureApp(app);
+  app.enableShutdownHooks(); // closes the DB pool on SIGTERM (docker stop)
   // Loopback by default; the container sets HOST=0.0.0.0.
   await app.listen(
     Number(process.env.PORT ?? 3001),

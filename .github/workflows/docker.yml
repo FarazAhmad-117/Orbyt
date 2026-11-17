@@ -1,0 +1,36 @@
+name: Docker
+
+# Builds both images from the Dockerfiles and boots the WHOLE stack the way a self-hoster would,
+# then smoke-tests it. Also called by release.yml as the gate before publishing images.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      BETTER_AUTH_SECRET: ci-only-secret-ci-only-secret-0123456789
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build images and start the stack
+        run: docker compose --profile apps up -d --build --wait
+      - name: Smoke test
+        run: |
+          # The API directly, then everything through the web origin (the same-origin proxy), which
+          # is how browsers and self-hosters reach it.
+          curl -fsS http://127.0.0.1:3001/health
+          curl -fsS -o /dev/null http://127.0.0.1:3000/
+          curl -fsS -X POST http://127.0.0.1:3000/api/auth/sign-up/email \
+            -H "Origin: http://localhost:3000" -H "Content-Type: application/json" \
+            -d '{"name":"CI","email":"ci@example.test","password":"correct horse battery staple"}'
+          curl -fsS http://127.0.0.1:3000/api/openapi.json | grep -q '"openapi"'
+      - name: Logs on failure
+        if: failure()
+        run: docker compose --profile apps logs --no-color
+      - name: Tear down
+        if: always()
+        run: docker compose --profile apps down -v
