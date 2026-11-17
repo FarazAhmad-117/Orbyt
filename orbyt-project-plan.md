@@ -18,20 +18,20 @@
 
 ---
 
-## 0.1 Build status (2026-11-17)
+## 0.1 Build status (2026-11-18)
 
-Built and tested locally (db 15 + api 177 + e2e 11 tests; see README "What is tested"):
+Built and tested locally (db 15 + api 244 + e2e 17 tests; see README "What is tested"). Phases 5–7 were built after the first status table; the table below is current.
 
 | Phase | Status | Notes |
 |---|---|---|
 | 0 Foundation | **Done** (code) | Monorepo, CI, compose, ORM + RLS, auth, design system. **Not done (needs you):** name/trademark/domain checks, GitHub org, CLA bot, Google OAuth/CASA prep |
-| 1 CRM & tenancy | **Done** | Orgs/workspaces/memberships, agency sub-accounts, admin/member roles, contacts/companies/tags/custom fields/CSV, pipelines/deals/tasks/notes/timeline, REST + OpenAPI + API keys + signed webhooks. **Gaps:** invitation emails (add existing users by email instead) |
-| 2 Email MVP | **Done** | SMTP/IMAP mailboxes, sequences, sending windows, limits + rotation, reply/bounce/auto-reply detection, unsubscribe (RFC 8058), suppression, opt-in tracking, unified inbox, deliverability checker. **Gaps:** Gmail/Microsoft OAuth (use app passwords), push-based inbox sync (polling only), real-provider verification |
-| 3 Workflows | **Done** | Durable executor + React Flow builder; nodes: wait, if/else, tag, update contact, task, note, HTTP, enroll, AI, SMS, voice. **Gaps:** loops/sub-workflows, code node, node SDK/community registry, schedule and form triggers |
-| 4 AI, SMS, voice | **Done** | BYOK gateway (Anthropic/OpenAI/Gemini/Ollama), classify/draft, usage ledger + cap; Twilio SMS/WhatsApp; Retell calls. **Gaps:** knowledge-base chat agent, 10DLC/TCPA compliance tooling, verified against real accounts |
-| 5 Cloud & monetization | **Not started** | Stripe, plans, white-label, SSO, audit logs and license keys are all `ee/`; `ee/LICENSE` says no code until counsel approves the license text |
-| 6 Mail infrastructure | **Not started** | Provisioning, DNS automation, warm-up, own MTA |
-| 7 Ecosystem | **Not started** | Registry, templates, GHL importer, forms/booking |
+| 1 CRM & tenancy | **Done** | Orgs/workspaces/memberships, agency sub-accounts, admin/member roles, **invitations (link + optional email)**, contacts/companies/tags/custom fields/CSV, pipelines/deals/tasks/notes/timeline, REST + OpenAPI + API keys + signed webhooks |
+| 2 Email MVP | **Done** | SMTP/IMAP mailboxes **and Gmail/Microsoft OAuth (XOAUTH2)**, sequences, sending windows, limits + rotation, reply/bounce/auto-reply detection, unsubscribe (RFC 8058), suppression, opt-in tracking, unified inbox, deliverability checker. **Gaps:** push-based inbox sync (polling only); OAuth tested against a mock provider and SMTP only (IMAP XOAUTH2 and real providers unverified) |
+| 3 Workflows | **Done** | Durable executor + React Flow builder; nodes: wait, if/else, tag, update contact, task, note, HTTP, enroll, AI, SMS, voice; **event, webhook, schedule and manual triggers; template library**. **Gaps:** loops/sub-workflows, sandboxed code node, node SDK/community registry, cron expressions (interval schedules only) |
+| 4 AI, SMS, voice | **Done** | BYOK gateway (Anthropic/OpenAI/Gemini/Ollama), classify/draft (grounded in the knowledge base), usage ledger + cap; **knowledge base + public chat agents**; Twilio SMS/WhatsApp; Retell calls. **Gaps:** 10DLC/TCPA compliance tooling, embeddings (keyword search today), verified against real accounts |
+| 5 Cloud & monetization | **Done** (code) | In `apps/api/src/enterprise/` (not `ee/`, because `ee/LICENSE` forbids code there until counsel approves the terms): Ed25519 license keys, plans + limits, Stripe checkout/portal/webhook, audit log, white-label (custom domain), OpenID Connect SSO, new-workspace sending cap, status + Prometheus metrics, backup/restore scripts. **Gaps:** per-organization SSO, a status-page UI, tested only against mock Stripe/OIDC, legal text |
+| 6 Mail infrastructure | **Partly done** | Warm-up ramp scheduler; own-MTA works as an ordinary SMTP/IMAP mailbox. **Not built:** mailbox/domain provisioning and purchase, DNS automation, the cross-customer warm-up peer pool, Postmaster Tools dashboards |
+| 7 Ecosystem | **Partly done** | Public **forms** → contacts → workflows; **GoHighLevel importer** (contacts + opportunities CSV); built-in workflow templates; docs in `docs/`. **Not built:** community node registry and marketplace, booking/calendar, funnels/sites, video series/community |
 
 Decisions made during the build (all recommended options, per the owner's instruction):
 - **Postgres-backed schedulers, no BullMQ/Redis for core logic.** The email sender, inbox sync and workflow executor claim work with `SELECT … FOR UPDATE SKIP LOCKED`, so they are durable, restart-safe, multi-replica-safe and need no extra service. Redis is still provisioned for future rate-limiting/cache.
@@ -40,7 +40,11 @@ Decisions made during the build (all recommended options, per the owner's instru
 - **Row-level security everywhere**, with a guard test that fails any new unprotected table; tables looked up before a workspace is known (`api_keys`, `channel_accounts`) are RLS-enabled but not forced.
 - **Email is trusted less than it looks:** reply timestamps use the IMAP received time (clamped after the message they answer), never the sender's `Date`.
 - **Compliance by default:** a postal-address footer is required to activate a sequence; unsubscribe links and `List-Unsubscribe` headers are always added; STOP/START are honoured on SMS.
-- **ee/ is empty on purpose** until the commercial license is drafted.
+- **ee/ is empty on purpose** until the commercial license is drafted. The commercial-tier code (licenses, plans, billing, audit, white-label, SSO) therefore lives in `apps/api/src/enterprise/`, clearly bounded so it can be moved to `ee/` unchanged once counsel approves the terms.
+- **SSO never auto-links accounts.** Sign-up does not verify email addresses, so merging an SSO login into an existing password account would allow pre-hijacking; such logins are refused. SSO is gated by license, per installation (not per plan, not per organization).
+- **Public endpoints are token-addressed** (`/api/forms|chat|hooks/<workspaceId>/…/<token>`), so they run inside the workspace's row-level-security context without any RLS exception; abuse is limited by honeypot, validation and an in-memory per-visitor limiter.
+- **Audit logging is one interceptor** over a list of sensitive resources (bodies are never stored), plus explicit entries where extra context is needed (invitations, OAuth connections).
+- **Stripe is plain `fetch`**, signature-verified over the raw body; subscription state is written only by the webhook.
 
 ---
 

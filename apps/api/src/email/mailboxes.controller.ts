@@ -14,6 +14,7 @@ import {
 import { desc, eq, mailboxes } from "@orbyt/db";
 import { z } from "zod";
 import { DbService } from "../db.service";
+import { EntitlementsService } from "../enterprise/entitlements.service";
 import { idParam, notFoundIfEmpty, parse } from "../http";
 import { AdminGuard, Ctx, type Scope, WorkspaceGuard } from "../scope";
 import { MailService, type MailboxRow } from "./mail.service";
@@ -32,6 +33,9 @@ export const publicMailbox = {
   imapPort: mailboxes.imapPort,
   imapSecure: mailboxes.imapSecure,
   imapUser: mailboxes.imapUser,
+  authType: mailboxes.authType,
+  warmupEnabled: mailboxes.warmupEnabled,
+  warmupStartedAt: mailboxes.warmupStartedAt,
   dailyLimit: mailboxes.dailyLimit,
   hourlyLimit: mailboxes.hourlyLimit,
   status: mailboxes.status,
@@ -54,6 +58,8 @@ const createInput = z.object({
   imap: endpoint,
   dailyLimit: z.number().int().min(1).max(2000).default(30),
   hourlyLimit: z.number().int().min(1).max(500).default(10),
+  // Ramp the daily limit up gradually (see email/warmup.ts).
+  warmup: z.boolean().default(false),
   // Set false to save without contacting the servers (e.g. while they are being set up).
   verify: z.boolean().default(true),
 });
@@ -61,6 +67,7 @@ const patchInput = z.object({
   displayName: z.string().trim().max(100).nullish(),
   dailyLimit: z.number().int().min(1).max(2000).optional(),
   hourlyLimit: z.number().int().min(1).max(500).optional(),
+  warmup: z.boolean().optional(),
   status: z.enum(["active", "paused"]).optional(),
   smtp: endpoint.partial().optional(),
   imap: endpoint.partial().optional(),
@@ -72,6 +79,7 @@ export class MailboxesController {
   constructor(
     @Inject(DbService) private readonly dbs: DbService,
     @Inject(MailService) private readonly mail: MailService,
+    @Inject(EntitlementsService) private readonly ent: EntitlementsService,
   ) {}
 
   private async hostsAllowed(...hosts: (string | undefined)[]) {
@@ -95,8 +103,12 @@ export class MailboxesController {
   @UseGuards(AdminGuard)
   async create(@Ctx() scope: Scope, @Body() body: unknown) {
     const d = parse(createInput, body);
+    await this.ent.assertCanAddMailbox(scope.workspaceId);
     await this.hostsAllowed(d.smtp.host, d.imap.host);
     const values = {
+      authType: "password",
+      warmupEnabled: d.warmup,
+      warmupStartedAt: d.warmup ? new Date() : null,
       workspaceId: scope.workspaceId,
       email: d.email,
       displayName: d.displayName ?? null,
@@ -154,6 +166,12 @@ export class MailboxesController {
       if (d.displayName !== undefined) set.displayName = d.displayName;
       if (d.dailyLimit !== undefined) set.dailyLimit = d.dailyLimit;
       if (d.hourlyLimit !== undefined) set.hourlyLimit = d.hourlyLimit;
+      if (d.warmup !== undefined) {
+        set.warmupEnabled = d.warmup;
+        // The ramp starts when warm-up is first switched on (switching it off and on again keeps the date).
+        if (d.warmup && !current!.warmupStartedAt)
+          set.warmupStartedAt = new Date();
+      }
       if (d.status !== undefined) {
         set.status = d.status;
         if (d.status === "active") set.lastError = null;
@@ -171,6 +189,10 @@ export class MailboxesController {
         if (d.imap.user !== undefined) set.imapUser = d.imap.user;
       }
       if (d.smtp?.password || d.imap?.password) {
+        if (current!.authType !== "password")
+          throw new BadRequestException(
+            "This mailbox signs in with Google/Microsoft, not a password. Reconnect it instead.",
+          );
         const creds = this.mail.credentials(current!);
         set.credentialsEnc = encryptJson({
           smtpPass: d.smtp?.password ?? creds.smtpPass,

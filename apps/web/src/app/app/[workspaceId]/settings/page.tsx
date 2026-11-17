@@ -9,6 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  AuditCard,
+  BrandingCard,
+  ImportCard,
+  InvitationsCard,
+  PlanCard,
+} from "@/components/settings-extras";
+import {
   api,
   type AiProvider,
   type AiUsage,
@@ -262,7 +269,8 @@ function AiCard({ base, workspaceId }: { base: string; workspaceId: string }) {
   );
 }
 
-// Who can use this workspace. People need an Orbyt account first (there is no invite email yet).
+// Who can use this workspace. Adding by email here needs an existing Orbyt account; the Invite card below
+// works for people who do not have one yet.
 function TeamCard({
   base,
   workspaceId,
@@ -808,8 +816,13 @@ export default function SettingsPage() {
       </Card>
 
       <TeamCard base={base} workspaceId={workspaceId} />
+      <InvitationsCard workspaceId={workspaceId} />
+      <PlanCard workspaceId={workspaceId} />
+      <BrandingCard workspaceId={workspaceId} />
+      <AuditCard workspaceId={workspaceId} />
       <AiCard base={base} workspaceId={workspaceId} />
       <ChannelsCard base={base} workspaceId={workspaceId} />
+      <ImportCard workspaceId={workspaceId} />
 
       <Card>
         <CardHeader>

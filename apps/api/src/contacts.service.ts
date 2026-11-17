@@ -207,6 +207,24 @@ export class ContactsService {
     return created;
   }
 
+  /** Public entry points (forms, workflow webhooks): reuse the contact with this email or create it. */
+  async findOrCreate(scope: Scope, body: unknown) {
+    const input = parse(contactInput, body);
+    const find = () =>
+      this.dbs.inWorkspace(scope, (tx) =>
+        tx.select().from(contacts).where(eq(contacts.email, input.email)),
+      );
+    const [existing] = await find();
+    if (existing) return { contact: existing, created: false };
+    try {
+      return { contact: await this.create(scope, input), created: true };
+    } catch (err) {
+      const [raced] = await find(); // two submissions of the same email at once
+      if (raced) return { contact: raced, created: false };
+      throw err;
+    }
+  }
+
   async update(scope: Scope, rawId: string, body: unknown) {
     const id = idParam(rawId);
     const patch = parse(contactPatch, body);

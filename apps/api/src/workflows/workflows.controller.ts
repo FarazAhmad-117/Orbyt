@@ -13,6 +13,7 @@ import {
   Query,
   UseGuards,
 } from "@nestjs/common";
+import { randomBytes } from "node:crypto";
 import {
   and,
   asc,
@@ -32,7 +33,8 @@ import { z } from "zod";
 import { DbService } from "../db.service";
 import { EventsService } from "../events.service";
 import { idParam, notFoundIfEmpty, parse } from "../http";
-import { Ctx, type Scope, WorkspaceGuard } from "../scope";
+import { ContactsService } from "../contacts.service";
+import { Ctx, type Scope, systemScope, WorkspaceGuard } from "../scope";
 import { graphSchema, validateGraph } from "./graph";
 import { WorkflowService } from "./workflow.service";
 
@@ -41,8 +43,10 @@ const eventName = z
   .regex(/^[a-z_]+\.[a-z_]+$/, "Use an event name like contact.created");
 const base = z.object({
   name: z.string().trim().min(1).max(200),
-  triggerType: z.enum(["event", "manual"]),
+  triggerType: z.enum(["event", "manual", "webhook", "schedule"]),
   triggerEvent: eventName.nullish(),
+  // shortcut: fixed intervals (min 5 minutes), no cron expressions; upgrade when someone needs "weekdays 9am".
+  scheduleMinutes: z.number().int().min(5).max(525_600).nullish(),
   graph: graphSchema,
 });
 const createInput = base;
@@ -54,15 +58,28 @@ async function checkWorkflow(
   d: {
     triggerType?: string;
     triggerEvent?: string | null;
+    scheduleMinutes?: number | null;
     graph?: WorkflowGraph;
   },
-  current?: { triggerType: string; triggerEvent: string | null },
+  current?: {
+    triggerType: string;
+    triggerEvent: string | null;
+    scheduleMinutes: number | null;
+  },
 ) {
   const type = d.triggerType ?? current?.triggerType;
   const event =
     d.triggerEvent === undefined ? current?.triggerEvent : d.triggerEvent;
+  const minutes =
+    d.scheduleMinutes === undefined
+      ? current?.scheduleMinutes
+      : d.scheduleMinutes;
   if (type === "event" && !event)
     throw new BadRequestException("An event workflow needs triggerEvent");
+  if (type === "schedule" && !minutes)
+    throw new BadRequestException(
+      "A scheduled workflow needs scheduleMinutes (at least 5)",
+    );
   if (d.graph) {
     const problems = validateGraph(d.graph);
     if (problems.length)
@@ -116,6 +133,12 @@ export class WorkflowsController {
           triggerType: d.triggerType,
           triggerEvent:
             d.triggerType === "event" ? (d.triggerEvent ?? null) : null,
+          webhookToken:
+            d.triggerType === "webhook"
+              ? randomBytes(24).toString("hex")
+              : null,
+          scheduleMinutes:
+            d.triggerType === "schedule" ? (d.scheduleMinutes ?? null) : null,
           graph: d.graph as WorkflowGraph,
         })
         .returning();
@@ -156,6 +179,16 @@ export class WorkflowsController {
           triggerType === "event"
             ? (d.triggerEvent ?? current.triggerEvent)
             : null;
+      set.scheduleMinutes =
+        triggerType === "schedule"
+          ? d.scheduleMinutes === undefined
+            ? current.scheduleMinutes
+            : d.scheduleMinutes
+          : null;
+      if (triggerType === "webhook")
+        set.webhookToken =
+          current.webhookToken ?? randomBytes(24).toString("hex");
+      else set.webhookToken = null;
       if (d.graph) {
         set.graph = d.graph as WorkflowGraph;
         set.version = current.version + 1; // running executions keep their own snapshot
@@ -185,11 +218,18 @@ export class WorkflowsController {
         graph: wf.graph,
         triggerType: wf.triggerType,
         triggerEvent: wf.triggerEvent,
+        scheduleMinutes: wf.scheduleMinutes,
       });
       return (
         await tx
           .update(workflows)
-          .set({ status: "active" })
+          .set({
+            status: "active",
+            nextRunAt:
+              wf.triggerType === "schedule"
+                ? new Date(Date.now() + wf.scheduleMinutes! * 60_000)
+                : null,
+          })
           .where(eq(workflows.id, id))
           .returning()
       )[0]!;
@@ -309,6 +349,50 @@ export class WorkflowsController {
         nextCursor: rows.length > q.limit ? items[items.length - 1]!.id : null,
       };
     });
+  }
+}
+
+/**
+ * Public inbound webhooks. The URL itself is the credential (unguessable token, one per workflow).
+ * A JSON body becomes `event.data`; if it has an `email`, that contact is found or created and
+ * the run is attached to it.
+ */
+@Controller("api/hooks")
+export class WorkflowHooksController {
+  constructor(
+    @Inject(WorkflowService) private readonly engine: WorkflowService,
+    @Inject(ContactsService) private readonly contacts: ContactsService,
+  ) {}
+
+  @Post(":workspaceId/workflows/:token")
+  @HttpCode(202)
+  async receive(
+    @Param("workspaceId") workspaceId: string,
+    @Param("token") token: string,
+    @Body() body: unknown,
+  ) {
+    if (!/^[0-9a-f-]{36}$/i.test(workspaceId) || !/^[0-9a-f]{48}$/.test(token))
+      throw new NotFoundException();
+    const payload = parse(z.record(z.string(), z.unknown()), body ?? {});
+    const scope = systemScope(workspaceId);
+    let contactId: string | null = null;
+    if (typeof payload.email === "string") {
+      const { contact } = await this.contacts.findOrCreate(scope, {
+        email: payload.email,
+        name: typeof payload.name === "string" ? payload.name : undefined,
+        phone: typeof payload.phone === "string" ? payload.phone : undefined,
+        source: "webhook",
+      });
+      contactId = contact.id;
+    }
+    const exec = await this.engine.startFromWebhook(
+      workspaceId,
+      token,
+      payload,
+      contactId,
+    );
+    if (!exec) throw new NotFoundException();
+    return { executionId: exec.id };
   }
 }
 

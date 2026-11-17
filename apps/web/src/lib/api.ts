@@ -128,6 +128,9 @@ export interface Mailbox {
   displayName: string | null;
   smtpHost: string;
   imapHost: string;
+  authType: "password" | "google" | "microsoft";
+  warmupEnabled: boolean;
+  warmupStartedAt: string | null;
   dailyLimit: number;
   hourlyLimit: number;
   status: "active" | "paused" | "error";
@@ -169,6 +172,15 @@ export interface Conversation {
   aiLabel: string | null;
   aiSummary: string | null;
   channel: "email" | "sms" | "whatsapp" | "voice";
+}
+/** What this workspace's organization may use: plan, paid features and limits (null = unlimited). */
+export interface Entitlements {
+  cloud: boolean;
+  organizationId: string | null;
+  plan: string;
+  features: string[];
+  maxWorkspaces: number | null;
+  maxMailboxes: number | null;
 }
 export interface Member {
   userId: string;

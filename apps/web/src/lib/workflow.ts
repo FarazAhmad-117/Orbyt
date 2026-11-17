@@ -15,12 +15,21 @@ export interface Graph {
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
+export type TriggerType = "event" | "manual" | "webhook" | "schedule";
+export const TRIGGER_LABELS: Record<TriggerType, string> = {
+  event: "When something happens",
+  manual: "When I run it",
+  webhook: "When a webhook is received",
+  schedule: "On a schedule",
+};
 export interface Workflow {
   id: string;
   name: string;
   status: "draft" | "active" | "paused";
-  triggerType: "event" | "manual";
+  triggerType: TriggerType;
   triggerEvent: string | null;
+  scheduleMinutes: number | null;
+  webhookToken: string | null;
   graph: Graph;
   version: number;
 }

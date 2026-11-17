@@ -134,6 +134,8 @@ describe("workspace isolation (RLS)", () => {
       "workspace_members",
       "api_keys", // looked up by key hash before a workspace is known
       "channel_accounts", // looked up by inbound-webhook token before a workspace is known
+      "invitations", // looked up by invite-token hash before the invitee is a member
+      "subscriptions", // organization-level billing state, read via org membership
     ]); // see 0003_membership_rls.sql for why these are not FORCEd
     const { rows } = await db.execute(sql`
       select c.relname, c.relrowsecurity, c.relforcerowsecurity

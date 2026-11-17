@@ -39,6 +39,8 @@ import {
   EVENTS,
   LABELS,
   NODE_TYPES,
+  TRIGGER_LABELS,
+  type TriggerType,
   fromFlow,
   summary,
   toFlow,
@@ -464,8 +466,11 @@ function Editor({ wf: initial }: { wf: Workflow }) {
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(flow.edges);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [name, setName] = useState(initial.name);
-  const [triggerType, setTriggerType] = useState<"event" | "manual">(
+  const [triggerType, setTriggerType] = useState<TriggerType>(
     initial.triggerType,
+  );
+  const [scheduleMinutes, setScheduleMinutes] = useState(
+    initial.scheduleMinutes ?? 60,
   );
   const [triggerEvent, setTriggerEvent] = useState(
     initial.triggerEvent ?? EVENTS[0]!,
@@ -521,6 +526,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
           name,
           triggerType,
           triggerEvent: triggerType === "event" ? triggerEvent : null,
+          scheduleMinutes: triggerType === "schedule" ? scheduleMinutes : null,
           graph: fromFlow(nodes, edges),
         },
       }),
@@ -692,13 +698,34 @@ function Editor({ wf: initial }: { wf: Workflow }) {
                 aria-label="Trigger type"
                 className="rounded-md border bg-transparent p-2 text-sm"
                 value={triggerType}
-                onChange={(e) =>
-                  setTriggerType(e.target.value as "event" | "manual")
-                }
+                onChange={(e) => setTriggerType(e.target.value as TriggerType)}
               >
-                <option value="event">When something happens</option>
-                <option value="manual">When I run it</option>
+                {Object.entries(TRIGGER_LABELS).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
               </select>
+              {triggerType === "schedule" && (
+                <Label className="grid gap-1 text-xs">
+                  Every (minutes, 5 or more)
+                  <Input
+                    type="number"
+                    min={5}
+                    value={scheduleMinutes}
+                    onChange={(e) => setScheduleMinutes(Number(e.target.value))}
+                  />
+                </Label>
+              )}
+              {triggerType === "webhook" && (
+                <p className="break-all text-xs text-zinc-500">
+                  {wf.data.webhookToken
+                    ? `POST ${typeof window === "undefined" ? "" : window.location.origin}/api/hooks/${workspaceId}/workflows/${wf.data.webhookToken}`
+                    : "Save to get the webhook URL."}{" "}
+                  A JSON body becomes the event data; an <code>email</code>{" "}
+                  field links (or creates) the contact.
+                </p>
+              )}
               {triggerType === "event" && (
                 <select
                   aria-label="Trigger event"

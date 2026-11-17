@@ -11,7 +11,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/api";
-import { EVENTS, type Workflow } from "@/lib/workflow";
+import {
+  EVENTS,
+  TRIGGER_LABELS,
+  type TriggerType,
+  type Workflow,
+} from "@/lib/workflow";
 
 export default function WorkflowsPage() {
   const { workspaceId } = useParams<{ workspaceId: string }>();
@@ -19,7 +24,7 @@ export default function WorkflowsPage() {
   const router = useRouter();
   const qc = useQueryClient();
   const [creating, setCreating] = useState(false);
-  const [triggerType, setTriggerType] = useState<"event" | "manual">("event");
+  const [triggerType, setTriggerType] = useState<TriggerType>("event");
 
   const list = useQuery({
     queryKey: [workspaceId, "workflows"],
@@ -27,6 +32,19 @@ export default function WorkflowsPage() {
   });
   const create = useMutation({
     mutationFn: (body: object) => api<Workflow>(`${base}/workflows`, { body }),
+    onSuccess: (wf) => router.push(`/app/${workspaceId}/workflows/${wf.id}`),
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const templates = useQuery({
+    queryKey: [workspaceId, "workflow-templates"],
+    queryFn: () =>
+      api<{ key: string; name: string; description: string }[]>(
+        `${base}/workflow-templates`,
+      ),
+  });
+  const fromTemplate = useMutation({
+    mutationFn: (key: string) =>
+      api<Workflow>(`${base}/workflow-templates/${key}/use`, { body: {} }),
     onSuccess: (wf) => router.push(`/app/${workspaceId}/workflows/${wf.id}`),
     onError: (e: Error) => toast.error(e.message),
   });
@@ -63,6 +81,9 @@ export default function WorkflowsPage() {
                   ...(triggerType === "event"
                     ? { triggerEvent: String(f.get("event")) }
                     : {}),
+                  ...(triggerType === "schedule"
+                    ? { scheduleMinutes: Number(f.get("minutes")) }
+                    : {}),
                   graph: {
                     nodes: [{ id: "trigger", type: "trigger", config: {} }],
                     edges: [],
@@ -81,13 +102,29 @@ export default function WorkflowsPage() {
                   className="rounded-md border bg-transparent p-2 text-sm"
                   value={triggerType}
                   onChange={(e) =>
-                    setTriggerType(e.target.value as "event" | "manual")
+                    setTriggerType(e.target.value as TriggerType)
                   }
                 >
-                  <option value="event">When something happens</option>
-                  <option value="manual">When I run it</option>
+                  {Object.entries(TRIGGER_LABELS).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
                 </select>
               </div>
+              {triggerType === "schedule" && (
+                <div className="grid gap-2">
+                  <Label htmlFor="wf-minutes">Every (minutes, 5 or more)</Label>
+                  <Input
+                    id="wf-minutes"
+                    name="minutes"
+                    type="number"
+                    min={5}
+                    defaultValue={60}
+                    required
+                  />
+                </div>
+              )}
               {triggerType === "event" && (
                 <div className="grid gap-2">
                   <Label htmlFor="wf-event">Event</Label>
@@ -114,6 +151,34 @@ export default function WorkflowsPage() {
         </Card>
       )}
 
+      {creating && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Or start from a template</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-2">
+            {templates.data?.map((t) => (
+              <div
+                key={t.key}
+                className="grid gap-2 rounded-md border p-3 text-sm"
+              >
+                <span className="font-medium">{t.name}</span>
+                <span className="text-zinc-500">{t.description}</span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="justify-self-start"
+                  disabled={fromTemplate.isPending}
+                  onClick={() => fromTemplate.mutate(t.key)}
+                >
+                  Use this template
+                </Button>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid gap-3">
         {list.data?.length === 0 && (
           <p className="text-zinc-500">No workflows yet.</p>
@@ -128,7 +193,11 @@ export default function WorkflowsPage() {
                 {w.name}
               </Link>
               <span className="text-zinc-500">
-                {w.triggerType === "event" ? w.triggerEvent : "manual"}
+                {w.triggerType === "event"
+                  ? w.triggerEvent
+                  : w.triggerType === "schedule"
+                    ? `every ${w.scheduleMinutes} min`
+                    : w.triggerType}
               </span>
               <span className="text-zinc-500">
                 {w.graph.nodes.length - 1} step(s)

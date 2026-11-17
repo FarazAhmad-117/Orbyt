@@ -29,6 +29,7 @@ import type { FastifyRequest } from "fastify";
 import { z } from "zod";
 import { AUTH, toHeaders, type Auth } from "./auth";
 import { DbService } from "./db.service";
+import { EntitlementsService } from "./enterprise/entitlements.service";
 import { EventsService } from "./events.service";
 import { idParam, parse } from "./http";
 import { AdminGuard, Ctx, type Scope, WorkspaceGuard } from "./scope";
@@ -39,6 +40,7 @@ export class OrgsController {
   constructor(
     @Inject(AUTH) private readonly auth: Auth,
     @Inject(DbService) private readonly dbs: DbService,
+    @Inject(EntitlementsService) private readonly ent: EntitlementsService,
   ) {}
 
   private async userId(req: FastifyRequest) {
@@ -95,6 +97,7 @@ export class OrgsController {
       throw new ForbiddenException(
         "Only organization owners and admins can create workspaces",
       );
+    await this.ent.assertCanAddWorkspace(orgId);
     // System operation (RLS gives orbyt_app read-only access to these tables).
     return this.dbs.db.transaction(async (tx) => {
       const [ws] = await tx

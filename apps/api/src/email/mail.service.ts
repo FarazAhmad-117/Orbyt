@@ -3,11 +3,15 @@ import type { mailboxes } from "@orbyt/db";
 import { ImapFlow } from "imapflow";
 import nodemailer, { type Transporter } from "nodemailer";
 import { assertPublicUrl } from "../ssrf";
+import { OAuthError, refreshAccessToken, type OAuthProvider } from "./oauth";
 import { decryptJson } from "./secrets";
 
 export type MailboxRow = typeof mailboxes.$inferSelect;
 export const CREDENTIALS_UNREADABLE =
   "Stored credentials could not be decrypted. Was ORBYT_ENCRYPTION_KEY (or BETTER_AUTH_SECRET) changed? Re-enter the mailbox password.";
+/** Google/Microsoft mailboxes sign in with OAuth tokens; everything else (including unsaved rows) uses passwords. */
+const isOAuthMailbox = (m: Pick<MailboxRow, "authType">) =>
+  m.authType === "google" || m.authType === "microsoft";
 export interface Credentials {
   smtpPass: string;
   imapPass: string;
@@ -35,8 +39,27 @@ export class SendError extends Error {
   }
 }
 
+/**
+ * Why the stored login could not be turned into a usable one: unreadable credentials or a revoked
+ * OAuth grant park the mailbox ("auth"); a provider outage while refreshing is just retried.
+ */
+export function loginFailure(err: unknown): {
+  message: string;
+  kind: "auth" | "transient";
+} {
+  if (err instanceof OAuthError)
+    return {
+      message: err.message,
+      kind: err.kind === "transient" ? "transient" : "auth",
+    };
+  return { message: CREDENTIALS_UNREADABLE, kind: "auth" };
+}
+
 @Injectable()
 export class MailService {
+  // Access tokens live ~1h; refreshing on every send would hammer the provider.
+  private readonly tokens = new Map<string, { token: string; exp: number }>();
+
   credentials(mailbox: MailboxRow): Credentials {
     return decryptJson<Credentials>(mailbox.credentialsEnc);
   }
@@ -46,15 +69,37 @@ export class MailService {
     await assertPublicUrl(`http://${host}`);
   }
 
-  private smtp(mailbox: MailboxRow) {
+  /** A current OAuth access token for a Google/Microsoft mailbox (refreshed when about to expire). */
+  private async accessToken(mailbox: MailboxRow): Promise<string> {
+    const key = `${mailbox.id}:${mailbox.credentialsEnc.slice(-24)}`;
+    const cached = this.tokens.get(key);
+    if (cached && cached.exp > Date.now() + 60_000) return cached.token;
+    const { refreshToken } = decryptJson<{ refreshToken: string }>(
+      mailbox.credentialsEnc,
+    );
+    const fresh = await refreshAccessToken(
+      mailbox.authType as OAuthProvider,
+      refreshToken,
+    );
+    this.tokens.set(key, { token: fresh.accessToken, exp: fresh.expiresAt });
+    return fresh.accessToken;
+  }
+
+  private async smtp(mailbox: MailboxRow) {
     return nodemailer.createTransport({
       host: mailbox.smtpHost,
       port: mailbox.smtpPort,
       secure: mailbox.smtpSecure,
-      auth: {
-        user: mailbox.smtpUser,
-        pass: this.credentials(mailbox).smtpPass,
-      },
+      auth: isOAuthMailbox(mailbox)
+        ? {
+            type: "OAuth2",
+            user: mailbox.smtpUser,
+            accessToken: await this.accessToken(mailbox),
+          }
+        : {
+            user: mailbox.smtpUser,
+            pass: this.credentials(mailbox).smtpPass,
+          },
       connectionTimeout: 10_000,
       greetingTimeout: 10_000,
       socketTimeout: 30_000,
@@ -65,10 +110,10 @@ export class MailService {
     const { mailbox } = input;
     let transport: Transporter;
     try {
-      transport = this.smtp(mailbox);
-    } catch {
-      // Unreadable stored credentials: park the mailbox ("auth"), do not retry the contact forever.
-      throw new SendError(CREDENTIALS_UNREADABLE, "auth");
+      transport = await this.smtp(mailbox);
+    } catch (err) {
+      const f = loginFailure(err);
+      throw new SendError(f.message, f.kind);
     }
     try {
       await transport.sendMail({
@@ -106,9 +151,10 @@ export class MailService {
     const result = { smtp: null as string | null, imap: null as string | null };
     let transport: Transporter;
     try {
-      transport = this.smtp(mailbox);
-    } catch {
-      return { smtp: CREDENTIALS_UNREADABLE, imap: CREDENTIALS_UNREADABLE };
+      transport = await this.smtp(mailbox);
+    } catch (err) {
+      const message = loginFailure(err).message;
+      return { smtp: message, imap: message };
     }
     try {
       await transport.verify();
@@ -117,7 +163,13 @@ export class MailService {
     } finally {
       transport.close();
     }
-    const imap = this.imap(mailbox);
+    let imap: ImapFlow;
+    try {
+      imap = await this.imap(mailbox);
+    } catch (err) {
+      result.imap = loginFailure(err).message;
+      return result;
+    }
     try {
       await imap.connect();
     } catch (err) {
@@ -128,15 +180,20 @@ export class MailService {
     return result;
   }
 
-  imap(mailbox: MailboxRow) {
+  async imap(mailbox: MailboxRow) {
     const client = new ImapFlow({
       host: mailbox.imapHost,
       port: mailbox.imapPort,
       secure: mailbox.imapSecure,
-      auth: {
-        user: mailbox.imapUser,
-        pass: this.credentials(mailbox).imapPass,
-      },
+      auth: isOAuthMailbox(mailbox)
+        ? {
+            user: mailbox.imapUser,
+            accessToken: await this.accessToken(mailbox),
+          }
+        : {
+            user: mailbox.imapUser,
+            pass: this.credentials(mailbox).imapPass,
+          },
       logger: false,
       // Avoids an unhandled 'error' event taking the process down on a dropped connection.
       connectionTimeout: 10_000,

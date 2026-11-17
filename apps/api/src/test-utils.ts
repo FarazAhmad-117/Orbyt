@@ -34,8 +34,10 @@ export async function createTestApp() {
   const mod = await Test.createTestingModule({
     imports: [AppModule],
   }).compile();
-  const app =
-    mod.createNestApplication<NestFastifyApplication>(createAdapter());
+  const app = mod.createNestApplication<NestFastifyApplication>(
+    createAdapter(),
+    { rawBody: true },
+  );
   configureApp(app);
   await app.init();
   await app.getHttpAdapter().getInstance().ready();

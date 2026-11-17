@@ -15,6 +15,11 @@ import { createdAt, pk as id, updatedAt } from "./columns.js";
 export const organizations = pgTable("organizations", {
   id: id(),
   name: text("name").notNull(),
+  // White-label (ee): shown on the sign-in page and app shell when the app is opened on customDomain.
+  brandName: text("brand_name"),
+  brandLogoUrl: text("brand_logo_url"),
+  brandColor: text("brand_color"), // #rrggbb
+  customDomain: text("custom_domain").unique(),
   createdAt: createdAt(),
 });
 

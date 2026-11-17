@@ -9,10 +9,20 @@ import {
 } from "@orbyt/db";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { genericOAuth } from "better-auth/plugins";
 import type { FastifyRequest } from "fastify";
 import { requireEnv } from "./db.service";
 
 export const AUTH = Symbol("AUTH");
+
+/**
+ * Single sign-on through any OpenID Connect provider (Okta, Entra ID, Google Workspace, Keycloak...),
+ * configured for the whole installation: ORBYT_SSO_DISCOVERY_URL, ORBYT_SSO_CLIENT_ID,
+ * ORBYT_SSO_CLIENT_SECRET (and optionally ORBYT_SSO_NAME for the button label). The endpoints only
+ * answer when a license with the "sso" feature is present (see AuthController).
+ */
+export const ssoConfigured = () =>
+  !!process.env.ORBYT_SSO_DISCOVERY_URL && !!process.env.ORBYT_SSO_CLIENT_ID;
 
 export function createAuth(db: Db) {
   const secret = requireEnv("BETTER_AUTH_SECRET");
@@ -34,6 +44,26 @@ export function createAuth(db: Db) {
       },
     }),
     emailAndPassword: { enabled: true },
+    plugins: ssoConfigured()
+      ? [
+          genericOAuth({
+            config: [
+              {
+                providerId: "sso",
+                name: process.env.ORBYT_SSO_NAME || "SSO",
+                discoveryUrl: process.env.ORBYT_SSO_DISCOVERY_URL!,
+                clientId: process.env.ORBYT_SSO_CLIENT_ID!,
+                clientSecret: process.env.ORBYT_SSO_CLIENT_SECRET,
+                scopes: ["openid", "email", "profile"],
+                // The OIDC `sub` claim of the userinfo response is the stable identity of the person.
+                accountSubject: ({ profile }) => String(profile.sub ?? ""),
+              },
+            ],
+          }),
+        ]
+      : [],
+    // No automatic account linking: sign-up does not verify emails, so an SSO login must never be
+    // merged into a password account someone else created with the same address (pre-hijacking).
     advanced: { database: { generateId: () => uuidv7() } },
     telemetry: { enabled: false }, // self-hosted: never phone home
     databaseHooks: {

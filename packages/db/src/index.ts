@@ -7,6 +7,7 @@ import * as crmSchema from "./schema-crm.js";
 import * as aiSchema from "./schema-ai.js";
 import * as channelSchema from "./schema-channels.js";
 import * as emailSchema from "./schema-email.js";
+import * as platformSchema from "./schema-platform.js";
 import * as workflowSchema from "./schema-workflows.js";
 import * as baseSchema from "./schema.js";
 
@@ -15,6 +16,7 @@ export * from "./schema-ai.js";
 export * from "./schema-channels.js";
 export * from "./schema-crm.js";
 export * from "./schema-email.js";
+export * from "./schema-platform.js";
 export * from "./schema-workflows.js";
 // Add each new schema-*.ts file here and in the export list above.
 const schema = {
@@ -24,6 +26,7 @@ const schema = {
   ...workflowSchema,
   ...aiSchema,
   ...channelSchema,
+  ...platformSchema,
 };
 export { schema };
 export { uuidv7 } from "uuidv7";

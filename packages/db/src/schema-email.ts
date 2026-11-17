@@ -40,7 +40,13 @@ export const mailboxes = pgTable(
     imapPort: integer("imap_port").notNull(),
     imapSecure: boolean("imap_secure").notNull().default(false),
     imapUser: text("imap_user").notNull(),
+    // "password": credentialsEnc holds {smtpPass, imapPass}. "google"/"microsoft": it holds the
+    // OAuth tokens {refreshToken, accessToken, expiresAt} and logins use XOAUTH2.
+    authType: text("auth_type").notNull().default("password"),
     credentialsEnc: text("credentials_enc").notNull(),
+    // Warm-up ramps the effective daily limit up from a few emails to dailyLimit (see email/warmup.ts).
+    warmupEnabled: boolean("warmup_enabled").notNull().default(false),
+    warmupStartedAt: timestamp("warmup_started_at", { withTimezone: true }),
     dailyLimit: integer("daily_limit").notNull().default(30),
     hourlyLimit: integer("hourly_limit").notNull().default(10),
     status: text("status").notNull().default("active"),
@@ -58,6 +64,10 @@ export const mailboxes = pgTable(
     check(
       "mailboxes_status_check",
       sql`${t.status} in ('active', 'paused', 'error')`,
+    ),
+    check(
+      "mailboxes_auth_type_check",
+      sql`${t.authType} in ('password', 'google', 'microsoft')`,
     ),
   ],
 );

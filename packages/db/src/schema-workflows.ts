@@ -36,6 +36,11 @@ export const workflows = pgTable(
     // "event": starts when a domain event of `triggerEvent` happens; "manual": started via the API.
     triggerType: text("trigger_type").notNull().default("manual"),
     triggerEvent: text("trigger_event"),
+    // "webhook": POST /api/hooks/:workspaceId/workflows/:webhookToken starts a run.
+    webhookToken: text("webhook_token"),
+    // "schedule": runs every scheduleMinutes; nextRunAt is claimed atomically by the engine tick.
+    scheduleMinutes: integer("schedule_minutes"),
+    nextRunAt: timestamp("next_run_at", { withTimezone: true }),
     graph: jsonb("graph").$type<WorkflowGraph>().notNull(),
     // Bumped on every graph edit. Running executions keep the graph snapshot they started with.
     version: integer("version").notNull().default(1),
@@ -50,8 +55,9 @@ export const workflows = pgTable(
     ),
     check(
       "workflows_trigger_check",
-      sql`${t.triggerType} in ('event', 'manual')`,
+      sql`${t.triggerType} in ('event', 'manual', 'webhook', 'schedule')`,
     ),
+    index("workflows_schedule_idx").on(t.workspaceId, t.status, t.nextRunAt),
   ],
 );
 

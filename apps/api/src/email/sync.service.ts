@@ -23,12 +23,9 @@ import {
 import { simpleParser, type ParsedMail } from "mailparser";
 import { DbService } from "../db.service";
 import { EventsService, type DomainEvent } from "../events.service";
+import { metrics } from "../ops/metrics";
 import { systemScope, type Scope } from "../scope";
-import {
-  CREDENTIALS_UNREADABLE,
-  MailService,
-  type MailboxRow,
-} from "./mail.service";
+import { loginFailure, MailService, type MailboxRow } from "./mail.service";
 
 const strip = (id: string) => id.replace(/^<|>$/g, "");
 
@@ -150,9 +147,14 @@ export class SyncService implements OnModuleInit, OnModuleDestroy {
           try {
             total += (await this.syncMailbox(id, b.id)).processed;
           } catch (err) {
+            metrics.inc("orbyt_loop_errors_total", 1, { loop: "sync" });
             console.error(`[sync] mailbox ${b.id}:`, err);
           }
       }
+      metrics.inc("orbyt_inbound_messages_total", total);
+      metrics.set("orbyt_loop_last_run_timestamp_seconds", Date.now() / 1000, {
+        loop: "sync",
+      });
       return total;
     } finally {
       this.running = false;
@@ -169,18 +171,21 @@ export class SyncService implements OnModuleInit, OnModuleDestroy {
     );
     if (!mailbox || mailbox.status === "paused") return { processed: 0 };
 
-    let client: ReturnType<MailService["imap"]>;
+    let client: Awaited<ReturnType<MailService["imap"]>>;
     try {
-      client = this.mail.imap(mailbox);
-    } catch {
-      // Unreadable stored credentials: record it on the mailbox and move on.
-      await this.dbs.inWorkspace(scope, (tx) =>
-        tx
-          .update(mailboxes)
-          .set({ status: "error", lastError: CREDENTIALS_UNREADABLE })
-          .where(eq(mailboxes.id, mailbox.id)),
-      );
-      return { processed: 0, error: CREDENTIALS_UNREADABLE };
+      client = await this.mail.imap(mailbox);
+    } catch (err) {
+      // Unreadable credentials or a revoked OAuth grant: record it on the mailbox and move on.
+      // (A provider outage while refreshing is only reported; the next pass tries again.)
+      const f = loginFailure(err);
+      if (f.kind === "auth")
+        await this.dbs.inWorkspace(scope, (tx) =>
+          tx
+            .update(mailboxes)
+            .set({ status: "error", lastError: f.message })
+            .where(eq(mailboxes.id, mailbox.id)),
+        );
+      return { processed: 0, error: f.message };
     }
     let processed = 0;
     let last = mailbox.imapLastUid;

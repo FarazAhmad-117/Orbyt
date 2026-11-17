@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -103,6 +103,37 @@ export default function MailboxesPage() {
     queryFn: () => api<Mailbox[]>(`${base}/mailboxes`),
   });
 
+  // "Connect Google / Microsoft": only offered when this server has the provider's credentials.
+  const providers = useQuery({
+    queryKey: [workspaceId, "mailbox-oauth"],
+    queryFn: () =>
+      api<{ provider: "google" | "microsoft"; configured: boolean }[]>(
+        `${base}/mailboxes/oauth/providers`,
+      ),
+    retry: false,
+  });
+  const connectOAuth = useMutation({
+    mutationFn: (provider: "google" | "microsoft") =>
+      api<{ url: string }>(`${base}/mailboxes/oauth/start`, {
+        body: { provider },
+      }),
+    onSuccess: (r) => {
+      window.location.href = r.url;
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  // The provider sends the browser back here with the result in the query string.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const connected = q.get("connected");
+    const error = q.get("error");
+    if (!connected && !error) return;
+    if (connected) toast.success(`Connected ${connected}`);
+    else toast.error(error!);
+    window.history.replaceState(null, "", window.location.pathname);
+    void qc.invalidateQueries({ queryKey: [workspaceId, "mailboxes"] });
+  }, [qc, workspaceId]);
+
   const create = useMutation({
     mutationFn: (body: object) => api(`${base}/mailboxes`, { body }),
     onSuccess: () => {
@@ -141,10 +172,14 @@ export default function MailboxesPage() {
     },
   });
   const setStatus = useMutation({
-    mutationFn: (v: { id: string; status: "active" | "paused" }) =>
+    mutationFn: (v: {
+      id: string;
+      status?: "active" | "paused";
+      warmup?: boolean;
+    }) =>
       api(`${base}/mailboxes/${v.id}`, {
         method: "PATCH",
-        body: { status: v.status },
+        body: { status: v.status, warmup: v.warmup },
       }),
     onSuccess: () => void refresh(),
     onError: (e: Error) => toast.error(e.message),
@@ -167,6 +202,18 @@ export default function MailboxesPage() {
     <div className="grid max-w-3xl gap-6">
       <div className="flex items-center gap-3">
         <h1 className="mr-auto text-2xl font-semibold">Mailboxes</h1>
+        {providers.data
+          ?.filter((p) => p.configured)
+          .map((p) => (
+            <Button
+              key={p.provider}
+              variant="outline"
+              disabled={connectOAuth.isPending}
+              onClick={() => connectOAuth.mutate(p.provider)}
+            >
+              Connect {p.provider === "google" ? "Google" : "Microsoft"}
+            </Button>
+          ))}
         <Button onClick={() => setAdding((v) => !v)}>
           {adding ? "Cancel" : "Connect mailbox"}
         </Button>
@@ -274,6 +321,8 @@ export default function MailboxesPage() {
                 <div className="font-medium">{m.email}</div>
                 <div className="text-zinc-500">
                   {m.dailyLimit}/day · {m.hourlyLimit}/hour · {m.smtpHost}
+                  {m.authType !== "password" ? ` · ${m.authType} login` : ""}
+                  {m.warmupEnabled ? " · warming up" : ""}
                 </div>
                 {m.lastError && (
                   <div className="text-red-600">{m.lastError}</div>
@@ -288,6 +337,16 @@ export default function MailboxesPage() {
                 onClick={() => test.mutate(m.id)}
               >
                 Test
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                title="Ramp the daily limit up gradually so a new mailbox is not flagged"
+                onClick={() =>
+                  setStatus.mutate({ id: m.id, warmup: !m.warmupEnabled })
+                }
+              >
+                {m.warmupEnabled ? "Stop warm-up" : "Warm up"}
               </Button>
               <Button
                 size="sm"

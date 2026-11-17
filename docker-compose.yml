@@ -40,6 +40,33 @@ services:
       ORBYT_ENCRYPTION_KEY: ${ORBYT_ENCRYPTION_KEY:-}
       # Allow mailbox/webhook/AI endpoints on private networks (e.g. a local Ollama). Keep false on shared hosting.
       ORBYT_ALLOW_PRIVATE_URLS: ${ORBYT_ALLOW_PRIVATE_URLS:-false}
+      # ---- Optional features (all off when empty; see docs/) ----
+      # Email people invitations with ORBYT_SMTP_URL=smtp://user:pass@host:587 (links are always shown in the app too).
+      ORBYT_SMTP_URL: ${ORBYT_SMTP_URL:-}
+      ORBYT_MAIL_FROM: ${ORBYT_MAIL_FROM:-}
+      # "Connect Google / Microsoft" mailboxes. Redirect URI to register: <BETTER_AUTH_URL>/api/oauth/callback
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID:-}
+      MICROSOFT_CLIENT_SECRET: ${MICROSOFT_CLIENT_SECRET:-}
+      MICROSOFT_TENANT: ${MICROSOFT_TENANT:-}
+      # Commercial features (SSO, audit log, white-label): a license key + the vendor's public key.
+      ORBYT_LICENSE_KEY: ${ORBYT_LICENSE_KEY:-}
+      ORBYT_LICENSE_PUBLIC_KEY: ${ORBYT_LICENSE_PUBLIC_KEY:-}
+      ORBYT_SSO_DISCOVERY_URL: ${ORBYT_SSO_DISCOVERY_URL:-}
+      ORBYT_SSO_CLIENT_ID: ${ORBYT_SSO_CLIENT_ID:-}
+      ORBYT_SSO_CLIENT_SECRET: ${ORBYT_SSO_CLIENT_SECRET:-}
+      ORBYT_SSO_NAME: ${ORBYT_SSO_NAME:-}
+      # Hosted cloud only: Stripe billing and plan limits (leave empty when self-hosting).
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRICE_PRO: ${STRIPE_PRICE_PRO:-}
+      STRIPE_PRICE_AGENCY: ${STRIPE_PRICE_AGENCY:-}
+      # Operations: Prometheus endpoint (/api/metrics) and an abuse cap for brand-new workspaces.
+      ORBYT_METRICS_TOKEN: ${ORBYT_METRICS_TOKEN:-}
+      ORBYT_NEW_TENANT_DAILY_LIMIT: ${ORBYT_NEW_TENANT_DAILY_LIMIT:-}
+      ORBYT_NEW_TENANT_DAYS: ${ORBYT_NEW_TENANT_DAYS:-}
+      ORBYT_VERSION: ${ORBYT_VERSION:-}
     ports: ["127.0.0.1:${API_PORT:-3001}:3001"]
     depends_on:
       postgres: { condition: service_healthy }

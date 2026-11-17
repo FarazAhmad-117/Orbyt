@@ -423,6 +423,53 @@ describe("sending", () => {
     expect(await scheduler.tick(hours(1.3))).toBe(1); // the hour has rolled over
   });
 
+  it("warm-up caps the daily volume of a new mailbox until it is switched off", async () => {
+    const mb = await makeMailbox(alice, {
+      dailyLimit: 30,
+      hourlyLimit: 50,
+      warmup: true,
+    });
+    expect(mb).toMatchObject({ warmupEnabled: true });
+    const seq = await makeSequence(alice, [mb.id]);
+    const people = [];
+    for (let i = 0; i < 8; i++) people.push(await makeContact(alice));
+    await enroll(alice, seq.id, ...people.map((p) => p.id));
+
+    // Day one of the ramp allows 5 emails, however high the mailbox's own limit is.
+    expect(await scheduler.tick(hours(0.1))).toBe(5);
+    expect(await scheduler.tick(hours(0.2))).toBe(0);
+    // Switching warm-up off lifts the cap to the real daily limit.
+    expect(
+      (await as(alice).patch(`/mailboxes/${mb.id}`, { warmup: false }))
+        .statusCode,
+    ).toBe(200);
+    expect(await scheduler.tick(hours(0.5))).toBe(3);
+  });
+
+  it("a brand-new workspace has a low total sending cap when one is configured", async () => {
+    process.env.ORBYT_NEW_TENANT_DAILY_LIMIT = "2";
+    try {
+      const a = await makeMailbox(alice, { dailyLimit: 10, hourlyLimit: 10 });
+      const b = await makeMailbox(alice, { dailyLimit: 10, hourlyLimit: 10 });
+      const seq = await makeSequence(alice, [a.id, b.id]);
+      const people = [];
+      for (let i = 0; i < 5; i++) people.push(await makeContact(alice));
+      await enroll(alice, seq.id, ...people.map((p) => p.id));
+
+      expect(await scheduler.tick(hours(0.1))).toBe(2); // across BOTH mailboxes
+      expect(await scheduler.tick(hours(0.5))).toBe(0);
+      // The cap is per rolling 24 hours: the next day it lets 2 more through.
+      expect(await scheduler.tick(hours(25))).toBe(2);
+
+      // Once the workspace is older than the grace period (here ~14 minutes) there is no cap.
+      process.env.ORBYT_NEW_TENANT_DAYS = "0.01";
+      expect(await scheduler.tick(hours(26))).toBe(1);
+    } finally {
+      delete process.env.ORBYT_NEW_TENANT_DAILY_LIMIT;
+      delete process.env.ORBYT_NEW_TENANT_DAYS;
+    }
+  });
+
   it("only sends inside the sequence's window", async () => {
     const mb = await makeMailbox(alice);
     const seq = await makeSequence(alice, [mb.id], {

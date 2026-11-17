@@ -33,6 +33,8 @@ import { systemScope, type Scope } from "../scope";
 import { MailService, SendError, type MailboxRow } from "./mail.service";
 import { buildEmail, mergeVars, renderTemplate } from "./render";
 import { signToken } from "./secrets";
+import { metrics } from "../ops/metrics";
+import { effectiveDailyLimit } from "./warmup";
 import { inWindow, jitter, nextWindowStart, type SendWindow } from "./window";
 
 const HOUR = 3_600_000;
@@ -102,9 +104,14 @@ export class SchedulerService implements OnModuleInit, OnModuleDestroy {
             if (kind === "sent") sent++;
           }
         } catch (err) {
+          metrics.inc("orbyt_loop_errors_total", 1, { loop: "scheduler" });
           console.error(`[scheduler] workspace ${id}:`, err);
         }
       }
+      metrics.inc("orbyt_emails_sent_total", sent);
+      metrics.set("orbyt_loop_last_run_timestamp_seconds", Date.now() / 1000, {
+        loop: "scheduler",
+      });
       return sent;
     } finally {
       this.ticking = false;
@@ -139,6 +146,32 @@ export class SchedulerService implements OnModuleInit, OnModuleDestroy {
     );
     for (const event of outcome.events) await this.events.emit(scope, event);
     return outcome.kind;
+  }
+
+  /**
+   * ORBYT_NEW_TENANT_DAILY_LIMIT (default 0 = off): total emails a workspace younger than
+   * ORBYT_NEW_TENANT_DAYS (default 7) may send per 24h, across all its mailboxes.
+   */
+  private async newTenantCapped(tx: Tx, scope: Scope, now: Date) {
+    const limit = Number(process.env.ORBYT_NEW_TENANT_DAILY_LIMIT ?? 0);
+    if (!limit) return false;
+    const days = Number(process.env.ORBYT_NEW_TENANT_DAYS || 7); // (|| not ??: compose passes unset variables as "")
+    const [ws] = await this.dbs.db
+      .select({ createdAt: workspaces.createdAt })
+      .from(workspaces)
+      .where(eq(workspaces.id, scope.workspaceId));
+    if (!ws || now.getTime() - ws.createdAt.getTime() > days * 24 * HOUR)
+      return false;
+    const [{ n } = { n: 0 }] = await tx
+      .select({ n: sql<number>`count(*)::int` })
+      .from(messages)
+      .where(
+        and(
+          eq(messages.direction, "out"),
+          gte(messages.at, new Date(now.getTime() - 24 * HOUR)),
+        ),
+      );
+    return n >= limit;
   }
 
   private sentSince(tx: Tx, mailboxId: string, since: Date) {
@@ -215,6 +248,12 @@ export class SchedulerService implements OnModuleInit, OnModuleDestroy {
       return skipped();
     }
 
+    // Abuse control for hosted/shared installs: brand-new workspaces get a low total daily cap.
+    if (await this.newTenantCapped(tx, scope, now)) {
+      await update({ nextSendAt: new Date(now.getTime() + 15 * 60_000) });
+      return skipped();
+    }
+
     // Pick a mailbox: sticky once chosen, otherwise the least-used active one with capacity left.
     const candidates = e.mailboxId ? [e.mailboxId] : s.mailboxIds;
     const boxes = candidates.length
@@ -241,7 +280,7 @@ export class SchedulerService implements OnModuleInit, OnModuleDestroy {
         b.id,
         new Date(now.getTime() - HOUR),
       );
-      if (day >= b.dailyLimit || hour >= b.hourlyLimit) continue;
+      if (day >= effectiveDailyLimit(b, now) || hour >= b.hourlyLimit) continue;
       if (day < lowest) {
         mailbox = b;
         lowest = day;

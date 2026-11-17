@@ -14,6 +14,8 @@ const NAV = [
   ["sequences", "Sequences"],
   ["workflows", "Workflows"],
   ["mailboxes", "Mailboxes"],
+  ["forms", "Forms"],
+  ["knowledge", "Knowledge"],
   ["deals", "Deals"],
   ["tasks", "Tasks"],
   ["settings", "Settings"],
@@ -31,6 +33,18 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     enabled: !!session.data,
   });
 
+  // White-label: the agency's own name/logo when this host is its custom domain.
+  const brand = useQuery({
+    queryKey: ["branding"],
+    queryFn: () =>
+      api<{
+        brandName: string | null;
+        brandLogoUrl: string | null;
+        brandColor: string | null;
+      }>("/api/branding"),
+    staleTime: 5 * 60_000,
+  });
+
   useEffect(() => {
     if (!session.isPending && !session.data) router.replace("/sign-in");
   }, [session.isPending, session.data, router]);
@@ -45,8 +59,20 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       <aside className="flex w-full flex-col gap-4 border-b p-4 md:w-56 md:border-r md:border-b-0">
-        <Link href="/app" className="text-lg font-semibold">
-          Orbyt
+        <Link
+          href="/app"
+          className="flex items-center gap-2 text-lg font-semibold"
+          style={
+            brand.data?.brandColor
+              ? { color: brand.data.brandColor }
+              : undefined
+          }
+        >
+          {brand.data?.brandLogoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element -- the logo is an arbitrary customer URL
+            <img src={brand.data.brandLogoUrl} alt="" className="h-6 w-auto" />
+          )}
+          {brand.data?.brandName ?? "Orbyt"}
         </Link>
         <label className="grid gap-1 text-xs text-zinc-500">
           Workspace

@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     createAdapter(),
+    { rawBody: true }, // Stripe webhook signatures are computed over the exact bytes
   );
   configureApp(app);
   app.enableShutdownHooks(); // closes the DB pool on SIGTERM (docker stop)

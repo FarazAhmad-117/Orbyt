@@ -22,6 +22,7 @@ import { AiService } from "../ai/ai.service";
 import { ChannelsService } from "../channels/channels.service";
 import { DbService } from "../db.service";
 import { EventsService, type DomainEvent } from "../events.service";
+import { metrics } from "../ops/metrics";
 import { systemScope, type Scope } from "../scope";
 import { successors, type WorkflowNode } from "./graph";
 import { runNode, type RunEnv } from "./nodes";
@@ -156,18 +157,89 @@ export class WorkflowService implements OnModuleInit, OnModuleDestroy {
       let ran = 0;
       for (const { id } of rows)
         try {
+          await this.startDue(id, now);
           for (let i = 0; i < 500; i++) {
             if (!(await this.processNext(id, now))) break;
             ran++;
           }
         } catch (err) {
           // One workspace's failure must not stall the others.
+          metrics.inc("orbyt_loop_errors_total", 1, { loop: "workflows" });
           console.error(`[workflows] workspace ${id}:`, err);
         }
+      metrics.inc("orbyt_workflow_steps_total", ran);
+      metrics.set("orbyt_loop_last_run_timestamp_seconds", Date.now() / 1000, {
+        loop: "workflows",
+      });
       return ran;
     } finally {
       this.ticking = false;
     }
+  }
+
+  /**
+   * Starts scheduled workflows that are due. The UPDATE ... RETURNING is the claim: it moves
+   * nextRunAt forward in the same statement, so two API replicas never start the same run.
+   * Missed runs are not replayed (after downtime a workflow runs once, then resumes its cadence).
+   */
+  private async startDue(workspaceId: string, now: Date) {
+    const scope = systemScope(workspaceId);
+    const due = await this.dbs.inWorkspace(scope, (tx) =>
+      tx
+        .update(workflows)
+        .set({
+          nextRunAt: sql`${now.toISOString()}::timestamptz + ${workflows.scheduleMinutes} * interval '1 minute'`,
+        })
+        .where(
+          and(
+            eq(workflows.status, "active"),
+            eq(workflows.triggerType, "schedule"),
+            lte(workflows.nextRunAt, now),
+          ),
+        )
+        .returning(),
+    );
+    for (const wf of due)
+      await this.start(
+        scope,
+        wf,
+        { event: { type: "schedule.tick", data: {} } },
+        wf.graph,
+        now,
+      );
+  }
+
+  /** Public webhook: POST /api/hooks/:workspaceId/workflows/:token. Returns null for an unknown/inactive token. */
+  async startFromWebhook(
+    workspaceId: string,
+    token: string,
+    payload: Record<string, unknown>,
+    contactId: string | null,
+  ) {
+    const scope = systemScope(workspaceId);
+    const [wf] = await this.dbs.inWorkspace(scope, (tx) =>
+      tx
+        .select()
+        .from(workflows)
+        .where(
+          and(
+            eq(workflows.webhookToken, token),
+            eq(workflows.triggerType, "webhook"),
+            eq(workflows.status, "active"),
+          ),
+        ),
+    );
+    if (!wf) return null;
+    const exec = await this.start(scope, wf, {
+      event: { type: "webhook.received", data: payload },
+      contactId,
+    });
+    await this.events.emit(scope, {
+      type: "workflow.started",
+      contactId,
+      data: { workflowId: wf.id, executionId: exec.id },
+    });
+    return exec;
   }
 
   private async processNext(workspaceId: string, now: Date): Promise<boolean> {
