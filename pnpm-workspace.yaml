@@ -1,3 +1,9 @@
 packages:
   - apps/*
   - packages/*
+
+# Skip native build scripts; these tools ship prebuilt binaries via optional deps.
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver

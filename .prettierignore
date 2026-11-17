@@ -5,3 +5,4 @@ dist
 .turbo
 .next
 packages/db/drizzle/meta
+.impeccable

@@ -321,9 +321,10 @@ Time estimates assume a small team (founder + 1–2 contributors) working part-t
 - [ ] Finalize name: domain, GitHub org, npm scope, social handles, trademark search (see §14)
 - [ ] Create GitHub org + repo, AGPL `LICENSE`, `CLA.md`, CLA bot, `CONTRIBUTING.md`, `SECURITY.md`
 - [x] Monorepo scaffold (pnpm + Turborepo), CI (format, typecheck, test, build; ESLint arrives with the first app)
-- [ ] Docker Compose: Postgres, Redis, api, worker, web (Postgres + Redis done; object storage deferred — MinIO images are gone, see §15 Q9)
+- [ ] Docker Compose: Postgres, Redis, api, worker, web (Postgres + Redis done; object storage deferred — MinIO images are gone, see §15 Q9; api/web Dockerfiles exist behind the opt-in `apps` profile but are **unverified** — the image build failed on the dev machine with a TLS error reaching the npm registry (likely HTTPS interception); verify in CI or on another network; worker comes with Phase 2)
 - [x] Choose ORM; write RLS helper + a cross-tenant test — **Drizzle**; `packages/db` (`withWorkspace()`, forced RLS on `contacts`, 7 isolation tests incl. a guard that fails if any `workspace_id` table lacks RLS)
-- [ ] Decide auth library; basic design system (Tailwind + shadcn)
+- [ ] Decide auth library — **still open**. Basic design system **done**: Tailwind v4 + shadcn/ui (`base-nova`) in `apps/web`; `apps/api` = NestJS + Fastify with `GET /health`
+- Note: TypeScript is pinned to 6.x because typescript-eslint does not support TS 7 yet (re-check when it does)
 - [ ] Study Warmbly, Twenty, Dittofeed, Mautic for UX and architecture ideas (copy code only if the license is compatible and quality is verified — see §4.7)
 - [ ] **Start Google OAuth app + restricted-scope (CASA) review prep** — longest lead time in the plan; needs domain, privacy policy, ToS
 

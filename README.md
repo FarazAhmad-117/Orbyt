@@ -10,7 +10,9 @@ agents, in one self-hostable product. (Working name — see the plan, §14.)
 
 ```sh
 pnpm install
-docker compose up -d     # Postgres :5432, Redis :6379
+docker compose up -d     # infra only: Postgres :5432, Redis :6379
+pnpm --filter @orbyt/api dev   # API on :3001 (GET /health)
+pnpm --filter @orbyt/web dev   # Web on :3000
 pnpm typecheck && pnpm build && pnpm test
 ```
 
