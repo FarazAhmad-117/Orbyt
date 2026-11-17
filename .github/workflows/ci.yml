@@ -8,6 +8,19 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://orbyt:orbyt@localhost:5432/orbyt
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: orbyt
+          POSTGRES_PASSWORD: orbyt
+          POSTGRES_DB: orbyt
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U orbyt -d orbyt"
+          --health-interval 5s --health-timeout 3s --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4 # version comes from package.json "packageManager"

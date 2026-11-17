@@ -1,0 +1,27 @@
+{
+  "name": "@orbyt/db",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.4",
+    "pg": "^8.23.1",
+    "uuidv7": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "vitest": "^5.1.0"
+  }
+}

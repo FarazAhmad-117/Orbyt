@@ -4,3 +4,4 @@ pnpm-lock.yaml
 dist
 .turbo
 .next
+packages/db/drizzle/meta
