@@ -1,0 +1,6 @@
+LICENSE
+pnpm-lock.yaml
+*.md
+dist
+.turbo
+.next
