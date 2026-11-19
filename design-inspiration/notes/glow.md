@@ -1,0 +1,12 @@
+# glow
+- **Look:** Clean and fintech-bright; white and pale grey with a confident blue. Light mode.
+- **Palette:** #F6F6F6 and #FFFFFF surfaces, #0B1215 ink, blue #0A84F0 for accent words, buttons and one feature card. Card art uses gold and black as tier colours.
+- **Type:** Modern sans. Hero is about 64px, medium weight, with the second line in accent blue. Body is about 16px grey.
+- **Hero:** Left column with rating chips, headline, paragraph and two buttons; right column shows a large phone mockup. Trust line with avatars sits below.
+- **Sections worth stealing as ideas:**
+  - Full-width gradient feature card with a single short claim and a list of checks.
+  - Three-up tile grid with an icon, title and line of copy in each.
+  - Stacked 3D card render beside a tier list with small coloured dots.
+  - Two-tone heading that puts the key phrase in accent colour.
+- **Mobile:** Stacks; the phone mockup is cut off at the bottom. Works, but several tiles have blank illustration areas.
+- **Avoid:** Many feature tiles show empty illustration slots, which looks broken, and a floating badge covers content.

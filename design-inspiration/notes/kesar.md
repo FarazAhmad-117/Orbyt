@@ -1,0 +1,11 @@
+# kesar
+- **Look:** Soft, warm, contemplative; lavender atmosphere, light mode, low-to-medium density.
+- **Palette:** Lavender hero #EDE8F5, white sections, card tint #F3EFFB, violet #6D45D6 primary, deep plum #2A1B4A text. Violet is the single accent (keyword, buttons, eyebrows, active tabs); beige photos add warmth.
+- **Type:** Humanist geometric sans; medium-weight headline with one violet word; small tracked uppercase violet eyebrows.
+- **Hero:** Centred eyebrow, two-line headline, solid violet CTA with a text-link secondary, then a tabbed "playground" mock with floating context cards.
+- **Sections worth stealing as ideas:**
+  - Tilted card grid with a photo band and numbered badge.
+  - 01/02/03 step tabs with a large text column and matching preview.
+  - Feature trio, each with a small illustration (tool orbit, checklist, stacked notes).
+- **Mobile:** Playground and feature stacks go to one column; spacing holds up well.
+- **Avoid:** Lavender panels blur sections together; faint background decorations add noise.

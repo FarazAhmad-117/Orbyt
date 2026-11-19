@@ -1,0 +1,11 @@
+# jupitera
+- **Look:** Technical and sharp; black and off-white sections alternate. Mixed dark and light.
+- **Palette:** #000000 and #F5F5F5 base, white text, cyan #3CE0E0 striped panels as the main graphic accent. Colour is restrained; the cyan appears in one feature visual.
+- **Type:** Pixel-like mono display face at about 64px, light weight, for headlines. Body is a clean sans at about 16px, light grey on black.
+- **Hero:** Centred display headline, short subline, a plain white rectangular CTA, then a row of partner logos.
+- **Sections worth stealing as ideas:**
+  - Three-up cards with terminal-style UI snippets above numbered captions.
+  - Numbered rows, each with a striped visual panel beside it and short numbered bullets.
+  - Light section with three numbered steps beside a phone mockup on a faint grid.
+- **Mobile:** Headline and CTA stack cleanly, but logos render as broken images and a floating badge covers the headline. Partly broken.
+- **Avoid:** Broken logo images on mobile, and small grey body text on black that is hard to read.

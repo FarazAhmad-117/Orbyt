@@ -1,0 +1,11 @@
+# orbixai
+- **Look:** Bold and dense; cool off-white with visible hairline grid. Light.
+- **Palette:** #F3F3F8 canvas, navy #05294A headings, orange #FF5A1F to red gradient for CTAs and accent words. Accent limited to eyebrows, highlight words and buttons.
+- **Type:** Bold grotesk headings, about 64px, with one italic serif orange accent word per headline. Eyebrows are small uppercase orange with slashes. Body is light grey, about 18px.
+- **Hero:** Centred headline, gradient CTA beside an outlined secondary, large dashboard screenshot, then a logo trust strip.
+- **Sections worth stealing as ideas:**
+  - Bordered feature grid, each cell with a small illustration.
+  - Three-step row with circular icon badges.
+  - Alternating text and chart rows.
+- **Mobile:** Stacks cleanly with full-width CTAs; screenshot gets small. Works.
+- **Avoid:** Floating promo chips over the hero and screenshot clutter the first view.

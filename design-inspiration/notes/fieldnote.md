@@ -1,0 +1,11 @@
+# fieldnote
+- **Look:** bold, technical, field-ready; medium density; dark hero over a photo, then a light off-white body.
+- **Palette:** #101010 near-black, #F3F4EF off-white, #D4F54A acid lime for accent words, CTAs and urgent tags, #8A8A8A grey captions. Lime marks the key phrase and primary action.
+- **Type:** tight grotesk for a very large two-line headline with a lime accent phrase. Small monospace uppercase labels for metadata, timestamps and stat captions.
+- **Hero:** left: mono eyebrow, headline, paragraph, lime CTA plus outlined CTA, avatar proof line. Right: vertical timestamped event timeline ending in a dark report-sent card as the product shot. Stats row below.
+- **Sections worth stealing as ideas:**
+  - Vertical event timeline beside the hero showing the product working step by step.
+  - Ruled grid of stat cells under the hero, with big numbers and mono captions.
+  - Mono strip under the nav listing key claims as short tags.
+- **Mobile:** works; timeline stacks under the CTAs, stats become a 2x2 grid.
+- **Avoid:** lower sections did not render in the capture, stock hard-hat photos feel generic, and tiny mono text is hard to read.

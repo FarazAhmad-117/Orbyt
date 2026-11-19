@@ -1,0 +1,11 @@
+# audia
+- **Look:** Dark, calm, demo-led; near-black with a soft emerald light beam.
+- **Palette:** Near-black #0A0A0A, card #111111, emerald #3DBE8B for CTA, ticks and the highlighted comparison column, white headings, grey body. Accent is limited to CTA and positive states.
+- **Type:** Modern grotesk; large bold tight hero, bold medium section heads, light-grey regular body.
+- **Hero:** Small "Live Demo" pill, bold two-line headline, short intro, white pill CTA. Right: phone mock with a working-looking form and small tilted emerald tags.
+- **Sections worth stealing as ideas:**
+  - Two-column comparison (human option versus product) with tick and cross rows.
+  - Fanned, tilted step cards for a build process.
+  - Integration logos around a hub, placed inside a phone frame.
+- **Mobile:** Hero, phone and comparison stack into one column; reads well.
+- **Avoid:** Generic green stat strip without context; sparse empty areas in the desktop capabilities section.

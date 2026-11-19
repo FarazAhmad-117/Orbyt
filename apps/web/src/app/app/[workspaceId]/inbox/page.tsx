@@ -134,8 +134,8 @@ export default function InboxPage() {
               <button
                 onClick={() => open(c)}
                 aria-current={selected === c.id ? "true" : undefined}
-                className={`w-full rounded-md border p-3 text-left text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 ${
-                  selected === c.id ? "bg-zinc-100 dark:bg-zinc-800" : ""
+                className={`w-full rounded-md border p-3 text-left text-sm hover:bg-muted ${
+                  selected === c.id ? "bg-muted" : ""
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -153,24 +153,28 @@ export default function InboxPage() {
                       {c.aiLabel.replace("_", " ")}
                     </Badge>
                   )}
-                  <span className="ml-auto shrink-0 text-xs text-zinc-500">
+                  <span className="ml-auto shrink-0 text-xs text-muted-foreground">
                     {new Date(c.lastMessageAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="truncate">{c.subject}</div>
-                <div className="truncate text-zinc-500">{c.snippet}</div>
+                <div className="truncate text-muted-foreground">
+                  {c.snippet}
+                </div>
               </button>
             </li>
           ))}
           {list.data && list.data.items.length === 0 && (
-            <li className="text-sm text-zinc-500">Nothing here.</li>
+            <li className="text-sm text-muted-foreground">Nothing here.</li>
           )}
         </ul>
 
         <Card>
           <CardContent className="grid gap-4 pt-6">
             {!selected && (
-              <p className="text-sm text-zinc-500">Select a conversation.</p>
+              <p className="text-sm text-muted-foreground">
+                Select a conversation.
+              </p>
             )}
             {thread.data && (
               <>
@@ -219,9 +223,9 @@ export default function InboxPage() {
                   {thread.data.messages.map((m) => (
                     <article
                       key={m.id}
-                      className={`rounded-md border p-3 text-sm ${m.direction === "out" ? "bg-zinc-50 dark:bg-zinc-900" : ""}`}
+                      className={`rounded-md border p-3 text-sm ${m.direction === "out" ? "bg-muted" : ""}`}
                     >
-                      <div className="mb-1 flex gap-2 text-xs text-zinc-500">
+                      <div className="mb-1 flex gap-2 text-xs text-muted-foreground">
                         <span>
                           {m.direction === "out" ? "You" : m.fromEmail}
                         </span>

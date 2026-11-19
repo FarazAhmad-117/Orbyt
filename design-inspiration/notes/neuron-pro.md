@@ -1,0 +1,11 @@
+# neuron-pro
+- **Look:** sharp, dark, product-forward; dense but well ordered. Dark mode.
+- **Palette:** near-black `#050507`, panel `#111114`, white text `#FFFFFF`, crimson `#E11D48`. Crimson is the logo, the primary pricing CTA and the "pick" highlight; small green and blue used only for status chips inside the product mock.
+- **Type:** wide, heavy geometric sans for headlines with tight leading. Body is medium-weight sans in light grey. Small pill labels in uppercase for feature categories.
+- **Hero:** centred badge, large three-line headline, short subline, white pill CTA with a "no card" note. The product dashboard sits below in a large rounded frame, followed by a logo row.
+- **Sections worth stealing as ideas:**
+  - Stacked feature cards alternating text and product mock, each with a coloured category pill.
+  - Three-tier pricing with a monthly/yearly toggle and the recommended tier filled in the accent colour.
+  - Trust logo row directly under the hero product shot.
+- **Mobile:** the dashboard shrinks to a small framed image; feature cards stack and keep their pills.
+- **Avoid:** the category pills use many different colours (violet, green, red, amber), which gets busy; the product mock is small at mobile width.

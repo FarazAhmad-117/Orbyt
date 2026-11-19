@@ -1,0 +1,11 @@
+# weir
+- **Look:** airy, light, precise fintech-infrastructure; low density; light mode.
+- **Palette:** #FAFAFA page, #111111 text, #6B6B6B secondary text, #2563EB blue accent, #E9EEF8 pale blue tints. Blue marks secondary links and live data graphics; primary CTAs stay black.
+- **Type:** neo-grotesk sans. Hero headline very large (about 76px), medium weight, tight tracking. Body regular, grey, about 18px. Monospace for small technical labels.
+- **Hero:** two columns. Left: headline, paragraph, black CTA plus text link, then a row of trust stats. Right: animated route and candlestick visual with a floating "routing" status card.
+- **Sections worth stealing as ideas:**
+  - 2x2 grid of illustrated product cards, each with a centred illustration, title, one line and a link.
+  - Numbered checkout-style panels that walk through accept, route, pay.
+  - Floating status card over a decorative visual, with live state in monospace.
+- **Mobile:** stacks cleanly; hero visual drops below the CTA and shrinks; step panels become full-width cards.
+- **Avoid:** a large empty gap under the hero in the desktop capture (lazy content not loaded), so the middle of the page looks sparse.

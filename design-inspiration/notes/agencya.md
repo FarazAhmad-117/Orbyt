@@ -1,0 +1,12 @@
+# agencya
+- **Look:** soft, airy, glossy; light mode with low-to-medium density and a frosted-glass feel.
+- **Palette:** pale mist #F5F7F7 to #EEF1F1 gradient, near-black #1F2A2E for buttons, teal-grey #2F6F73 as a soft glow and icon accent, body grey #555. Accent appears mainly in halos and stat rings.
+- **Type:** geometric grotesk, display set light-to-regular at about 80px; one word in each headline sits in a glass pill. Body is neutral sans in mid grey.
+- **Hero:** centred eyebrow pill, large headline with a glass-pill highlight on one phrase, grey subcopy, ghost plus dark CTA, and a logo marquee beneath.
+- **Sections worth stealing as ideas:**
+  - Big centred statement with grey-highlighted key words, followed by three stat pills.
+  - Bento service cards mixing photo and text tiles in unequal sizes.
+  - Numbered 2x2 process cards with glowing number badges.
+  - Benefits bento with mismatched card heights.
+- **Mobile:** single column; service cards and stats stack. Works, with some loss of glass depth.
+- **Avoid:** stock photography feels generic; many pill buttons compete; grey text on grey cards is low contrast.

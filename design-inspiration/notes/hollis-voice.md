@@ -1,0 +1,12 @@
+# hollis-voice
+- **Look:** warm, friendly, confident; medium density, light mode with a cream tint.
+- **Palette:** cream #FBF7F4 and white, brand red-orange #D24A2C as the single accent, near-black #1A1A1A text, muted grey #6B6B6B. Accent is used on CTAs, key words and active states.
+- **Type:** bold tight grotesk headlines, with the second line set in the accent colour. Body is regular sans in grey at a comfortable size.
+- **Hero:** split layout. Left has a pill eyebrow, a two-line headline, copy, a solid accent CTA plus outline CTA, and tick-mark reassurance points. Right is a tinted panel with a large central mic button and waveform, plus a floating chat bubble.
+- **Sections worth stealing as ideas:**
+  - Thin three-cell strip of capability labels directly under the hero.
+  - Bento features pairing a calendar mock with a handoff-chat mock.
+  - Three numbered steps in a ruled row.
+  - Four-column testimonial grid mixing quote tiles with portrait photos.
+- **Mobile:** single column, full-width CTAs, demo panel stacks under the text. Works well.
+- **Avoid:** the ruled hairline grid frames the page but adds visual noise; stock portraits feel generic.

@@ -1,0 +1,12 @@
+# ternfold
+- **Look:** Minimal, calm, light; low-medium density with generous whitespace.
+- **Palette:** #FBFBF8 paper, #15151A ink, #6B6FD6 periwinkle for mono labels, #B9B7F5 lavender button, #1A2050 navy section.
+- **Type:** Light-weight grotesk headlines, large and tight; uppercase mono eyebrows in periwinkle; sans body around 16px.
+- **Hero:** Centred eyebrow, large two-line headline, one short line of copy, and a single black CTA. Below it, a dot-grid panel holds an interactive "workflow studio" sample.
+- **Sections worth stealing as ideas:**
+  - Interactive sample panel as a live demo of the product
+  - Three-step numbered workflow with alternating text and visual rows
+  - Simulator with tabs to switch between example scenarios
+  - Three-column principles row with small line icons
+- **Mobile:** Stacks well and the sample panel keeps its dot grid. Works.
+- **Avoid:** Many small mono labels become visual noise; figure captions are very small.

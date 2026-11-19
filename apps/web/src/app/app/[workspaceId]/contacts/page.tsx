@@ -71,17 +71,34 @@ export default function ContactsPage() {
   const rows = contacts.data?.pages.flatMap((p) => p.items) ?? [];
 
   return (
-    <div className="grid gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <h1 className="mr-auto text-2xl font-semibold">Contacts</h1>
+    <div className="grid gap-6">
+      <div className="flex flex-wrap items-end gap-2">
+        <div className="mr-auto grid gap-1.5">
+          <h1>Contacts</h1>
+          <p className="text-sm text-muted-foreground">
+            Everyone you can reach from this workspace
+            {rows.length > 0 && (
+              <>
+                {" "}
+                ·{" "}
+                <span className="tabular font-semibold text-foreground">
+                  {rows.length}
+                  {contacts.hasNextPage ? "+" : ""}
+                </span>{" "}
+                {q ? "found" : "listed"}
+              </>
+            )}
+            .
+          </p>
+        </div>
         <Input
           aria-label="Search contacts"
-          placeholder="Search…"
-          className="w-56"
+          placeholder="Search by email or name"
+          className="w-64"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <label className="inline-flex cursor-pointer items-center rounded-md border px-3 py-2 text-sm">
+        <label className="inline-flex h-9 cursor-pointer items-center rounded-md border border-input bg-card px-3.5 text-sm font-semibold transition-colors hover:bg-muted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-signal">
           Import CSV
           <input
             type="file"
@@ -97,11 +114,14 @@ export default function ContactsPage() {
         </label>
         <a
           href={`${base}/contacts/export`}
-          className="rounded-md border px-3 py-2 text-sm"
+          className="inline-flex h-9 items-center rounded-md border border-input bg-card px-3.5 text-sm font-semibold transition-colors hover:bg-muted"
         >
           Export CSV
         </a>
-        <Button onClick={() => setAdding((v) => !v)}>
+        <Button
+          variant={adding ? "outline" : "signal"}
+          onClick={() => setAdding((v) => !v)}
+        >
           {adding ? "Cancel" : "Add contact"}
         </Button>
       </div>
@@ -148,44 +168,63 @@ export default function ContactsPage() {
         </Card>
       )}
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Email</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Tags</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.map((c) => (
-            <TableRow key={c.id}>
-              <TableCell>
-                <Link
-                  className="underline"
-                  href={`/app/${workspaceId}/contacts/${c.id}`}
-                >
-                  {c.email}
-                </Link>
-              </TableCell>
-              <TableCell>{c.name}</TableCell>
-              <TableCell className="space-x-1">
-                {c.tags.map((t) => (
-                  <Badge key={t.id} variant="secondary">
-                    {t.name}
-                  </Badge>
-                ))}
-              </TableCell>
-            </TableRow>
-          ))}
-          {!contacts.isLoading && rows.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={3} className="text-center text-zinc-500">
-                No contacts yet.
-              </TableCell>
-            </TableRow>
+      {!contacts.isLoading && rows.length === 0 ? (
+        <div className="grid max-w-2xl gap-5 rounded-lg border border-dashed border-input bg-card p-8">
+          <div className="grid gap-1.5">
+            <p className="text-xl font-extrabold tracking-[-0.01em] font-stretch-condensed">
+              {q ? `Nothing matches “${q}”.` : "No contacts yet."}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {q
+                ? "Check the spelling, or search by part of an email address."
+                : "Add people one by one, import a CSV (GoHighLevel exports work too), or let a form on your website collect them."}
+            </p>
+          </div>
+          {!q && (
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={() => setAdding(true)}>Add a contact</Button>
+              <Link
+                href={`/app/${workspaceId}/forms`}
+                className="inline-flex h-9 items-center rounded-md border border-input bg-card px-3.5 text-sm font-semibold transition-colors hover:bg-muted"
+              >
+                Create a form
+              </Link>
+            </div>
           )}
-        </TableBody>
-      </Table>
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Email</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Tags</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((c) => (
+              <TableRow key={c.id}>
+                <TableCell className="font-medium">
+                  <Link
+                    className="decoration-signal underline-offset-4 hover:underline"
+                    href={`/app/${workspaceId}/contacts/${c.id}`}
+                  >
+                    {c.email}
+                  </Link>
+                </TableCell>
+                <TableCell>{c.name}</TableCell>
+                <TableCell className="space-x-1">
+                  {c.tags.map((t) => (
+                    <Badge key={t.id} variant="secondary">
+                      {t.name}
+                    </Badge>
+                  ))}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
       {contacts.hasNextPage && (
         <Button
           variant="outline"

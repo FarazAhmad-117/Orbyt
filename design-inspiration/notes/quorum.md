@@ -1,0 +1,11 @@
+# quorum
+- **Look:** Dark, bold, glossy; high contrast with colourful service columns; medium density.
+- **Palette:** #000000 base, #7EE8DC teal accent, #FFFFFF cards, #FFC857 amber, #FF9FB0 pink, #2A1F0F dark brown. Teal is the accent; the other colours code each service column.
+- **Type:** Large grotesk sans, semi-bold, tight leading; accent word set in teal; small uppercase labels.
+- **Hero:** Left-aligned headline with an accent word, short paragraph, pill CTA and a play icon. Right side has a glossy 3D shield object. Stat cards sit below.
+- **Sections worth stealing as ideas:**
+  - Glass 3D object as the hero visual
+  - Three service cards, each in its own colour family with a list of sub-services
+  - Value tiles (clarity, partnership, precision) with icon discs above a logo strip
+- **Mobile:** The hero object shrinks above the headline and cards go single column. Works.
+- **Avoid:** The desktop section after the hero rendered fully black in the capture (unverified); the colour-coded service columns feel loud.

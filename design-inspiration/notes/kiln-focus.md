@@ -1,0 +1,12 @@
+# kiln-focus
+- **Look:** Warm, soft and energetic; cream paper with a coral glow behind the hero. Light, with one dark card.
+- **Palette:** #FAF6F2 cream, #1C1714 ink, coral #E0553A for accent word, buttons and the active timer, peach #F4B8A4 washes. Accent is the single hue, reused in stat band.
+- **Type:** Geometric sans. Hero is bold, about 80px, tight tracking, with one coral word. Body is regular grey, about 18px.
+- **Hero:** Centred pill badge, big headline, two-line subline, filled coral CTA beside a ghost button, small avatar proof line, then a large app window with a live timer.
+- **Sections worth stealing as ideas:**
+  - Three numbered step cards with large faded numerals.
+  - Bento of mixed tiles: a heatmap widget, a tall dark feature card and two short cards.
+  - Full-width coral band with four large stats in a row.
+  - Row of small icon tiles showing integrations.
+- **Mobile:** Stacks cleanly; the timer window scales down and stays legible. Works well.
+- **Avoid:** Floating notification cards overlapping the window make the desktop hero busy.

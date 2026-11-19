@@ -1,0 +1,12 @@
+# aetherfield-template
+- **Look:** Airy, editorial, light, medium density; sky-gradient hero fading to paper cream.
+- **Palette:** #A8D4FF sky, #F7EFE0 cream, #F6F7FB section tint, #000000 buttons, #2B7FE6 halftone accent. Accent appears only in duotone photography.
+- **Type:** High-contrast serif headlines with tight sans for section titles; sans body around 16px; mono for button labels.
+- **Hero:** Centred serif headline over a gradient sky, with a short subline and two black rectangular CTAs. A tilted, framed dashboard screenshot sits below as the product shot.
+- **Sections worth stealing as ideas:**
+  - Tilted product screenshot as the hero visual
+  - Three value cards on a textured band
+  - Journal list with angled thumbnails and metadata lines
+  - Testimonial with a duotone portrait beside a large quote
+- **Mobile:** Stacks cleanly, but the hero image failed to load in the capture (broken alt text), so the product shot is unverified on mobile.
+- **Avoid:** Halftone and diagonal-stripe textures add noise; the hatched side gutters look decorative rather than purposeful.

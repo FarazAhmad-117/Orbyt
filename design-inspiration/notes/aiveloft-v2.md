@@ -1,0 +1,11 @@
+# aiveloft-v2
+- **Look:** clean, calm, professional consultancy; medium density; light mode with alternating dark bands.
+- **Palette:** #FFFFFF and #F6F7FA surfaces, #111318 text and dark sections, #5B5BD6 indigo accent for CTAs, one headline phrase and checkmarks, #9B9BEA soft indigo on dark.
+- **Type:** neo-grotesk sans; bold, tightly tracked three-line headlines with the last phrase in accent. Body grey, about 17px. Uppercase small eyebrows with a dot.
+- **Hero:** left: eyebrow, headline, paragraph, filled plus outlined CTAs, three checkmark promises. Right: automation flow card with four numbered steps and two stat tiles.
+- **Sections worth stealing as ideas:**
+  - Split heading: large headline left, grey paragraph right, separated by a hairline.
+  - Dark feature block with a numbered step flow inside a card.
+  - Outcome cards with a target-outcome row and a mini example flow.
+- **Mobile:** stacks cleanly; flow card keeps its steps; principle cards become one column.
+- **Avoid:** heavy illustrative disclaimers, very small grey text in cards, and some headings fall back to a system font.

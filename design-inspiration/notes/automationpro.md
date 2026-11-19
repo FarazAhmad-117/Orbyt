@@ -1,0 +1,11 @@
+# automationpro
+- **Look:** Premium, technical, crisp; dark hero in a light-grey frame, then airy light sections.
+- **Palette:** Light grey #F4F4F5, near-black #0B0B0C hero, white cards, mono grey #8A8A93 labels, green status #34D399. A pastel gradient (lilac #B9A8FF, peach #FFD6A5, pink #FFC1D9) appears only in the headline and connector lines.
+- **Type:** Tight grotesque headlines with a lighter second line; small uppercase monospace eyebrows that feel like tooling.
+- **Hero:** Left gradient headline, intro, pale and dark pill CTAs. Right: a live-looking workflow diagram (trigger cards, central AI node, action cards with glowing connectors).
+- **Sections worth stealing as ideas:**
+  - Hub-and-spoke integration diagram with a use-case tab row beneath.
+  - Side-by-side "by hand" versus "automated" cards with a time and cost footer.
+  - Numbered left list driving a large live panel on the right.
+- **Mobile:** Diagram condenses into stacked cards around the central node; works.
+- **Avoid:** Tiny mono labels have low contrast on grey sections.

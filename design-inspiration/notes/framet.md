@@ -1,0 +1,11 @@
+# framet
+- **Look:** Dark and glossy; pure black canvas with soft smoky shapes behind the hero. Dark mode.
+- **Palette:** #000000 canvas, #111111 cards, white text, coral-red #FF3B5C to peach #FFA07A gradient for the hero keyword and CTA. Accent is used on the headline word, primary buttons and small chips.
+- **Type:** Bold neo-grotesk sans. Hero is about 80px with the first keyword in a gradient. Body is light grey, about 18px.
+- **Hero:** Large left-aligned headline, a short paragraph with a pair of buttons on the right, then two tall rounded panels side by side: product UI on the left, a photo with a floating stat card on the right.
+- **Sections worth stealing as ideas:**
+  - Two-card row where each card has a centred illustration with floating label pills above its title.
+  - Wrapping chip cloud of feature names as a quick summary.
+  - Alternating split rows of image and copy.
+- **Mobile:** Headline and buttons stack; the two hero panels shrink and overlap a floating card. Large blank gaps appear between sections.
+- **Avoid:** Empty voids from lazy-loaded sections, a floating promo card over the hero, and generic placeholder logo words.

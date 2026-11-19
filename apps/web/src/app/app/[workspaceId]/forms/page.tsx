@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,19 +34,19 @@ function Submissions({ base, id }: { base: string; id: string }) {
       api<{ items: Submission[] }>(`${base}/forms/${id}/submissions?limit=10`),
   });
   if (!subs.data?.items.length)
-    return <p className="text-sm text-zinc-500">No submissions yet.</p>;
+    return <p className="text-sm text-muted-foreground">No submissions yet.</p>;
   return (
     <div className="grid gap-1 text-sm">
       {subs.data.items.map((s) => (
         <div key={s.id} className="flex flex-wrap gap-3">
           <span className="font-medium">{s.data.email}</span>
-          <span className="text-zinc-500">
+          <span className="text-muted-foreground">
             {Object.entries(s.data)
               .filter(([k]) => k !== "email")
               .map(([, v]) => v)
               .join(" · ")}
           </span>
-          <span className="ml-auto text-zinc-500">
+          <span className="ml-auto text-muted-foreground">
             {new Date(s.createdAt).toLocaleString()}
           </span>
         </div>
@@ -93,7 +94,7 @@ export default function FormsPage() {
     <div className="grid max-w-3xl gap-6">
       <div>
         <h1 className="text-2xl font-semibold">Forms</h1>
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-muted-foreground">
           Collect leads from any website. Every submission becomes a contact (or
           updates the existing one), gets your tags and can start a workflow.
         </p>
@@ -167,7 +168,7 @@ export default function FormsPage() {
               <Input id="form-tags" name="tags" placeholder="lead, website" />
             </div>
             <fieldset className="flex flex-wrap gap-4 text-sm sm:col-span-2">
-              <legend className="mb-1 text-zinc-500">
+              <legend className="mb-1 text-muted-foreground">
                 Ask for (email is always included)
               </legend>
               {[
@@ -197,7 +198,10 @@ export default function FormsPage() {
       </Card>
 
       {list.data?.length === 0 && (
-        <p className="text-zinc-500">No forms yet.</p>
+        <EmptyState title="No forms yet.">
+          A form on your website turns visitors into contacts, tagged and ready
+          to start a workflow. Create one above.
+        </EmptyState>
       )}
       {list.data?.map((f) => (
         <Card key={f.id}>
@@ -210,7 +214,7 @@ export default function FormsPage() {
               >
                 {f.name}
               </button>
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 {f.submissions} submission(s)
               </span>
               <Badge variant={f.status === "active" ? "default" : "secondary"}>
@@ -241,16 +245,16 @@ export default function FormsPage() {
             {open === f.id && (
               <>
                 <div className="grid gap-1">
-                  <span className="text-zinc-500">
+                  <span className="text-muted-foreground">
                     Paste this into any web page:
                   </span>
                   <pre
-                    className="overflow-x-auto rounded bg-zinc-100 p-3 text-xs dark:bg-zinc-800"
+                    className="overflow-x-auto rounded bg-muted p-3 text-xs"
                     data-testid="embed-html"
                   >
                     {f.embedHtml}
                   </pre>
-                  <span className="text-zinc-500">
+                  <span className="text-muted-foreground">
                     Or post JSON to <code className="break-all">{f.url}</code>
                   </span>
                 </div>

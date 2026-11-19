@@ -1,0 +1,12 @@
+# pretty
+- **Look:** dark, restrained, premium; medium density, dark mode.
+- **Palette:** near-black #0E0E0E base, card grey #1C1C1C, text #E6E6E6 and muted #8A8A8A, one cool blue accent #3B82F6 used sparingly (recommended-plan badge, dots). Mostly monochrome.
+- **Type:** bold tight grotesk headlines around 60px, centred. Body is small light sans in grey.
+- **Hero:** centred headline over a soft radial glow, two CTAs (solid and outline), then a large dark product mock with small floating status cards.
+- **Sections worth stealing as ideas:**
+  - Two-view toggle (for example internal vs client) above one blurred mock that switches state.
+  - Three-up feature cards, each with a small looping illustration and a one-line caption.
+  - Accordion FAQ in full-width rows.
+  - Three-tier pricing with the middle card lifted, labelled "Recommended", with a solid CTA.
+- **Mobile:** single column; feature cards and pricing stack. Product mock shrinks to a readable thumbnail. Works.
+- **Avoid:** grey-on-grey body text is low contrast; pricing feature lists are long and flat; generic placeholder copy.

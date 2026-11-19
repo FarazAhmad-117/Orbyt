@@ -54,12 +54,12 @@ function StepNode({ data, selected }: NodeProps) {
   const d = data as { kind: string; config: Config };
   return (
     <div
-      className={`min-w-44 rounded-md border bg-white p-2 text-xs shadow-sm dark:bg-zinc-900 ${selected ? "ring-2 ring-blue-500" : ""}`}
+      className={`min-w-44 rounded-md border bg-card p-2 text-xs shadow-sm ${selected ? "ring-2 ring-signal" : ""}`}
       data-kind={d.kind}
     >
       {d.kind !== "trigger" && <Handle type="target" position={Position.Top} />}
       <div className="font-medium">{LABELS[d.kind] ?? d.kind}</div>
-      <div className="max-w-52 truncate text-zinc-500">
+      <div className="max-w-52 truncate text-muted-foreground">
         {summary(d.kind, d.config)}
       </div>
       {d.kind === "condition" ? (
@@ -76,7 +76,7 @@ function StepNode({ data, selected }: NodeProps) {
             position={Position.Bottom}
             style={{ left: "72%" }}
           />
-          <div className="mt-1 flex justify-between px-2 text-[10px] text-zinc-500">
+          <div className="mt-1 flex justify-between px-2 text-[10px] text-muted-foreground">
             <span>true</span>
             <span>false</span>
           </div>
@@ -190,7 +190,7 @@ function ConfigForm({
             />,
             "cfg-right",
           )}
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-muted-foreground">
             Connect the green handle for &quot;true&quot; and the other for
             &quot;false&quot;.
           </p>
@@ -412,7 +412,7 @@ function ConfigForm({
             />{" "}
             Ask for JSON
           </label>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-muted-foreground">
             The answer is available to later steps as{" "}
             {"{{steps.<id>.output.text}}"}.
           </p>
@@ -438,7 +438,7 @@ function ConfigForm({
       );
     default:
       return (
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-muted-foreground">
           This is where the workflow starts. Set when it starts above.
         </p>
       );
@@ -452,7 +452,7 @@ export default function WorkflowPage() {
     queryKey: [workspaceId, "workflow", id],
     queryFn: () => api<Workflow>(`/api/w/${workspaceId}/workflows/${id}`),
   });
-  if (wf.isLoading) return <p className="text-zinc-500">Loading…</p>;
+  if (wf.isLoading) return <p className="text-muted-foreground">Loading…</p>;
   if (!wf.data) return <p>Workflow not found.</p>;
   return <Editor wf={wf.data} />;
 }
@@ -622,7 +622,9 @@ function Editor({ wf: initial }: { wf: Workflow }) {
         <Badge variant={wf.data.status === "active" ? "default" : "secondary"}>
           {wf.data.status}
         </Badge>
-        <span className="text-xs text-zinc-500">v{wf.data.version}</span>
+        <span className="text-xs text-muted-foreground">
+          v{wf.data.version}
+        </span>
         <div className="ml-auto flex flex-wrap gap-2">
           <Button onClick={() => save.mutate()} disabled={save.isPending}>
             Save
@@ -645,7 +647,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
       {problems.length > 0 && (
         <ul
           role="alert"
-          className="list-disc rounded-md border border-red-300 bg-red-50 p-3 pl-6 text-sm text-red-800"
+          className="list-disc rounded-md border border-destructive/40 bg-destructive/10 p-3 pl-6 text-sm text-destructive"
         >
           {problems.map((p) => (
             <li key={p}>{p}</li>
@@ -718,7 +720,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
                 </Label>
               )}
               {triggerType === "webhook" && (
-                <p className="break-all text-xs text-zinc-500">
+                <p className="break-all text-xs text-muted-foreground">
                   {wf.data.webhookToken
                     ? `POST ${typeof window === "undefined" ? "" : window.location.origin}/api/hooks/${workspaceId}/workflows/${wf.data.webhookToken}`
                     : "Save to get the webhook URL."}{" "}
@@ -749,7 +751,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
             </CardHeader>
             <CardContent className="grid gap-3">
               {!selectedData && (
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Select a step on the canvas.
                 </p>
               )}
@@ -770,7 +772,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
                       )
                     }
                   />
-                  <p className="text-xs text-zinc-500">
+                  <p className="text-xs text-muted-foreground">
                     Templates: {"{{contact.email}}"},{" "}
                     {"{{contact.name | fallback}}"}, {"{{event.data.title}}"},{" "}
                     {"{{steps.<id>.output.status}}"}
@@ -829,7 +831,7 @@ function Editor({ wf: initial }: { wf: Workflow }) {
             </Button>
           </form>
           {runs.data?.items.length === 0 && (
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-muted-foreground">
               No runs yet. Save, then activate or run it.
             </p>
           )}
@@ -845,9 +847,11 @@ function Editor({ wf: initial }: { wf: Workflow }) {
                   {r.status}
                 </Badge>
                 <span>{new Date(r.startedAt).toLocaleString()}</span>
-                <span className="text-zinc-500">v{r.workflowVersion}</span>
+                <span className="text-muted-foreground">
+                  v{r.workflowVersion}
+                </span>
                 {r.error && (
-                  <span className="truncate text-red-600">{r.error}</span>
+                  <span className="truncate text-destructive">{r.error}</span>
                 )}
               </button>
               {openRun === r.id && detail.data && (
@@ -863,10 +867,10 @@ function Editor({ wf: initial }: { wf: Workflow }) {
                       <Badge variant="secondary">{s.status}</Badge>
                       <span className="font-medium">{s.nodeId}</span>
                       {s.error && (
-                        <span className="text-red-600">{s.error}</span>
+                        <span className="text-destructive">{s.error}</span>
                       )}
                       {s.output && Object.keys(s.output).length > 0 && (
-                        <code className="truncate text-xs text-zinc-500">
+                        <code className="truncate text-xs text-muted-foreground">
                           {JSON.stringify(s.output)}
                         </code>
                       )}

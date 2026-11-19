@@ -1,0 +1,344 @@
+[
+  {
+    "slug": "mintoraa",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/mintoraa/",
+    "preview": "https://super-influence-652106.framer.app/"
+  },
+  {
+    "slug": "taskible",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/taskible/",
+    "preview": "https://taskible.framer.website/"
+  },
+  {
+    "slug": "dashdocs",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/dashdocs/",
+    "preview": "https://dashdocs.framer.website/"
+  },
+  {
+    "slug": "prismo",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/prismo/",
+    "preview": "https://prismo.framer.website/"
+  },
+  {
+    "slug": "shieldos",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/shieldos/",
+    "preview": "https://shieldos.framer.website/"
+  },
+  {
+    "slug": "kestrel-productivity",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/kestrel-productivity/",
+    "preview": "https://kestrel-saas.framer.website/"
+  },
+  {
+    "slug": "aetherfield-template",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/aetherfield-template/",
+    "preview": "https://aetherfield.framer.website/"
+  },
+  {
+    "slug": "weir",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/weir/",
+    "preview": "https://weir.framer.website/"
+  },
+  {
+    "slug": "hypestream",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/hypestream/",
+    "preview": "https://hyperstream.framer.website/"
+  },
+  {
+    "slug": "orbixai",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/orbixai/",
+    "preview": "https://orbixai.framer.website/"
+  },
+  {
+    "slug": "showu",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/showu/",
+    "preview": "https://showu.framer.website/"
+  },
+  {
+    "slug": "pretty",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/pretty/",
+    "preview": "https://ovo-pretty.framer.website/"
+  },
+  {
+    "slug": "cyber-security",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/cyber-security/",
+    "preview": "https://inventive-room-446385.framer.app/"
+  },
+  {
+    "slug": "nexus",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/nexus/",
+    "preview": "https://nexus-template.framer.website/"
+  },
+  {
+    "slug": "volchat",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/volchat/",
+    "preview": "https://volchat.framer.website/"
+  },
+  {
+    "slug": "framet",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/framet/",
+    "preview": "https://framet.framer.website/"
+  },
+  {
+    "slug": "bartix",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/bartix/",
+    "preview": "https://bartix.framer.website/"
+  },
+  {
+    "slug": "anvill",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/anvill/",
+    "preview": "https://anvil.framer.media/"
+  },
+  {
+    "slug": "spark-agent",
+    "category": "saas",
+    "marketplace": "https://www.framer.com/marketplace/templates/spark-agent/",
+    "preview": "https://spark-saas.framer.website/"
+  },
+  {
+    "slug": "landeros",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/landeros/",
+    "preview": "https://landeros.framer.website/"
+  },
+  {
+    "slug": "axnix",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/axnix/",
+    "preview": "https://axnix.framer.website/"
+  },
+  {
+    "slug": "jupitera",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/jupitera/",
+    "preview": "https://jupitera.framer.website/"
+  },
+  {
+    "slug": "cinder",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/cinder/",
+    "preview": "https://cinderlabs.framer.website/"
+  },
+  {
+    "slug": "agencya",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/agencya/",
+    "preview": "https://agencee-template.framer.website/"
+  },
+  {
+    "slug": "bezor",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/bezor/",
+    "preview": "https://empathic-eyes-942952.framer.app/"
+  },
+  {
+    "slug": "agentra",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/agentra/",
+    "preview": "https://agentra-wbs.framer.website/"
+  },
+  {
+    "slug": "automationpro",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/automationpro/",
+    "preview": "https://automationpro.framer.website/"
+  },
+  {
+    "slug": "kova-agent",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/kova-agent/",
+    "preview": "https://kova-ai.framer.website/"
+  },
+  {
+    "slug": "neuron-pro",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/neuron-pro/",
+    "preview": "https://neuronpro.framer.website/"
+  },
+  {
+    "slug": "amanat-template",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/amanat-template/",
+    "preview": "https://amanatstudio.framer.website/"
+  },
+  {
+    "slug": "quorum",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/quorum/",
+    "preview": "https://quorum.framer.website/"
+  },
+  {
+    "slug": "fieldnote",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/fieldnote/",
+    "preview": "https://fieldnote-template.framer.website/"
+  },
+  {
+    "slug": "kesar",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/kesar/",
+    "preview": "https://kesar-rokad.framer.website/"
+  },
+  {
+    "slug": "inkling-waitlist",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/inkling-waitlist/",
+    "preview": "https://inking-ai.framer.website/"
+  },
+  {
+    "slug": "sector",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/sector/",
+    "preview": "https://sector.framer.website/"
+  },
+  {
+    "slug": "hollis-voice",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/hollis-voice/",
+    "preview": "https://hollis.framer.website/"
+  },
+  {
+    "slug": "ternfold",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/ternfold/",
+    "preview": "https://ternfold.framer.website/"
+  },
+  {
+    "slug": "aiveloft-v2",
+    "category": "ai",
+    "marketplace": "https://www.framer.com/marketplace/templates/aiveloft-v2/",
+    "preview": "https://aiveloft-v2.framer.website/"
+  },
+  {
+    "slug": "lore",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/lore/",
+    "preview": "https://lore-app.framer.website/"
+  },
+  {
+    "slug": "kiln-focus",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/kiln-focus/",
+    "preview": "https://kilnfocus.framer.website/"
+  },
+  {
+    "slug": "fantom",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/fantom/",
+    "preview": "https://fantom.framer.website/"
+  },
+  {
+    "slug": "cortado",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/cortado/",
+    "preview": "https://cortado.framer.website/"
+  },
+  {
+    "slug": "uneo",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/uneo/",
+    "preview": "https://uneo.framer.website/"
+  },
+  {
+    "slug": "tandem",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/tandem/",
+    "preview": "https://tandem-template.framer.website/"
+  },
+  {
+    "slug": "tender-service",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/tender-service/",
+    "preview": "https://bisque-posterity-745237.framer.app/"
+  },
+  {
+    "slug": "glow",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/glow/",
+    "preview": "https://glow.framer.media/"
+  },
+  {
+    "slug": "saro",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/saro/",
+    "preview": "https://sarofinance.framer.website/"
+  },
+  {
+    "slug": "sideline",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/sideline/",
+    "preview": "https://healthy-imaginations-731028.framer.app/"
+  },
+  {
+    "slug": "avenai",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/avenai/",
+    "preview": "https://aven.framer.media/"
+  },
+  {
+    "slug": "vantage-control",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/vantage-control/",
+    "preview": "https://vantagecontrol.framer.website/"
+  },
+  {
+    "slug": "audia",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/audia/",
+    "preview": "https://audia.framer.website/"
+  },
+  {
+    "slug": "nexanai",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/nexanai/",
+    "preview": "https://nexenai.framer.website/"
+  },
+  {
+    "slug": "automation-studio",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/automation-studio/",
+    "preview": "https://tender-celery-477359.framer.app/"
+  },
+  {
+    "slug": "marqo",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/marqo/",
+    "preview": "https://marqo.framer.website/"
+  },
+  {
+    "slug": "aurelo-saving",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/aurelo-saving/",
+    "preview": "https://aurelosaving.framer.website/"
+  },
+  {
+    "slug": "lanx",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/lanx/",
+    "preview": "https://landerx.framer.website/"
+  },
+  {
+    "slug": "dazura",
+    "category": "software",
+    "marketplace": "https://www.framer.com/marketplace/templates/dazura/",
+    "preview": "https://funky-elements-040814.framer.app/"
+  }
+]

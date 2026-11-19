@@ -1,0 +1,12 @@
+# amanat-template
+- **Look:** dark, precise, trustworthy; medium density, dark mode with a green-black base and subtle grid.
+- **Palette:** near-black green #0A1412, mint #3DE0B0 as primary accent, peach #F0B37E and coral #F08080 as warning or risk accents, grey text #A8B3B0.
+- **Type:** bold grotesk headlines with one italic serif word in mint or peach for contrast; small uppercase monospace labels with wide tracking for eyebrows and data.
+- **Hero:** left column with pill eyebrow, headline with an italic accent word, short copy, solid mint plus ghost CTA. Right side is an orbital diagram with floating status cards.
+- **Sections worth stealing as ideas:**
+  - Two-panel comparison: left a mono activity log, right the simplified user-facing notification.
+  - Five-pillar card row, each with a large italic initial and a question line.
+  - Gradient risk-scale bar with numbered levels underneath.
+  - Vertical timeline of numbered nodes with three columns (what you give, what you get).
+- **Mobile:** stacks well; orbital graphic scales down and the timeline stays readable. Works.
+- **Avoid:** small mono text at low contrast is hard to read; many gradients can feel busy.

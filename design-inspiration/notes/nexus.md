@@ -1,0 +1,11 @@
+# nexus
+- **Look:** bold, energetic, high-contrast; medium-high density; dark hero flowing into a light section, then dark again.
+- **Palette:** #151515 background, #FFFFFF text, #8A8A8A muted text, #C8F542 lime accent, #1F1F1F card surfaces. Lime marks one accent word per headline, the badge and the primary CTA.
+- **Type:** geometric sans (DM Sans-like). Hero headline huge, centred, semi-bold, tight; one lime word. Body regular grey, about 18px.
+- **Hero:** centred stack: lime pill badge, large headline, subhead, lime pill CTA with a no-card note. A framed product screenshot sits below, overlapped by the next section.
+- **Sections worth stealing as ideas:**
+  - Bento grid of stat tiles mixing dark, solid-lime and white cards, some with photos.
+  - 4-up feature grid of small preview cards, followed by two wider cards.
+  - Dark logo marquee with rounded logo circles as social proof.
+- **Mobile:** single column with hamburger nav; smaller framed screenshot; stacked feature cards. Works.
+- **Avoid:** placeholder logos in the logo wall and many similar dark tiles, which feel busy.

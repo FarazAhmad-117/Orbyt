@@ -7,9 +7,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-archivo);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-signal: var(--signal);
+  --color-board-amber: var(--board-amber);
+  --color-board-green: var(--board-green);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,83 +55,141 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * Station signage world: cool paper ground, ink-black sign fields, signal red as the one marker colour,
+ * departure-board amber for live numerals on ink. Colour carries jobs: ink = the shell and live boards,
+ * signal = the primary action and selection, ok/warn/destructive = state (always with a text label).
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --ink: oklch(0.19 0.012 255);
+  --ink-2: oklch(0.27 0.014 255);
+  --signal: oklch(0.55 0.22 27);
+  --board-amber: oklch(0.84 0.17 85);
+  --board-green: oklch(0.8 0.16 150);
+  --ok: oklch(0.48 0.13 155);
+  --warn: oklch(0.52 0.12 70);
+
+  --background: oklch(0.972 0.004 250);
+  --foreground: var(--ink);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: var(--ink);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: oklch(0.985 0.002 250);
+  --secondary: oklch(0.94 0.006 250);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.953 0.005 250);
+  --muted-foreground: oklch(0.45 0.012 255);
+  --accent: oklch(0.935 0.007 250);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.5 0.2 27);
+  --border: oklch(0.88 0.006 250);
+  --input: oklch(0.78 0.008 250);
+  --ring: var(--signal);
+  --chart-1: var(--ink);
+  --chart-2: var(--signal);
+  --chart-3: oklch(0.556 0.01 255);
+  --chart-4: var(--ok);
+  --chart-5: var(--warn);
+  --radius: 0.25rem;
+  --sidebar: var(--ink);
+  --sidebar-foreground: oklch(0.96 0.004 250);
+  --sidebar-primary: var(--signal);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: var(--ink-2);
+  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-border: oklch(0.32 0.014 255);
+  --sidebar-ring: var(--signal);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.15 0.01 255);
+  --foreground: oklch(0.96 0.004 250);
+  --card: oklch(0.2 0.012 255);
+  --card-foreground: oklch(0.96 0.004 250);
+  --popover: oklch(0.2 0.012 255);
+  --popover-foreground: oklch(0.96 0.004 250);
+  --primary: oklch(0.96 0.004 250);
+  --primary-foreground: var(--ink);
+  --secondary: oklch(0.27 0.014 255);
+  --secondary-foreground: oklch(0.96 0.004 250);
+  --muted: oklch(0.25 0.013 255);
+  --muted-foreground: oklch(0.72 0.01 255);
+  --accent: oklch(0.29 0.014 255);
+  --accent-foreground: oklch(0.96 0.004 250);
+  --destructive: oklch(0.7 0.19 25);
+  --border: oklch(0.32 0.014 255);
+  --input: oklch(0.4 0.014 255);
+  --ring: oklch(0.68 0.2 27);
+  --ok: oklch(0.78 0.15 155);
+  --warn: oklch(0.82 0.14 80);
+  --sidebar: oklch(0.12 0.01 255);
+  --sidebar-border: oklch(0.28 0.014 255);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+  }
+  /* Times, counts and money line up in columns everywhere. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* The parts the browser draws still belong to the design. */
+  ::selection {
+    background: var(--signal);
+    color: oklch(0.99 0 0);
+  }
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 2px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.7 0.01 255) transparent;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+  /* Condensed display type needs a little air between words. */
+  h1,
+  h2,
+  h3 {
+    word-spacing: 0.08em;
+  }
+}
+
+/* Departure-board row flip: the one authored motion on the landing page. */
+@keyframes board-flip {
+  0% {
+    transform: perspective(500px) rotateX(-88deg);
+    opacity: 0;
+  }
+  60% {
+    transform: perspective(500px) rotateX(12deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(500px) rotateX(0);
+    opacity: 1;
+  }
+}
+.board-flip {
+  transform-origin: 50% 0;
+  animation: board-flip 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 250ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .board-flip {
+    animation: none;
   }
 }

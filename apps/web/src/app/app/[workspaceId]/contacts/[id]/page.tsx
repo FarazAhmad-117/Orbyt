@@ -88,7 +88,8 @@ export default function ContactPage() {
     onError: fail,
   });
 
-  if (contact.isLoading) return <p className="text-zinc-500">Loading…</p>;
+  if (contact.isLoading)
+    return <p className="text-muted-foreground">Loading…</p>;
   if (!contact.data) return <p>Contact not found.</p>;
   const c = contact.data;
 
@@ -254,7 +255,7 @@ export default function ContactPage() {
           {timeline.data?.items.map((a) => (
             <div key={a.id} className="flex items-center gap-2 text-sm">
               <Badge variant="secondary">{a.type}</Badge>
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 {new Date(a.createdAt).toLocaleString()}
               </span>
             </div>

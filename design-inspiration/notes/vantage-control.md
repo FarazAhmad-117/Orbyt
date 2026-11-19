@@ -1,0 +1,11 @@
+# vantage-control
+- **Look:** technical, precise, engineering console; medium density with dotted grid texture; light mode with one dark console section.
+- **Palette:** #F5F6F8 background, #111111 text, #E0401A signal orange for CTAs and key figures, #1E9E5A green pass states, #F0B429 amber review. Orange is used sparingly.
+- **Type:** grotesk sans for headlines; monospace for body, labels, tables and code. Uppercase tracked mono eyebrows. Large headlines with a muted grey second line.
+- **Hero:** left: mono eyebrow, large headline, mono subhead, orange CTA, mono trust line. Right: dotted point-cloud graphic over a run-status strip with labelled check cells.
+- **Sections worth stealing as ideas:**
+  - Numbered sections in a left gutter with a large grey headline beside a bordered receipt card.
+  - Dark console with filter chips, a status-pill table and a tabbed code snippet.
+  - Stage strip showing each process step as a labelled check cell.
+- **Mobile:** works; side numbers stay in a narrow gutter and stat cells stack.
+- **Avoid:** logo images showed broken "Customer logo" text, many capability cards were blank in the capture, and grey headlines are low contrast.

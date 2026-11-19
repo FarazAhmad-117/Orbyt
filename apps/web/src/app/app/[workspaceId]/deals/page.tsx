@@ -65,12 +65,13 @@ export default function DealsPage() {
     onError: fail,
   });
 
-  if (pipelines.isLoading) return <p className="text-zinc-500">Loading…</p>;
+  if (pipelines.isLoading)
+    return <p className="text-muted-foreground">Loading…</p>;
   if (!pipeline)
     return (
       <div className="grid gap-4">
         <h1 className="text-2xl font-semibold">Deals</h1>
-        <p className="text-zinc-600">You have no pipeline yet.</p>
+        <p className="text-muted-foreground">You have no pipeline yet.</p>
         <Button
           className="justify-self-start"
           onClick={() => createPipeline.mutate()}
@@ -155,7 +156,7 @@ export default function DealsPage() {
                     className="grid gap-2 rounded-md border p-3 text-sm"
                   >
                     <div className="font-medium">{d.title}</div>
-                    <div className="flex items-center justify-between text-zinc-500">
+                    <div className="flex items-center justify-between text-muted-foreground">
                       <span>{money(d.valueCents, d.currency)}</span>
                       {d.status !== "open" && <Badge>{d.status}</Badge>}
                     </div>

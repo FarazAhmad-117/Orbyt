@@ -61,14 +61,14 @@ export default function TasksPage() {
             />
             <span>{t.title}</span>
             {t.dueAt && (
-              <span className="ml-auto text-zinc-500">
+              <span className="ml-auto text-muted-foreground">
                 {new Date(t.dueAt).toLocaleDateString()}
               </span>
             )}
           </li>
         ))}
         {open.data && open.data.items.length === 0 && (
-          <li className="text-zinc-500">Nothing to do. 🎉</li>
+          <li className="text-muted-foreground">Nothing to do. 🎉</li>
         )}
       </ul>
     </div>

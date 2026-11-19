@@ -1,0 +1,11 @@
+# cyber-security
+- **Look:** Warm, editorial, light with dark data panels; medium-high density.
+- **Palette:** #F4F1EA paper, #111111 ink, #D63A2A alert red, #1D6B4A secured green, #E6E4DD panel grey. Red marks threats, green marks resolved states.
+- **Type:** Tight, heavy grotesk headlines; regular sans body; uppercase letter-spaced mono for labels and table headers.
+- **Hero:** Split layout. Headline and CTAs on the left, a street photo with floating red alert tags on the right, and a risk-score card overlaid at the bottom right.
+- **Sections worth stealing as ideas:**
+  - Live counter tile placed beside a logo grid
+  - Live findings table with pill status and time stamps
+  - Tabbed coverage list paired with a photo and status callouts
+- **Mobile:** The risk card becomes a compact list and the findings table follows below. Works.
+- **Avoid:** Many floating tags in the hero feel busy; the empty band below the coverage section reads as a rendering gap.

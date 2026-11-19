@@ -1,0 +1,11 @@
+# agentra
+- **Look:** bold, energetic, product-forward; medium-high density; light mode with a dark storytelling band mid-page.
+- **Palette:** #FFFFFF and #F7F8FA surfaces, #111111 text, #4B1FA8 purple to #D63CC8 magenta gradient on the primary CTA, pale red and green panels for problem and solution. Accent is the CTA and one headline word.
+- **Type:** heavy geometric sans, very bold and tight for the headline, with one gradient-coloured word. Body regular grey, about 18px. Small pill tags as eyebrows.
+- **Hero:** centred headline, subhead, gradient CTA plus outlined secondary. A central figure is surrounded by floating UI cards (meeting summary, source list, prompt box).
+- **Sections worth stealing as ideas:**
+  - Two-panel "what breaks / how it helps" comparison with red and green tints.
+  - Dark "how it works" band with numbered steps, each with its own illustrated frame.
+  - Floating UI snippets around a hero figure to show the product without a full screenshot.
+- **Mobile:** works; floating cards shrink above the figure and comparison panels stack.
+- **Avoid:** a template-library section rendered blank in the capture, the stock visor avatar is generic, and the abrupt light-to-black switch jars.

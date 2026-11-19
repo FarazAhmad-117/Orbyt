@@ -1,0 +1,11 @@
+# hypestream
+- **Look:** Cinematic, dark, content-first; imagery fills most of the viewport.
+- **Palette:** Black #000000 and charcoal, white text, brand red #E50914-ish for logo and badges, warm gold #F5B642 for a secondary link. Red is used sparingly.
+- **Type:** Clean geometric sans; hero title medium weight over imagery, section titles medium ~24px, small bold labels.
+- **Hero:** Full-bleed key art, large title logo, one-line tagline, white pill button and gold text link, carousel dots.
+- **Sections worth stealing as ideas:**
+  - Horizontal rows of poster cards under genre headings with corner status badges.
+  - 3-column image tiles with a centred label over a dark gradient.
+  - Centred footer with logo, one link line and social icon circles.
+- **Mobile:** Hamburger nav and single-column poster list; usable, but floating chips overlap hero copy.
+- **Avoid:** Floating CTA chips collide with content; stock-heavy imagery feels generic.

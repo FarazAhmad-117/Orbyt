@@ -1,0 +1,12 @@
+# spark-agent
+- **Look:** Clean, product-led, light, medium density; white with indigo accents and a dark band for the builder section.
+- **Palette:** #FFFFFF, #F4F4F7 grey, #0F0F1A ink, #4F46E5 indigo accent, #C8F169 lime on the dark band, #1A1840 navy.
+- **Type:** Geometric grotesk, large headlines with tight tracking; one accent word per headline in indigo; body 16 to 18px in grey.
+- **Hero:** Centred pill badge, large headline with an accent word, subline, two CTAs, then a large inbox mock with a phone overlay and floating chips. Trust logo marquee below.
+- **Sections worth stealing as ideas:**
+  - Tabbed playbook explorer with a flow diagram beside the tabs
+  - Bento grid of capability cards with one oversized tile
+  - Dark band with numbered build steps and a simulator panel
+  - Mock inbox paired with a phone to show mobile use
+- **Mobile:** The phone mock drops under the headline and the tabbed explorer becomes a stacked list. Works well.
+- **Avoid:** Floating chips around the desktop mock add clutter; the bento grid is dense on one screen.

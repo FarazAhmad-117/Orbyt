@@ -1,0 +1,11 @@
+# lanx
+- **Look:** dark, glowing, premium tech; medium density; dark mode with soft blue light beams.
+- **Palette:** #000000 to #0A0E1F background, #3B3BF0 electric blue for the primary CTA and glows, #1A1F3D navy surfaces, #FFFFFF and #A9AFC9 text. Blue is the only accent.
+- **Type:** geometric sans; large centred hero headline with a lighter gradient second line. Body light grey, about 17px.
+- **Hero:** centred: avatar proof line, headline, subhead, blue CTA plus navy secondary, then a row of muted client logos.
+- **Sections worth stealing as ideas:**
+  - Asymmetric bento of glassy cards, each with a small mock UI fragment.
+  - Three-column pricing with the middle plan highlighted by a glowing border and a Popular pill.
+  - Scrolling tag marquee in two opposite rows under the feature grid.
+- **Mobile:** works; bento stacks and mock fragments scale down.
+- **Avoid:** a broken logo image in the mobile capture, overlapping mock chips that look cluttered, and generic five-star testimonials.

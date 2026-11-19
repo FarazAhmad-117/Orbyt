@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,10 +19,10 @@ import { Label } from "@/components/ui/label";
 import { ApiError, api, type Check, type Mailbox } from "@/lib/api";
 
 const STATUS_STYLE: Record<Check["status"], string> = {
-  pass: "text-green-700",
-  warn: "text-amber-700",
-  fail: "text-red-700",
-  info: "text-zinc-500",
+  pass: "text-ok",
+  warn: "text-warn",
+  fail: "text-destructive",
+  info: "text-muted-foreground",
 };
 
 function Server({
@@ -214,7 +215,10 @@ export default function MailboxesPage() {
               Connect {p.provider === "google" ? "Google" : "Microsoft"}
             </Button>
           ))}
-        <Button onClick={() => setAdding((v) => !v)}>
+        <Button
+          variant={adding ? "outline" : "signal"}
+          onClick={() => setAdding((v) => !v)}
+        >
           {adding ? "Cancel" : "Connect mailbox"}
         </Button>
       </div>
@@ -292,7 +296,7 @@ export default function MailboxesPage() {
               <Server prefix="smtp" defaultPort={587} title="SMTP" />
               <Server prefix="imap" defaultPort={993} title="IMAP" />
               {formError && (
-                <p role="alert" className="text-sm text-red-600">
+                <p role="alert" className="text-sm text-destructive">
                   {formError}
                 </p>
               )}
@@ -310,22 +314,28 @@ export default function MailboxesPage() {
 
       <div className="grid gap-3">
         {boxes.data?.length === 0 && (
-          <p className="text-zinc-500">
-            No mailboxes yet. Connect one to start sending.
-          </p>
+          <EmptyState
+            title="No mailboxes yet."
+            actions={
+              <Button onClick={() => setAdding(true)}>Connect a mailbox</Button>
+            }
+          >
+            Connect the mailbox you send from. Credentials are stored encrypted
+            and never shown again.
+          </EmptyState>
         )}
         {boxes.data?.map((m) => (
           <Card key={m.id}>
             <CardContent className="flex flex-wrap items-center gap-3 pt-6 text-sm">
               <div className="mr-auto">
                 <div className="font-medium">{m.email}</div>
-                <div className="text-zinc-500">
+                <div className="text-muted-foreground">
                   {m.dailyLimit}/day · {m.hourlyLimit}/hour · {m.smtpHost}
                   {m.authType !== "password" ? ` · ${m.authType} login` : ""}
                   {m.warmupEnabled ? " · warming up" : ""}
                 </div>
                 {m.lastError && (
-                  <div className="text-red-600">{m.lastError}</div>
+                  <div className="text-destructive">{m.lastError}</div>
                 )}
               </div>
               <Badge variant={m.status === "active" ? "secondary" : "default"}>
@@ -423,7 +433,7 @@ export default function MailboxesPage() {
                   </span>
                   <span>{c.detail}</span>
                   {c.record && (
-                    <code className="break-all text-xs text-zinc-500">
+                    <code className="break-all text-xs text-muted-foreground">
                       {c.record}
                     </code>
                   )}

@@ -1,0 +1,11 @@
+# automation-studio
+- **Look:** dark, techy, confident agency feel with a live-console energy. Dark mode with light section breaks.
+- **Palette:** near-black green `#07100C`, mint `#19E08A`, off-white `#F1F0EB`, deep green `#1F6B4A`. Mint is the CTA fill, the highlight words in headlines, and status dots; deep green colours the emphasis words on the light section.
+- **Type:** bold tight grotesk for display headlines, with very large sizes in the hero. Mono uppercase labels with wide tracking are used for eyebrows and status text. Body is regular sans.
+- **Hero:** big left-aligned headline ("Automate the work") broken across lines, a dot-particle cloud as the centrepiece, a stat row beneath, and a pair of CTAs (solid white, outline ghost).
+- **Sections worth stealing as ideas:**
+  - Rotating 3D card carousel for client examples, with the active card highlighted in the accent colour.
+  - Live console mock: three-column layout of agent list, streaming activity feed and stat tiles.
+  - Big statement paragraph with inline rounded photo chips between the words.
+- **Mobile:** the headline stacks cleanly, the carousel shows one active card, and the statement reflows to a narrow column without loss.
+- **Avoid:** floating sales chips overlap content on desktop; some sections captured empty mid-animation, so the console below the fold is partly unverified.

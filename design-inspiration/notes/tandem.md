@@ -1,0 +1,11 @@
+# tandem
+- **Look:** calm, warm, editorial; low density with lots of air; light mode on warm off-white.
+- **Palette:** #F6F6F2 warm off-white, #1A1A1A text, #8A8A84 grey second headline phrase, and blurred green, orange and yellow gradient art as the only colour. The UI accent is the near-black primary button.
+- **Type:** neo-grotesk sans, medium weight, large two-tone headline (dark phrase then grey phrase). Body regular, about 18px, grey. Small pill eyebrows.
+- **Hero:** left: pill tag, two-tone headline, paragraph, black CTA plus text link. Right: tilted overlapping UI cards (supplier card, automation toggles, photo, gradient tile) forming a collage.
+- **Sections worth stealing as ideas:**
+  - Tilted overlapping product cards as a hero collage.
+  - Feature list where the active item expands into a bordered card and the rest stay as quiet labels.
+  - Horizontal carousel of metric cards over a full-bleed gradient, each with a big percentage and trend line.
+- **Mobile:** works; collage shrinks as a group, feature list stacks, logos reduce to one row.
+- **Avoid:** the statement block fades in at very low contrast, and a large empty area appeared in the capture.

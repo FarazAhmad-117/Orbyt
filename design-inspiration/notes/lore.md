@@ -1,0 +1,11 @@
+# lore
+- **Look:** Dark, cinematic, photo-led; restrained chrome, low-to-medium density.
+- **Palette:** Near-black #0A0A0A, white pill buttons and headlines, grey #9CA3AF second-line text, cyan #38BDF8 for the "New" tag. Colour comes from imagery, not the UI.
+- **Type:** Rounded geometric sans; large medium-weight headline with a lighter grey second half.
+- **Hero:** Full-height photo fading to black, small pill announcement, left-aligned headline, white primary and dark secondary pill buttons.
+- **Sections worth stealing as ideas:**
+  - Three numbered step cards, each with a small live mock.
+  - Horizontal carousel of full-bleed media cards with a label each.
+  - Bento of stat and image tiles mixing a big number with a full-width image.
+- **Mobile:** Single column with hamburger; step cards stack cleanly.
+- **Avoid:** Floating template and "Made in Framer" chips sit on content on both breakpoints.

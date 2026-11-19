@@ -1,0 +1,12 @@
+# marqo
+- **Look:** energetic but polished; medium density, light sections below a deep green hero.
+- **Palette:** deep forest green #06402F, lime accent #A6E36B for CTAs and highlights, mid green #3E7A4E gradient, white #FFFFFF body, dark green #0B3B2E for headings.
+- **Type:** tight bold display sans in dark green for headings; regular sans grey body; short pill-shaped buttons.
+- **Hero:** full-bleed green gradient with centred headline, two CTAs (solid lime and outline), and three tilted phone mockups fading into white at the bottom. Tilted metric cards sit at the edges.
+- **Sections worth stealing as ideas:**
+  - Bento feature cards that each include a chart or logo grid.
+  - Alternating zigzag feature rows: illustration on one side, headline and checklist on the other.
+  - Testimonial tile grid mixing portraits with quote cards.
+  - Closing dark card with a product screenshot cropped at the edge.
+- **Mobile:** phones stack and the bento becomes one column; works well.
+- **Avoid:** tilted metric cards clip at the screen edges and look unfinished; FAQ questions repeat; stock faces feel generated.

@@ -1,0 +1,11 @@
+# axnix
+- **Look:** Bright, airy, confident light-mode page with one neon accent.
+- **Palette:** Off-white #F5F5F5, near-black #111111, neon green #3BE01A to #2FB40F in gradients, grey #666666 supporting copy. Green is a diagonal hero wash and feature-card fills; the rest is monochrome.
+- **Type:** Modern grotesque; large tightly tracked medium-weight headline, regular section titles, light-grey small body.
+- **Hero:** Centred pill eyebrow, two-line headline, black CTA beside white CTA, browser-frame product shot on a green gradient.
+- **Sections worth stealing as ideas:**
+  - Alternating text and coloured-mockup feature rows.
+  - Stat trio of large numbers under an "about" heading.
+  - Bento of chart and gauge cards, with one dark pricing card as the only high-contrast block.
+- **Mobile:** Hamburger nav and single column; the hero screenshot shrinks but stays legible.
+- **Avoid:** Placeholder logos in the trust row and a large empty left column beside feature cards on desktop.

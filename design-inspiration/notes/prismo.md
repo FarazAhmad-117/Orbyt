@@ -1,0 +1,12 @@
+# prismo
+- **Look:** Airy and calm; off-white canvas with a soft pastel wash behind the hero. Light.
+- **Palette:** #F5F4F2 canvas, #111111 ink and buttons, #E9B8E8 lilac and #F5B48F peach wash, red-to-violet gradient for accent words only. Accent is sparing: one gradient word and a gradient frame border.
+- **Type:** Geometric sans. Hero is very bold, about 64px, tight tracking. Body is regular, about 16-18px.
+- **Hero:** Centred stack: pill badge, big headline, subline, solid black CTA, rating line, then a framed product screenshot.
+- **Sections worth stealing as ideas:**
+  - Text and feature list on one side, a tall overlapping mockup on the other.
+  - Stat row with small icon discs above big numerals.
+  - Testimonial bento mixing pastel metric tiles with white quote cards.
+  - Scroll-reveal statement where words fade and colour in.
+- **Mobile:** Single column with hamburger; screenshot scales and stays readable. Works.
+- **Avoid:** Placeholder logo strips look unfinished; faded list words are low-contrast.

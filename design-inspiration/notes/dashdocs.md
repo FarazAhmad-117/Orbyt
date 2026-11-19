@@ -1,0 +1,11 @@
+# dashdocs
+- **Look:** Calm, airy, light-mode docs shell; low density, utilitarian.
+- **Palette:** White #FFFFFF, near-black #111418 text and primary button, grey #6B7280 body copy, hairline #E5E7EB borders. Accent is almost absent; black buttons carry emphasis.
+- **Type:** Geometric sans. Bold tight H1 with a grey second line; regular ~16px muted body; small uppercase bold sidebar labels.
+- **Hero:** Left-aligned two-tone headline, one-line intro, filled CTA beside outlined CTA. No product shot.
+- **Sections worth stealing as ideas:**
+  - Persistent left sidebar with grouped collapsible nav and search.
+  - 2x2 bordered category cards with small icon tiles.
+  - Minimal top bar of text links plus a theme toggle.
+- **Mobile:** Sidebar becomes a hamburger and the hero stacks cleanly; works.
+- **Avoid:** Floating template-promo badge overlaps content on both breakpoints; large empty right column on desktop.

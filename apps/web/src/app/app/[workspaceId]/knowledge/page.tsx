@@ -63,7 +63,7 @@ function Documents({
         <CardTitle>Knowledge base</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-muted-foreground">
           Facts about your business. Chat agents answer from these, and email
           reply drafts use them too.
         </p>
@@ -109,7 +109,7 @@ function Documents({
         {docs.data?.map((d) => (
           <div key={d.id} className="flex flex-wrap items-center gap-3 text-sm">
             <span className="font-medium">{d.title}</span>
-            <span className="text-zinc-500">{d.size} characters</span>
+            <span className="text-muted-foreground">{d.size} characters</span>
             <Button
               size="sm"
               variant="outline"
@@ -171,13 +171,13 @@ function Ask({ base }: { base: string }) {
           >
             <p>{answer.answer}</p>
             {answer.sources.length > 0 && (
-              <p className="mt-2 text-zinc-500">
+              <p className="mt-2 text-muted-foreground">
                 From: {answer.sources.map((s) => s.title).join(", ")}
               </p>
             )}
           </div>
         )}
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-muted-foreground">
           Needs an AI provider (Settings → AI providers).
         </p>
       </CardContent>
@@ -220,7 +220,7 @@ function Agents({ base, workspaceId }: { base: string; workspaceId: string }) {
         <CardTitle>Chat agents</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-muted-foreground">
           A public endpoint for a website chat widget: visitors ask, the agent
           answers from your knowledge base, and anyone who leaves an email
           becomes a contact. Uses your AI provider and monthly cap.
@@ -286,7 +286,7 @@ function Agents({ base, workspaceId }: { base: string; workspaceId: string }) {
                 Delete
               </Button>
             </div>
-            <span className="text-zinc-500">
+            <span className="text-muted-foreground">
               POST <code className="break-all">{a.url}</code> with{" "}
               <code>{`{"message": "…", "email": "optional"}`}</code>
             </span>

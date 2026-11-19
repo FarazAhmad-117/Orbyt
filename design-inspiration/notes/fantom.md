@@ -1,0 +1,11 @@
+# fantom
+- **Look:** clean, bright, calm, product-led AI assistant. Light mode.
+- **Palette:** off-white `#F9F9F9`, ink `#0B0B0B`, electric blue `#1A3CFF`, sky `#7CCBFF`. Blue is the primary CTA and the nav button; the sky-blue hatched gradient is a large background texture behind the chat mock.
+- **Type:** clean medium-weight sans, large centred headlines with normal tracking, grey sub-copy. Small pill labels for section eyebrows.
+- **Hero:** centred badge, two-line headline, subline, pair of CTAs (outline and solid blue). A large gradient panel below holds a floating chat card with a sample prompt and a "thinking" state.
+- **Sections worth stealing as ideas:**
+  - Three-step "how it works" row, each card holding a small illustrated mock with a caption below.
+  - Left-hand numbered feature list with a right-hand framed preview that updates the panel per item.
+  - Animated agent-progress card (checklist with spinners) to show work happening.
+- **Mobile:** nav becomes a menu button; the chat mock stays intact and the steps stack vertically.
+- **Avoid:** logo-strip placeholders look generic; the feature list is sparse on text and a lot of the illustration is decoration.

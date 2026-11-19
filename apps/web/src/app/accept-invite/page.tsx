@@ -52,7 +52,7 @@ export default function AcceptInvitePage() {
 
   let body: React.ReactNode;
   if (token === undefined || invite.isLoading || session.isPending)
-    body = <p className="text-zinc-500">Loading…</p>;
+    body = <p className="text-muted-foreground">Loading…</p>;
   else if (!token || invite.isError || !invite.data)
     body = (
       <p role="alert">

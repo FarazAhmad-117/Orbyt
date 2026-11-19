@@ -1,0 +1,11 @@
+# uneo
+- **Look:** Airy, soft, light; low density with pastel tints.
+- **Palette:** #FFFFFF, #1A1A1A ink, #F0408A pink accent, #F5904A orange, #FBEEF5 and #F0FBF5 pastel tints.
+- **Type:** Elegant serif headlines in a serif and sans pairing; sans body at 16 to 18px in grey; pill-shaped uppercase labels.
+- **Hero:** Pale hero with a blurred gradient product video behind a modal welcome card. The modal sits over the headline in both captures, so the hero copy is unverified.
+- **Sections worth stealing as ideas:**
+  - Stat cards with oversized numerals and a soft tinted background per card
+  - Orbit diagram showing integrations around a central logo
+  - Bento-style feature grid with mini UI tiles
+- **Mobile:** Stat cards stack single column and the modal fits the screen. Works.
+- **Avoid:** A welcome modal covers the hero on first load; the feature grid is generic and the screenshots are small.

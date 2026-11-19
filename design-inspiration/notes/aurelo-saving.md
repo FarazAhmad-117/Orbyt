@@ -1,0 +1,12 @@
+# aurelo-saving
+- **Look:** Premium and calm; dark navy hero with gold accents, light cream sections below; medium-high density.
+- **Palette:** #0E1A33 navy, #D4AF37 gold, #E8C766 light gold, #FAF6EC cream, #6B7A99 slate. Gold is used for prices, numerals and the primary CTA.
+- **Type:** Condensed high-contrast serif display headlines; mono uppercase letter-spaced eyebrows in gold; light sans body.
+- **Hero:** Dark navy split hero. Headline with one gold italic word on the left, CTA pair beneath, and layered product cards with a gold bar photo on the right. A live ticker runs across the top.
+- **Sections worth stealing as ideas:**
+  - Live price ticker strip under the nav
+  - Three-step numbered process with phone mockups
+  - Comparison table with a highlighted row for the product
+  - Photo with an overlaid stat badge for trust
+- **Mobile:** The hero stacks, the price widget and cards go single column, and the ticker scrolls. Works.
+- **Avoid:** Dense bordered cards and many small mono labels feel heavy; gold on navy can look muddy at small sizes.

@@ -1,0 +1,11 @@
+# sector
+- **Look:** cinematic, dark, dramatic; serious security tone. Dark mode.
+- **Palette:** near-black `#0A0A0A`, off-white text `#F5F5F5`, vermilion `#FF4A1C`, warm glow `#E0622E`. Vermilion is used for icon tiles, step numbers and small asterisk eyebrow marks; the glow comes from the hero imagery.
+- **Type:** medium-weight neutral sans, tight and clean. Headlines are large but not heavy; body is muted grey and centred in narrow columns.
+- **Hero:** full-bleed atmospheric image with a glowing shape behind a centred headline and two CTAs (solid light, dark outline). No product screenshot above the fold.
+- **Sections worth stealing as ideas:**
+  - Two-column "solution" block: a framed illustration on the left, a three-step numbered list on the right with the active step highlighted.
+  - Six-card capability grid with a small accent icon tile per card.
+  - Stat strip with four large figures and tiny icons separated by diagonal hatch edges.
+- **Mobile:** headline stacks over three lines, the logo grid becomes two columns, and sections stack cleanly.
+- **Avoid:** the hero has no product proof, so it relies on mood alone; the large illustrations are too dark to read the small labels.

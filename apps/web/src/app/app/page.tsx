@@ -25,5 +25,5 @@ export default function AppIndex() {
 
   if (workspaces.data?.length === 0)
     return <p className="p-6">You do not belong to any workspace yet.</p>;
-  return <p className="p-6 text-zinc-500">Loading…</p>;
+  return <p className="p-6 text-muted-foreground">Loading…</p>;
 }

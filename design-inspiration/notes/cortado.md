@@ -1,0 +1,11 @@
+# cortado
+- **Look:** minimal, calm, developer-oriented; light mode with low density and a faint lavender glow.
+- **Palette:** white base with a radial lavender glow #F5F2FF, near-black #0A0A0A text, purple accent #8B5CF6 on the highlight card and buttons, neutral grey #666 for copy.
+- **Type:** geometric sans (Poppins-like), regular weight, centred display around 72px; body is light grey at small size.
+- **Hero:** centred logo eyebrow, large headline, grey subcopy, and two buttons (outline and tinted). Faint star-dust particles sit behind.
+- **Sections worth stealing as ideas:**
+  - Bordered 3x2 card grid of resources, each with a small icon tile and title, with one card highlighted as a release note.
+  - Three-column feature list with small icons, feeding into an animated connector diagram that converges on the logo.
+  - Two-column pricing: a text block left and two stacked plan cards right.
+- **Mobile:** centred hero and card grid collapse to one column without problems. Works.
+- **Avoid:** generic card grid with little hierarchy; the outline "Get Started" button nearly disappears; the hero has a lot of empty space.

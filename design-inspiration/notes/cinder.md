@@ -1,0 +1,11 @@
+# cinder
+- **Look:** dark, cinematic, premium; moody and calm. Dark mode.
+- **Palette:** near-black `#0A0A0A`, cream text `#F2E9DF`, burnt orange `#FF6A1F`, dim brown glow `#3A1A0C`. Orange is the CTA, the italic highlight word, and the small section eyebrows; the brown glows give warmth without adding colours.
+- **Type:** condensed high-contrast serif for display headlines, with one italic orange phrase for emphasis. Eyebrows are small uppercase monospace with wide tracking. Body is a regular sans in muted cream.
+- **Hero:** left-aligned serif headline with a pill badge above, subline, and a pair of CTAs (solid orange, outlined ghost). A floating "running" status card on the right shows a live step list.
+- **Sections worth stealing as ideas:**
+  - Numbered three-column "how it works" steps: thin rule, mono number, serif title, short body.
+  - Bento-style capability cards with a small mono tag, a visual or prompt sample, and a serif title.
+  - Terminal-style event log card inside a bento tile to show a live audit trail.
+- **Mobile:** single column; the hero status card stacks under the CTAs and the bento tiles stack.
+- **Avoid:** several large sections render as empty dark blocks in the capture (animation not played), so the visuals there are unverified. The marquee of mono trust labels is good, but overuse of glow can feel muddy.

@@ -1,0 +1,11 @@
+# shieldos
+- **Look:** dark, dense, technical; confident enterprise security mood. Dark mode.
+- **Palette:** near-black `#0C0C0C`, panel `#161616`, text `#E6E6E6`, muted grey `#8A8A8A`, accent cyan `#1CC8E6`. Cyan is used for CTA buttons, icon strokes and a glow behind the hero product shot.
+- **Type:** large semibold grotesk headlines with a two-tone split (bright first line, dimmed second line). Body is light grey sans, small and relaxed.
+- **Hero:** centred pill badge, two-line headline, short subline, outlined CTA. The product dashboard sits below in a framed card with a cyan light bleed above it, followed by a logo strip.
+- **Sections worth stealing as ideas:**
+  - Six-cell feature grid with icon, short title and one-line description, separated by hairline borders.
+  - Alternating split rows: text with a bullet list on one side, a mock UI panel on the other.
+  - Stat tiles inside the product mock (counts with small deltas) as proof, not a separate stats section.
+- **Mobile:** collapses to a single column; the feature grid becomes a stack of cards and the hero shot shrinks but stays readable.
+- **Avoid:** the "Compliance Automatio" title is clipped in the source, and the split-row mock images are very low contrast.

@@ -1,0 +1,12 @@
+# inkling-waitlist
+- **Look:** Editorial and crisp, like a printed memo with ruled lines. Light mode.
+- **Palette:** #F3F2EE paper, #12141C ink, #FFE14D yellow highlight used for underlines, the active choice and one timeline column. Yellow is the only accent.
+- **Type:** Grotesk sans headline, about 72px, tight tracking, with italic emphasis on one word. Labels and metadata are small monospace in uppercase. Body is grey sans, about 18px.
+- **Hero:** Left-aligned headline and subline, then a waitlist form card on the left and a terminal-style summary card on the right.
+- **Sections worth stealing as ideas:**
+  - Ruled sections with a narrow left margin holding a small mono label, and the heading on the right.
+  - Yellow marker underline on key words in a large statement.
+  - Annotated email mockup with callout lines pointing to features.
+  - Weekday timeline grid with one highlighted column.
+- **Mobile:** Stacks well; the form moves up under the headline and the timeline becomes a card list. Works.
+- **Avoid:** Monospace labels are small and faint, and big empty gaps between sections make the page feel sparse.

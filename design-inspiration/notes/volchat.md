@@ -1,0 +1,11 @@
+# volchat
+- **Look:** Dark, polished SaaS landing; moody gradient hero, then flat near-black sections.
+- **Palette:** Near-black #0E1117, card #1A1D26, indigo-to-blue hero glow around #2F4BB8, accent blue #4F7FF0 for CTAs and toggles, white headings. Accent is reserved for primary actions and active states.
+- **Type:** Bold tight sans headlines; regular ~16px light-grey body; small pill eyebrows.
+- **Hero:** Centred review-badge pill, two-line headline, filled blue CTA beside black CTA, then a large glowing-edge product screenshot.
+- **Sections worth stealing as ideas:**
+  - 2x2 bento feature cards, each with a live control mockup.
+  - Three-step "how it works" row with a mini-visual per step.
+  - Three-tier pricing with a highlighted middle card and a monthly/annual toggle.
+- **Mobile:** Cards stack to one column; the screenshot shrinks but stays legible.
+- **Avoid:** Placeholder "Logoipsum" logo marquee looks unfinished.

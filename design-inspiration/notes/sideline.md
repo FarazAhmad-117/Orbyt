@@ -1,0 +1,11 @@
+# sideline
+- **Look:** moody, cinematic, editorial; dark, medium density, with bright app screens as the light sources.
+- **Palette:** near-black #121212 base, mint accent #B9F5D5 for highlights and CTAs, off-white #F2F2F2 for phone-mock backgrounds, and full-bleed desaturated photography in deep green-teal.
+- **Type:** tiny uppercase monospace for labels, step counters and body copy, paired with bold grotesk for headings. The small mono text is the signature.
+- **Hero:** full-height step panels. Each step is a full-bleed photo with an inset phone mockup, plus a step counter (for example "03 / 10") and section label in the corners.
+- **Sections worth stealing as ideas:**
+  - Sticky scroll story: ten full-height steps, each pairing a photo with a phone screen that matches the step.
+  - Light review panel with large star rating and quotes as contrast to the dark story.
+  - Mobile-first header with a stacked menu and a row of store links.
+- **Mobile:** steps collapse into stacked cards with the phone mock on top and copy below. Works, but mock text becomes very small.
+- **Avoid:** large dark empty column on desktop; tiny mono text is hard to read; one hero image fails to load on mobile.

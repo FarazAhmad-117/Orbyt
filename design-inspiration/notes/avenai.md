@@ -1,0 +1,11 @@
+# avenai
+- **Look:** Warm, friendly, light cream with a glowing orange backdrop; medium density.
+- **Palette:** #F8F4EE cream, #E5572E burnt orange CTA, #2A1C17 dark brown text, soft sage-to-peach gradient blur (#9FD0CC to #F7821F).
+- **Type:** Humanist serif headlines with tight tracking, sans body, small sans labels; orange used for eyebrow text.
+- **Hero:** Centred review rating strip, big serif headline, subline, two CTAs (orange solid plus outline). Below sits a gradient-blur panel with a chat-style agent mock and a row of logos.
+- **Sections worth stealing as ideas:**
+  - Sticky left nav with numbered steps and screenshot panels on the right
+  - Prompt input styled as the call to action
+  - Gradient-blur backdrop behind product screenshots
+- **Mobile:** The hero stacks and the chat mock shrinks, though some text in it gets clipped. Mostly works.
+- **Avoid:** Gradient blurs can look generic; small text on the blurred panels is hard to read.

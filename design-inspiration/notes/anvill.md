@@ -1,0 +1,12 @@
+# anvill
+- **Look:** clean, white, technical and precise; low density with generous whitespace. Light mode with one dark inversion band.
+- **Palette:** pure white #FFFFFF, ink #111111, grey copy #666666, pale fill #F7F7F7, dashed rules #CCCCCC. Accent is black; no hue.
+- **Type:** neutral grotesk, medium weight, large headings with tight tracking; body is light grey at small size.
+- **Hero:** left column with status dot, headline, short copy, and a solid plus outline CTA. Right side is an ASCII dot-matrix graphic, which makes it distinctive.
+- **Sections worth stealing as ideas:**
+  - Numbered 2x4 grid of capability cells separated by dashed rules.
+  - Comparison table where one column is inverted to dark to show the winner.
+  - Four-step process diagram with boxes joined by elbow connectors.
+  - Stat grid of four big numbers in bordered cells.
+- **Mobile:** stacks cleanly; grid becomes one column and the ASCII art scales down. Works.
+- **Avoid:** dashed borders on every block look unfinished; stats are unsourced placeholders; the process diagram does not read well on small screens.

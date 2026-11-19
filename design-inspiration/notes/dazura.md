@@ -1,0 +1,11 @@
+# dazura
+- **Look:** Playful, bold, warm; cream page with saturated colour blocks, light mode.
+- **Palette:** Cream #FFFBF3, ink #15151A, coral #FF5A36, yellow #FFD63A, teal #22C4B8, pink #FF8BCB. Each colour marks a category and recurs in the hero dial and stat rules.
+- **Type:** Heavy tight grotesk display with key words in colour blocks; monospace uppercase eyebrows; muted regular body.
+- **Hero:** Two columns. Left: mono pill, three-line headline with "full" on yellow and "color." on coral, black CTA and text link. Right: rotating colour dial around a tilted phone.
+- **Sections worth stealing as ideas:**
+  - Stat row with coloured top borders.
+  - Feature bento with one colour per tile and a numbered badge.
+  - Colour-theme picker that re-skins a mock, used as a demo device.
+- **Mobile:** Phone moves below the headline; picker and timeline restack well.
+- **Avoid:** Desktop timeline captured mostly blank (lazy-loaded); very heavy headlines can overwhelm body text.

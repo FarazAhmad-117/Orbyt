@@ -1,0 +1,11 @@
+# bartix
+- **Look:** warm, editorial, friendly-SaaS; light, with a few dark band moments. Light mode.
+- **Palette:** warm off-white `#F9F6F3`, ink `#121212`, vermilion `#F0572A`, indigo `#4F46E5`, deep plum band `#2E2630`. Vermilion is used for small feature icons and the logo; indigo appears in the illustrations and the check badges. Plum is only for the testimonial section.
+- **Type:** medium-weight grotesk with tight tracking for headlines, large with a slight display feel. Body is regular sans in muted ink.
+- **Hero:** left column with a big three-line headline, one-sentence subline and a dark pill CTA plus a text link. The right column holds a framed dashboard with a soft multicolour glow around it, and a "Watch demo" floating chip overlapping the edge.
+- **Sections worth stealing as ideas:**
+  - Four-up feature cards with a coloured icon, short title and body text, on a soft off-white field.
+  - Sticky-feeling split sections: text left, a faint grid-backed mock card right, alternating sides.
+  - Dark testimonial band with a large portrait, a pull quote and two big stat numbers below.
+- **Mobile:** the dashboard moves under the headline and the logo strip scrolls; feature cards stack cleanly.
+- **Avoid:** the floating template-sales buttons in the lower right are clutter and would be wrong on a product page.

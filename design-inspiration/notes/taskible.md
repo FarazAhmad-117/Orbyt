@@ -1,0 +1,11 @@
+# taskible
+- **Look:** Light, airy, friendly; soft blue gradient panel on white, rounded everything, medium density.
+- **Palette:** #0B1B4B (navy text), #1F6BFF (electric blue accent and CTA), #DCE8FF (pale blue wash), #FFFFFF, small green/amber/pink status chips.
+- **Type:** Large neutral sans headline with one italic serif word as the accent ("Effortlessly"); body is a plain sans, comfortable size.
+- **Hero:** Centered two-line headline, short subline, one pill CTA, then a large real-looking dashboard screenshot sitting on a gradient plate with two floating cards overlapping its edges (a task card, a rating card).
+- **Sections worth stealing as ideas:**
+  - Product screenshot as the hero proof, with small floating cards that break the frame and add depth.
+  - One italic serif word inside a sans headline as the only flourish.
+  - Three-column feature row with a round icon, short title and two-line description, separated by hairline vertical rules.
+- **Mobile:** Not reviewed (only the desktop strip was viewed).
+- **Avoid:** Generic blue-gradient SaaS look; the nav CTA rendered as a broken image in the capture.

@@ -1,0 +1,11 @@
+# saro
+- **Look:** airy, playful-premium, finance-friendly; light with soft grey gradient. Light mode.
+- **Palette:** pale grey-to-white `#F2F2F2`, ink `#111111`, blue `#0A6CFF`, lime `#C6F432`, plus small coloured app tiles (violet, orange, green). Blue marks the highlighted headline phrase and the "New" tag; lime is used as a single accent on one tile.
+- **Type:** heavy, tight grotesk for headlines, sized big and centred; body is regular grey sans. Scroll-reveal text is faded in places.
+- **Hero:** centred headline with the key phrase in blue, subline, and a dark pill CTA plus a light ghost button. Above the headline, colourful rounded app icons hang from thin strings, which gives the hero motion and character.
+- **Sections worth stealing as ideas:**
+  - Four stacked product cards with a small label and a capacity chip under each.
+  - Hanging-icon hero: small branded tiles suspended on strings as a visual metaphor for connected tools.
+  - Large statement paragraph where words fade in on scroll, with emphasis on a few keywords.
+- **Mobile:** the hanging icons remain as a compact strip; the product cards stack in pairs and the hero text is well sized.
+- **Avoid:** several sections depend on scroll animation and captured blank or faded; the pale palette risks low contrast for small labels.

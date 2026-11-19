@@ -1,0 +1,11 @@
+# showu
+- **Look:** airy, minimal, consumer-friendly; generous whitespace. Light mode.
+- **Palette:** white `#FFFFFF`, ink `#1D1D1F`, mid grey `#6E6E73`, blue `#0A7CFF`. Blue is used only on the primary CTA and the app icon; everything else is monochrome.
+- **Type:** very large bold sans with tight tracking for headlines, regular-weight grey sans for sub-copy. Two-line headlines, centred.
+- **Hero:** centred app icon, then a huge two-line headline, then a fanned row of device mockups that fade off the edges, then a subline and a pair of CTAs (solid blue and a ghost "watch" button).
+- **Sections worth stealing as ideas:**
+  - Edge-to-edge carousel of phone mockups with the centre device emphasised and others cropped at the viewport edge.
+  - Asymmetric image grid: one tall card on top of three smaller cards, with short feature icons beside it.
+  - Single centred headline followed by one large device shot, letting the whitespace do the work.
+- **Mobile:** the phone fan collapses to one centred device with the neighbours cropped; the image grid stacks into a horizontal scroll row. Works well.
+- **Avoid:** the long stretch of headline-plus-image pairs with no product information is thin for a SaaS page.

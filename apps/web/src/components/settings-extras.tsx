@@ -104,7 +104,7 @@ export function InvitationsCard({ workspaceId }: { workspaceId: string }) {
                 : `This server does not send email (ORBYT_SMTP_URL is not set). Send ${sent.email} this link yourself:`}
             </p>
             <code
-              className="mt-2 block rounded bg-zinc-100 p-2 break-all dark:bg-zinc-800"
+              className="mt-2 block rounded bg-muted p-2 break-all"
               data-testid="invite-link"
             >
               {sent.url}
@@ -117,7 +117,7 @@ export function InvitationsCard({ workspaceId }: { workspaceId: string }) {
             <span className="rounded-full border px-2 py-0.5 text-xs">
               {p.role}
             </span>
-            <span className="text-zinc-500">
+            <span className="text-muted-foreground">
               expires {new Date(p.expiresAt).toLocaleDateString()}
             </span>
             <Button
@@ -173,10 +173,13 @@ export function PlanCard({ workspaceId }: { workspaceId: string }) {
             {e.cloud ? e.plan : "Self-hosted community edition"}
           </span>
           {e.cloud && billing.data && billing.data.status !== "none" && (
-            <span className="text-zinc-500"> · {billing.data.status}</span>
+            <span className="text-muted-foreground">
+              {" "}
+              · {billing.data.status}
+            </span>
           )}
         </p>
-        <p className="text-zinc-500">
+        <p className="text-muted-foreground">
           {e.maxWorkspaces === null
             ? "No workspace or mailbox limits."
             : `Up to ${e.maxWorkspaces} workspace(s) and ${e.maxMailboxes} mailbox(es).`}{" "}
@@ -345,13 +348,13 @@ export function AuditCard({ workspaceId }: { workspaceId: string }) {
       </CardHeader>
       <CardContent className="grid gap-1 text-sm">
         {log.data?.items.length === 0 && (
-          <p className="text-zinc-500">Nothing recorded yet.</p>
+          <p className="text-muted-foreground">Nothing recorded yet.</p>
         )}
         {log.data?.items.map((l) => (
           <div key={l.id} className="flex flex-wrap gap-3">
             <span className="font-mono text-xs">{l.action}</span>
-            <span className="text-zinc-500">{l.actorVia}</span>
-            <span className="ml-auto text-zinc-500">
+            <span className="text-muted-foreground">{l.actorVia}</span>
+            <span className="ml-auto text-muted-foreground">
               {new Date(l.createdAt).toLocaleString()}
             </span>
           </div>
@@ -411,7 +414,7 @@ export function ImportCard({ workspaceId }: { workspaceId: string }) {
         <CardTitle>Import from GoHighLevel</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-3 text-sm">
-        <p className="text-zinc-500">
+        <p className="text-muted-foreground">
           In GoHighLevel export your Contacts and Opportunities as CSV, then
           upload them here (contacts first). Safe to run again: nothing is
           duplicated.
@@ -457,7 +460,7 @@ export function ImportCard({ workspaceId }: { workspaceId: string }) {
               .
             </p>
             {result.r.errors.slice(0, 5).map((er) => (
-              <p key={er.row} className="text-zinc-500">
+              <p key={er.row} className="text-muted-foreground">
                 Row {er.row}: {er.message}
               </p>
             ))}

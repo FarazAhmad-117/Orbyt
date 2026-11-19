@@ -1,0 +1,12 @@
+# kova-agent
+- **Look:** Calm and trustworthy; soft mint washes, generous space. Light, with dark-green panels.
+- **Palette:** #F4F7F3 off-white, mint #C4EBD3 section fills, forest green #1F6B4F for buttons and accent phrase, near-black #0F2A22 for the dark product panels. Green is the single accent and carries both CTAs and the hero's second line.
+- **Type:** Tight geometric sans. Hero is large, about 72px, with the final phrase set in green. Body is regular, about 17px, in dark green-grey.
+- **Hero:** Centred headline with a coloured second line, short subline, filled and outlined CTA pair, then a wide product window showing an inbox with an AI-drafted reply.
+- **Sections worth stealing as ideas:**
+  - Large rounded white panel with text on the left and a dark phone-call card on a mint plate on the right.
+  - Numbered four-step list beside stacked, overlapping chat and booking cards.
+  - Industry grid of photo cards, each with an icon, one line of copy and tag pills.
+  - Segmented tab control that switches audience.
+- **Mobile:** Stacks cleanly; the product window crops at the edge and the floating chips overlap it. Usable.
+- **Avoid:** Stock photos feel generic; floating chips cover the hero.

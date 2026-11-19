@@ -1,0 +1,12 @@
+# kestrel-productivity
+- **Look:** airy, bright, light mode; calm and premium, medium-low density.
+- **Palette:** off-white #F9F9F7 base, ink #1A1A1A, grey copy #6B6B6B, violet-to-pink gradient #5B2BE0 to #F04E98 used only in the hero panel and feature icon tiles. Accent is decorative; CTAs stay near-black.
+- **Type:** very large grotesk headlines, tight tracking, two-tone (first line grey, second line dark). Body is light sans, small and airy.
+- **Hero:** split layout. Headline left; short copy, dual CTA and keyboard-shortcut chips right. Below, a large gradient panel holds a floating app window with overlapping callout cards.
+- **Sections worth stealing as ideas:**
+  - Three-up icon-tile feature cards with a short bold line and grey caption.
+  - Horizontal testimonial marquee with cards that fade at the edges.
+  - Tabbed product switcher (Mail / Agents / Docs) above a single shared window mock.
+  - Two-tone section headings: grey lead-in, dark payoff.
+- **Mobile:** hero stacks, product window crops to a usable slice, feature cards become one column. Works.
+- **Avoid:** floating callouts overlap the product window and crowd the hero; some section headers leave large dead space.

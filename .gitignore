@@ -13,3 +13,6 @@ coverage/
 # Playwright output
 e2e/test-results/
 e2e/playwright-report/
+
+# Design inspiration screenshots (400+ MB); keep the notes and BRIEF.md
+design-inspiration/shots/

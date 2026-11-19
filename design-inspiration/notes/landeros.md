@@ -1,0 +1,11 @@
+# landeros
+- **Look:** soft, airy, premium; medium density; light mode with pastel gradient atmosphere.
+- **Palette:** #F7F6FD off-white, #C9CCFA periwinkle glow, #3B1F8E deep violet for buttons and key words, #1E1B2E text, #6B6880 muted grey. Violet is used for CTAs, step badges and icon strokes.
+- **Type:** geometric sans, tight tracking. Hero headline very large, two lines, semi-bold. Section titles large, medium weight. Body light grey, 16-18px.
+- **Hero:** centred. Small pill tag, big headline, two-line subhead, one violet CTA, then a cluster of 3D rounded cubes with line icons and a trusted-by logo row.
+- **Sections worth stealing as ideas:**
+  - Three-step process cards with a large number badge, icon tile and Step n pill.
+  - Project list beside one large featured image card that updates to the selected item.
+  - Bento services grid: one tall illustrated card beside two short ones.
+- **Mobile:** single column; cubes shrink, process cards stack, logos wrap. Works.
+- **Avoid:** the generic 3D cube and sparkle-icon motif reads as a template, and placeholder logos add little credibility.

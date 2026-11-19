@@ -1,0 +1,11 @@
+# tender-service
+- **Look:** Tactile, editorial, premium; warm paper neutrals with one deep green anchor.
+- **Palette:** Bone #F4F0E8 page, sand hero #DCD8CE, forest green #123D31 for primary button and dark panels, mint #B8E6CC highlights, coral #E8743B for alerts. Accent is sparing: buttons, chips and one dark section.
+- **Type:** Tight bold grotesk headlines with a lighter second line; regular body; small uppercase monospace captions for a ledger feel.
+- **Hero:** Mono eyebrow, three-line headline with one green word, dark and outline buttons, and a rotated rendered card with a floating notification.
+- **Sections worth stealing as ideas:**
+  - Live configurator: form left, updating product preview right.
+  - Bento of small feature mini-UIs with one highlighted colour block.
+  - Numbered steps on a dark panel paired with a phone mock that changes per step.
+- **Mobile:** Card moves above the copy and sections stack; clean.
+- **Avoid:** The pale grey problem paragraph fades to very low contrast.

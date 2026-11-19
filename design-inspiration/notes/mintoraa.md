@@ -1,0 +1,12 @@
+# mintoraa
+- **Look:** Cinematic, dark, medium-low density; deep navy-black with a blue glow.
+- **Palette:** #03050C base, #0B1A44 glow, #3B6CFF accent, #FFFFFF type, #8A8F9C muted. Accent is reserved for the primary CTA and small status dots.
+- **Type:** Dot-matrix monospace display headings, large; grotesk sans body around 16px; small uppercase mono eyebrows.
+- **Hero:** Headline on the left with a large animated particle vortex and concentric orbit rings behind it. Short paragraph and two CTAs (solid blue plus ghost) sit to the right. Floating pill "logos" orbit the visual.
+- **Sections worth stealing as ideas:**
+  - Animated hero visual with orbit rings behind the headline
+  - Three-column feature cards, each with a small UI preview on top
+  - Stat trio with oversized numerals and hairline dividers
+  - Logo pill marquee under the hero
+- **Mobile:** The visual shrinks above the headline, CTAs stack, cards go single column. Works.
+- **Avoid:** Dot-matrix display type becomes hard to read at small sizes; particle effects are heavy on performance.

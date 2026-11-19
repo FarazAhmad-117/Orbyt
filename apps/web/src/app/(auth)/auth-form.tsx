@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Wordmark } from "@/components/brand";
 import { api, authClient } from "@/lib/api";
 
 /** Where to go after signing in: only same-site paths (blocks `?next=https://evil.test` and `//evil.test`). */
@@ -94,93 +95,104 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
   const product = brand?.brandName ?? "Orbyt";
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <Card
-        className="w-full max-w-sm"
-        style={
-          brand?.brandColor
-            ? { borderTop: `3px solid ${brand.brandColor}` }
-            : undefined
-        }
-      >
-        <CardHeader>
-          {brand?.brandLogoUrl && (
-            // eslint-disable-next-line @next/next/no-img-element -- the logo is an arbitrary customer URL
-            <img
-              src={brand.brandLogoUrl}
-              alt={product}
-              className="mb-2 h-10 w-auto self-start"
-            />
-          )}
-          <CardTitle>
-            {signUp ? "Create your account" : `Sign in to ${product}`}
-          </CardTitle>
-          <CardDescription>
-            {signUp ? "Start with a free workspace." : "Welcome back."}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={onSubmit} className="grid gap-4">
-            {signUp && (
+    <main className="grid min-h-screen md:grid-cols-[5fr_7fr]">
+      <aside className="hidden flex-col justify-between bg-ink p-10 text-white md:flex">
+        <Link href="/" aria-label="Orbyt home">
+          <Wordmark />
+        </Link>
+        <p className="max-w-sm text-5xl leading-[0.95] font-extrabold tracking-[-0.012em] text-balance font-stretch-condensed">
+          Every send, reply and follow-up, on schedule.
+        </p>
+        <p className="text-sm text-white/60">Open source under AGPL-3.0</p>
+      </aside>
+      <div className="flex items-center justify-center p-4">
+        <Card
+          className="w-full max-w-sm"
+          style={
+            brand?.brandColor
+              ? { borderTop: `3px solid ${brand.brandColor}` }
+              : undefined
+          }
+        >
+          <CardHeader>
+            {brand?.brandLogoUrl && (
+              // eslint-disable-next-line @next/next/no-img-element -- the logo is an arbitrary customer URL
+              <img
+                src={brand.brandLogoUrl}
+                alt={product}
+                className="mb-2 h-10 w-auto self-start"
+              />
+            )}
+            <CardTitle>
+              {signUp ? "Create your account" : `Sign in to ${product}`}
+            </CardTitle>
+            <CardDescription>
+              {signUp ? "Start with a free workspace." : "Welcome back."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={onSubmit} className="grid gap-4">
+              {signUp && (
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" name="name" required autoComplete="name" />
+                </div>
+              )}
               <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" required autoComplete="name" />
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                />
               </div>
-            )}
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                minLength={8}
-                autoComplete={signUp ? "new-password" : "current-password"}
-              />
-            </div>
-            {error && (
-              <p role="alert" className="text-sm text-red-600">
-                {error}
-              </p>
-            )}
-            <Button type="submit" disabled={busy}>
-              {busy ? "Please wait…" : signUp ? "Create account" : "Sign in"}
-            </Button>
-            {sso?.enabled && !signUp && (
-              <Button type="button" variant="outline" onClick={signInWithSso}>
-                Sign in with {sso.name}
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  minLength={8}
+                  autoComplete={signUp ? "new-password" : "current-password"}
+                />
+              </div>
+              {error && (
+                <p role="alert" className="text-sm text-destructive">
+                  {error}
+                </p>
+              )}
+              <Button type="submit" variant="signal" disabled={busy}>
+                {busy ? "Please wait…" : signUp ? "Create account" : "Sign in"}
               </Button>
-            )}
-          </form>
-          <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
-            {signUp ? (
-              <>
-                Already have an account?{" "}
-                <Link href={`/sign-in${nextSuffix}`} className="underline">
-                  Sign in
-                </Link>
-              </>
-            ) : (
-              <>
-                New here?{" "}
-                <Link href={`/sign-up${nextSuffix}`} className="underline">
-                  Create an account
-                </Link>
-              </>
-            )}
-          </p>
-        </CardContent>
-      </Card>
+              {sso?.enabled && !signUp && (
+                <Button type="button" variant="outline" onClick={signInWithSso}>
+                  Sign in with {sso.name}
+                </Button>
+              )}
+            </form>
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              {signUp ? (
+                <>
+                  Already have an account?{" "}
+                  <Link href={`/sign-in${nextSuffix}`} className="underline">
+                    Sign in
+                  </Link>
+                </>
+              ) : (
+                <>
+                  New here?{" "}
+                  <Link href={`/sign-up${nextSuffix}`} className="underline">
+                    Create an account
+                  </Link>
+                </>
+              )}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }

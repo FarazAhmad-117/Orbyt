@@ -117,7 +117,7 @@ function AiCard({ base, workspaceId }: { base: string; workspaceId: string }) {
         <CardTitle>AI providers</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           Use your own key to classify replies, draft answers and add AI steps
           to workflows. Anthropic, OpenAI, Gemini, or a self-hosted Ollama.
         </p>
@@ -198,7 +198,7 @@ function AiCard({ base, workspaceId }: { base: string; workspaceId: string }) {
         {providers.data?.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center gap-3 text-sm">
             <span className="font-medium">{p.name}</span>
-            <code className="text-zinc-500">
+            <code className="text-muted-foreground">
               {p.provider} · {p.model}
             </code>
             {p.isDefault ? (
@@ -258,7 +258,10 @@ function AiCard({ base, workspaceId }: { base: string; workspaceId: string }) {
             Save cap
           </Button>
           {usage.data && (
-            <span className="text-zinc-500" aria-label="AI usage this month">
+            <span
+              className="text-muted-foreground"
+              aria-label="AI usage this month"
+            >
               {usage.data.totalTokens.toLocaleString()} tokens used in{" "}
               {usage.data.month}
             </span>
@@ -351,7 +354,7 @@ function TeamCard({
             className="flex flex-wrap items-center gap-3 text-sm"
           >
             <span className="font-medium">{m.name}</span>
-            <span className="text-zinc-500">{m.email}</span>
+            <span className="text-muted-foreground">{m.email}</span>
             <span className="rounded-full border px-2 py-0.5 text-xs">
               {m.role}
               {m.via === "organization" ? " · agency" : ""}
@@ -411,7 +414,7 @@ function ChannelsCard({
         <CardTitle>Messaging &amp; calls</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           Connect Twilio for SMS and WhatsApp, or Retell for AI voice calls.
           After connecting, paste the webhook URL into the provider so replies
           and call results arrive in your Inbox.
@@ -507,7 +510,7 @@ function ChannelsCard({
           <div key={c.id} className="grid gap-1 text-sm">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-medium">{c.name}</span>
-              <code className="text-zinc-500">
+              <code className="text-muted-foreground">
                 {c.type} · {c.address}
               </code>
               <Button
@@ -519,13 +522,22 @@ function ChannelsCard({
                 Remove
               </Button>
             </div>
-            <code className="break-all text-xs text-zinc-500">
+            <code className="break-all text-xs text-muted-foreground">
               Webhook URL: {c.webhookUrl}
             </code>
           </div>
         ))}
       </CardContent>
     </Card>
+  );
+}
+
+/** A hairline-and-heavy-rule label that groups the cards below it, like a table head. */
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mt-4 border-b-2 border-ink pb-2 text-[0.72rem] font-bold tracking-[0.08em] text-muted-foreground uppercase font-stretch-semi-condensed">
+      {children}
+    </p>
   );
 }
 
@@ -604,15 +616,12 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-semibold">Settings</h1>
 
       {secret && (
-        <div
-          role="status"
-          className="rounded-md border border-amber-400 bg-amber-50 p-4 text-sm text-amber-950"
-        >
+        <div role="status" className="rounded-md bg-ink p-4 text-sm text-white">
           <p className="font-medium">
             {secret.label} — copy it now, it will not be shown again.
           </p>
           <code
-            className="mt-2 block break-all rounded bg-white p-2"
+            className="mt-2 block rounded bg-black/30 p-2 font-mono break-all text-board-amber"
             data-testid="secret"
           >
             {secret.value}
@@ -620,7 +629,7 @@ export default function SettingsPage() {
           <Button
             size="sm"
             variant="outline"
-            className="mt-2"
+            className="mt-2 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
             onClick={() => setSecret(null)}
           >
             Done
@@ -628,6 +637,7 @@ export default function SettingsPage() {
         </div>
       )}
 
+      <GroupLabel>Connect and extend</GroupLabel>
       <Card>
         <CardHeader>
           <CardTitle>API keys</CardTitle>
@@ -655,7 +665,7 @@ export default function SettingsPage() {
           {keys.data?.map((k) => (
             <div key={k.id} className="flex items-center gap-3 text-sm">
               <span className="font-medium">{k.name}</span>
-              <code className="text-zinc-500">{k.prefix}…</code>
+              <code className="text-muted-foreground">{k.prefix}…</code>
               <Button
                 size="sm"
                 variant="outline"
@@ -715,7 +725,9 @@ export default function SettingsPage() {
               className="flex flex-wrap items-center gap-3 text-sm"
             >
               <span className="break-all">{h.url}</span>
-              <code className="text-zinc-500">{h.events.join(", ")}</code>
+              <code className="text-muted-foreground">
+                {h.events.join(", ")}
+              </code>
               <Button
                 size="sm"
                 variant="outline"
@@ -799,7 +811,7 @@ export default function SettingsPage() {
           {fields.data?.map((f) => (
             <div key={f.id} className="flex items-center gap-3 text-sm">
               <span className="font-medium">{f.label}</span>
-              <code className="text-zinc-500">
+              <code className="text-muted-foreground">
                 {f.key} · {f.type}
               </code>
               <Button
@@ -815,13 +827,16 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
+      <GroupLabel>People and plan</GroupLabel>
       <TeamCard base={base} workspaceId={workspaceId} />
       <InvitationsCard workspaceId={workspaceId} />
       <PlanCard workspaceId={workspaceId} />
       <BrandingCard workspaceId={workspaceId} />
       <AuditCard workspaceId={workspaceId} />
+      <GroupLabel>Providers and channels</GroupLabel>
       <AiCard base={base} workspaceId={workspaceId} />
       <ChannelsCard base={base} workspaceId={workspaceId} />
+      <GroupLabel>Your data</GroupLabel>
       <ImportCard workspaceId={workspaceId} />
 
       <Card>
@@ -830,7 +845,7 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
           {tags.data?.length === 0 && (
-            <span className="text-sm text-zinc-500">
+            <span className="text-sm text-muted-foreground">
               No tags yet. Add them on a contact.
             </span>
           )}

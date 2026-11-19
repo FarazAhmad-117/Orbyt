@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -59,7 +60,10 @@ export default function WorkflowsPage() {
     <div className="grid max-w-3xl gap-6">
       <div className="flex items-center gap-3">
         <h1 className="mr-auto text-2xl font-semibold">Workflows</h1>
-        <Button onClick={() => setCreating((v) => !v)}>
+        <Button
+          variant={creating ? "outline" : "signal"}
+          onClick={() => setCreating((v) => !v)}
+        >
           {creating ? "Cancel" : "New workflow"}
         </Button>
       </div>
@@ -163,7 +167,7 @@ export default function WorkflowsPage() {
                 className="grid gap-2 rounded-md border p-3 text-sm"
               >
                 <span className="font-medium">{t.name}</span>
-                <span className="text-zinc-500">{t.description}</span>
+                <span className="text-muted-foreground">{t.description}</span>
                 <Button
                   size="sm"
                   variant="outline"
@@ -181,7 +185,15 @@ export default function WorkflowsPage() {
 
       <div className="grid gap-3">
         {list.data?.length === 0 && (
-          <p className="text-zinc-500">No workflows yet.</p>
+          <EmptyState
+            title="No workflows yet."
+            actions={
+              <Button onClick={() => setCreating(true)}>New workflow</Button>
+            }
+          >
+            Automations that run on an event, a webhook or a schedule. Start
+            from a template or build one on the canvas.
+          </EmptyState>
         )}
         {list.data?.map((w) => (
           <Card key={w.id}>
@@ -192,14 +204,14 @@ export default function WorkflowsPage() {
               >
                 {w.name}
               </Link>
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 {w.triggerType === "event"
                   ? w.triggerEvent
                   : w.triggerType === "schedule"
                     ? `every ${w.scheduleMinutes} min`
                     : w.triggerType}
               </span>
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 {w.graph.nodes.length - 1} step(s)
               </span>
               <Badge variant={w.status === "active" ? "default" : "secondary"}>

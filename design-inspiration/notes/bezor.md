@@ -1,0 +1,11 @@
+# bezor
+- **Look:** Moody and editorial; dark hero card, light off-white body; medium density.
+- **Palette:** #F4F5F0 off-white, #E9EBE4 section grey, #0C0C0C black, #D4F542 lime accent, #4A5A10 olive for italic highlights.
+- **Type:** Condensed high-contrast serif headlines with italic accent words; uppercase mono eyebrows; sans body.
+- **Hero:** Full-bleed rounded card with a dark photo of a humanoid head, an overlaid serif headline with an italic lime word, a lime CTA pill, and a large rating figure bottom right.
+- **Sections worth stealing as ideas:**
+  - Full-bleed photo card with overlaid headline and a live status ticker
+  - Dark night-city photo with one large headline as a section break
+  - Sticky timeline for a phased rollout
+- **Mobile:** The hero stacks with the image above the headline and works. Several sections render empty in the capture (content seems to reveal on scroll), so mid-page mobile is unverified.
+- **Avoid:** Large blank gaps where content did not load; the roster and guardrails sections are hard to judge from the capture.

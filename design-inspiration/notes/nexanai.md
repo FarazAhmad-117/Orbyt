@@ -1,0 +1,11 @@
+# nexanai
+- **Look:** Dramatic and cinematic; near-black with red-orange light. Dark mode.
+- **Palette:** #050507 base, #121216 cards, red #E0302A to orange #FF6A1A gradient for glows, borders and buttons, off-white #F2F2F2 text, mid-grey #8A8A93 body.
+- **Type:** Wide, tight display sans. Hero wordmark is enormous, about 200px, behind the photo. Section labels are small uppercase in red-bordered tags. Body is small grey.
+- **Hero:** Giant wordmark, a lit photo of a person in a headset, large title in the lower left, and a floating booking card.
+- **Sections worth stealing as ideas:**
+  - Two-by-two numbered step grid with a red tag on each cell.
+  - Service rows alternating text with a gradient-backed visual, and chips listing sub-services.
+  - Logo wall of equal dark tiles.
+- **Mobile:** Stacks; the wordmark stays behind the photo and the steps become a column. Works, but the about paragraph fades into the background.
+- **Avoid:** Large empty areas in step cards, faint body text, and a floating promo stack over the hero.

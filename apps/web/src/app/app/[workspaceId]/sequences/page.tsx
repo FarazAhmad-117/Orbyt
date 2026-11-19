@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,12 +50,13 @@ function StatsPanel({ base, id }: { base: string; id: string }) {
     refetchInterval: 5_000, // live numbers while emails go out and replies come in
     refetchOnMount: "always",
   });
-  if (!stats.data) return <p className="text-sm text-zinc-500">Loading…</p>;
+  if (!stats.data)
+    return <p className="text-sm text-muted-foreground">Loading…</p>;
   const s = stats.data;
   const cell = (label: string, value: number | string) => (
     <div className="rounded-md border p-3 text-center">
       <div className="text-xl font-semibold">{value}</div>
-      <div className="text-xs text-zinc-500">{label}</div>
+      <div className="text-xs text-muted-foreground">{label}</div>
     </div>
   );
   return (
@@ -73,7 +75,7 @@ function StatsPanel({ base, id }: { base: string; id: string }) {
         )}
         {cell("Unsubscribed", s.events.unsubscribe?.unique ?? 0)}
       </div>
-      <p className="text-xs text-zinc-500">
+      <p className="text-xs text-muted-foreground">
         Reply rate {(s.replyRate * 100).toFixed(1)}% · bounce rate{" "}
         {(s.bounceRate * 100).toFixed(1)}%
         {Object.keys(s.enrollments).length > 0 &&
@@ -168,7 +170,10 @@ export default function SequencesPage() {
     <div className="grid max-w-3xl gap-6">
       <div className="flex items-center gap-3">
         <h1 className="mr-auto text-2xl font-semibold">Sequences</h1>
-        <Button onClick={() => setCreating((v) => !v)}>
+        <Button
+          variant={creating ? "outline" : "signal"}
+          onClick={() => setCreating((v) => !v)}
+        >
           {creating ? "Cancel" : "New sequence"}
         </Button>
       </div>
@@ -219,7 +224,7 @@ export default function SequencesPage() {
                   Send from (rotates between mailboxes)
                 </legend>
                 {boxes.data?.length === 0 && (
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-muted-foreground">
                     Connect a mailbox first.
                   </p>
                 )}
@@ -413,7 +418,15 @@ export default function SequencesPage() {
 
       <div className="grid gap-3">
         {sequences.data?.length === 0 && (
-          <p className="text-zinc-500">No sequences yet.</p>
+          <EmptyState
+            title="No sequences yet."
+            actions={
+              <Button onClick={() => setCreating(true)}>New sequence</Button>
+            }
+          >
+            A sequence is a series of emails that sends inside working hours and
+            stops by itself when someone replies.
+          </EmptyState>
         )}
         {sequences.data?.map((s) => (
           <Card key={s.id}>
@@ -425,7 +438,9 @@ export default function SequencesPage() {
                 >
                   {s.status}
                 </Badge>
-                <span className="text-zinc-500">{s.steps.length} step(s)</span>
+                <span className="text-muted-foreground">
+                  {s.steps.length} step(s)
+                </span>
                 {s.status === "active" ? (
                   <Button
                     size="sm"
